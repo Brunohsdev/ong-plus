@@ -1,0 +1,90 @@
+<!-- Formulário dinâmico centralizado -->
+<section class="formulario-section py-5 bg-white">
+    <div class="container">
+      <div class="card mx-auto shadow p-4" style="max-width: 700px;">
+        <h2 class="text-center mb-4">
+          Cadastro de {{ abaSelecionada === 'ong' ? 'ONG' : 'Doador' }}
+        </h2>
+  
+        <!-- Formulário de DOADOR -->
+        <form *ngIf="abaSelecionada === 'doador'" (ngSubmit)="cadastrarDoador()" #formDoador="ngForm">
+          <div class="mb-3">
+            <label>Nome completo</label>
+            <input class="form-control" [(ngModel)]="doador.nome" name="nome" required />
+          </div>
+          <div class="mb-3">
+            <label>CPF</label>
+            <input class="form-control" mask="000.000.000-00" [(ngModel)]="doador.cpf" name="cpf" required />
+          </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" [(ngModel)]="doador.email" name="email" required />
+          </div>
+          <div class="mb-3">
+            <label>Senha</label>
+            <input type="password" class="form-control" [(ngModel)]="doador.senha" name="senha" required />
+          </div>
+          <div class="mb-3">
+            <label>Data de nascimento</label>
+            <input type="date" class="form-control" [(ngModel)]="doador.nascimento" name="nascimento" required />
+          </div>
+          <div class="mb-3">
+            <label>Gênero</label>
+            <select class="form-select" [(ngModel)]="doador.genero" name="genero" required>
+              <option value="">Selecione</option>
+              <option>Feminino</option>
+              <option>Masculino</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="doador.aceitouTermos" name="termos" />
+            <label class="form-check-label">Aceito os termos</label>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Cadastrar</button>
+        </form>
+  
+        <!-- Formulário de ONG -->
+        <form *ngIf="abaSelecionada === 'ong'" (ngSubmit)="cadastrarOng()" #formOng="ngForm">
+          <div class="mb-3">
+            <label>Nome da ONG</label>
+            <input class="form-control" [(ngModel)]="ong.nome" name="nome" required />
+          </div>
+          <div class="mb-3">
+            <label>CNPJ</label>
+            <input class="form-control" mask="00.000.000/0000-00" [(ngModel)]="ong.cnpj" name="cnpj" required />
+          </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" [(ngModel)]="ong.email" name="email" required />
+          </div>
+          <div class="mb-3">
+            <label>Senha</label>
+            <input type="password" class="form-control" [(ngModel)]="ong.senha" name="senha" required />
+          </div>
+          <div class="mb-3">
+            <label>Área de atuação</label>
+            <input class="form-control" [(ngModel)]="ong.areaAtuacao" name="areaAtuacao" required />
+          </div>
+          <div class="mb-3">
+            <label>Endereço</label>
+            <input class="form-control" [(ngModel)]="ong.endereco" name="endereco" />
+          </div>
+          <div class="mb-3">
+            <label>Site</label>
+            <input class="form-control" [(ngModel)]="ong.site" name="site" />
+          </div>
+          <div class="mb-3">
+            <label>Descrição da ONG</label>
+            <textarea class="form-control" [(ngModel)]="ong.descricao" name="descricao"></textarea>
+          </div>
+          <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="ong.aceitouTermos" name="termos" />
+            <label class="form-check-label">Aceito os termos</label>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Cadastrar ONG</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  

@@ -1,0 +1,14 @@
+.navbar {
+    background-color: #1C2A39; /* azul petróleo */
+    color: #fff;
+    font-family: 'Lora', serif;
+  }
+  
+  .navbar-brand {
+    color: #B08D57; /* ouro queimado */
+  }
+  
+  .nav-link:hover {
+    color: #D6CFC7; /* taupe claro */
+  }
+  

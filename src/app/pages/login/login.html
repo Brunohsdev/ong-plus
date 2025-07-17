@@ -1,0 +1,74 @@
+<section class="container d-flex flex-column flex-md-row justify-content-center align-items-center vh-100">
+    <!-- Coluna da imagem -->
+    <div class="text-center mb-5 mb-md-0 me-md-5">
+      <img src="logo-ong-white.svg" alt="Logo do ong+" class="img-fluid" style="max-width: 4000px;">
+      <h5 class="mt-3 fw-bold">Ong +</h5>
+    </div>
+  
+    <!-- Coluna do formulário -->
+    <div class="card shadow p-4" style="min-width: 300px; max-width: 400px; width: 100%;">
+      <div class="mb-4 text-center">
+        <h2 class="fw-bold">Bem-vindo!</h2>
+        <p class="text-muted">Para acessar o sistema, informe seu usuário e senha.</p>
+      </div>
+  
+      <form>
+        <!-- Campo Usuário -->
+        <mat-form-field appearance="fill" class="w-100 mb-3">
+          <mat-label>Digite seu usuário</mat-label>
+          <input
+            matInput
+            type="text"
+            name="usuario"
+            required
+          />
+        </mat-form-field>
+  
+        <!-- Campo Senha -->
+        <mat-form-field appearance="fill" class="w-100 mb-3">
+          <mat-label>Digite sua senha</mat-label>
+          <input
+            matInput
+            [type]="hide() ? 'password' : 'text'"
+            required
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+  
+        <!-- Alternativas -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <mat-slide-toggle>Logar automaticamente</mat-slide-toggle>
+          <a routerLink="/recuperar-senha" class="text-decoration-none small">Esqueceu a senha?</a>
+        </div>
+  
+        <!-- Mensagem de erro (com validação futura) -->
+        <!--
+        <div *ngIf="loginError()" class="text-danger fw-bold text-center mb-3">
+          *Falha no login: Nome de usuário ou senha incorretos.
+        </div>
+        -->
+  
+        <!-- Botão de envio -->
+        <button type="submit" class="btn btn-primary w-100">
+          Entrar
+        </button>
+  
+
+  
+        <!-- Cadastro -->
+        <div class="text-center mt-4">
+          <p class="mb-0 text-muted">Não tem uma conta?</p>
+          <a routerLink="/cadastrar" class="text-primary fw-semibold">Cadastre-se agora</a>
+        </div>
+      </form>
+    </div>
+  </section>
+  

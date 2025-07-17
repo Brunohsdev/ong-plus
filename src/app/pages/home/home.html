@@ -1,0 +1,122 @@
+<app-header></app-header>
+
+<main class="container mt-5">
+  <!-- Seção principal -->
+  <section class="row align-items-center mb-5">
+    <div class="col-md-6 text-center text-md-start">
+      <h1 class="display-5 fw-bold">Transforme boas intenções em ações reais.</h1>
+      <h2 class="h4 text-secondary">ONG+ conecta você a causas que importam.</h2>
+      <div class="mt-4 d-flex gap-2 justify-content-center justify-content-md-start">
+        <a class="btn btn-primary" routerLink="/explorar">Quero ajudar</a>
+        <a class="btn btn-outline-primary" routerLink="/cadastrar">Cadastrar ONG</a>
+      </div>
+    </div>
+
+    <div class="col-md-6 text-center mt-4 mt-md-0">
+      <h2 class="h3 fw-bold">Quem somos</h2>
+      <h3 class="h5 text-muted">
+        "ONG+ é uma plataforma digital que facilita a conexão entre ONGs, doadores e voluntários. Aqui, você encontra causas sociais reais para apoiar, de forma simples e segura."
+      </h3>
+      <a class="btn btn-secondary mt-3" routerLink="/quem-somos">Saiba mais</a>
+    </div>
+  </section>
+
+  <!-- Seção Campanhas em Destaque -->
+  <section class="my-5">
+    <h2 class="text-center mb-4">Campanhas em Destaque</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="sangue.jpg" class="card-img-top" alt="Doação de Sangue">
+          <div class="card-body">
+            <h5 class="card-title">Doe Sangue, Salve Vidas</h5>
+            <p class="card-text">Participe da campanha de doação de sangue e ajude hospitais a salvar vidas.</p>
+            <a routerLink="/explorar" class="btn btn-danger">Ver campanha</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="doacao-de-alimentos.jpg" class="card-img-top" alt="Cesta básica">
+          <div class="card-body">
+            <h5 class="card-title">Ajude com Alimentos</h5>
+            <p class="card-text">Doe cestas básicas para famílias em situação de vulnerabilidade.</p>
+            <a routerLink="/explorar" class="btn btn-success">Ver campanha</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="rescue-pets.jpg" class="card-img-top" alt="Acolhimento animal">
+          <div class="card-body">
+            <h5 class="card-title">Acolhimento Animal</h5>
+            <p class="card-text">Ajude abrigos a cuidar de cães e gatos abandonados.</p>
+            <a routerLink="/explorar" class="btn btn-warning">Ver campanha</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Como Funciona -->
+  <section class="my-5">
+    <h2 class="text-center mb-4">Como Funciona</h2>
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="p-3">
+          <h4 class="fw-bold">1. Explore</h4>
+          <p>Encontre campanhas e ONGs com causas que combinam com você.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <h4 class="fw-bold">2. Contribua</h4>
+          <p>Doe tempo, dinheiro ou recursos de forma segura e rápida.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <h4 class="fw-bold">3. Acompanhe</h4>
+          <p>Veja o impacto real da sua ajuda com atualizações da ONG.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Depoimentos -->
+  <section class="my-5 bg-light p-4 rounded">
+    <h2 class="text-center mb-4">Depoimentos</h2>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <blockquote class="blockquote">
+          <p>"A ONG+ me conectou com um projeto animal incrível! Hoje sou voluntária com orgulho!"</p>
+          <footer class="blockquote-footer">Juliana, voluntária</footer>
+        </blockquote>
+      </div>
+      <div class="col-md-4">
+        <blockquote class="blockquote">
+          <p>"Conseguimos mais de 200 doações graças à visibilidade que a ONG+ nos deu."</p>
+          <footer class="blockquote-footer">Instituto Mãos que Ajudam</footer>
+        </blockquote>
+      </div>
+      <div class="col-md-4">
+        <blockquote class="blockquote">
+          <p>"Plataforma simples, segura e com causas que realmente importam."</p>
+          <footer class="blockquote-footer">Carlos, doador</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navegação rápida -->
+  <section class="text-center my-5">
+    <h2 class="mb-4">Comece agora</h2>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <a class="btn btn-success" routerLink="/doacoes">Doar Dinheiro</a>
+      <a class="btn btn-outline-success" routerLink="/cadastrar">Cadastrar minha ONG</a>
+      <a class="btn btn-info text-white" routerLink="/explorar">Ver Campanhas</a>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
