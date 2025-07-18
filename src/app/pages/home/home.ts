@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { RouterModule } from '@angular/router';
-import { CurrencyPipe, NgClass } from '@angular/common';
+import { CommonModule, CurrencyPipe, NgClass } from '@angular/common';
 
 
 @Component({
   selector: 'app-home',
-  imports: [Header, Footer, RouterModule, NgClass,CurrencyPipe ],
+  imports: [Header, Footer, RouterModule, NgClass,CurrencyPipe, CommonModule ],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
