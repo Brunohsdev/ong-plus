@@ -6,6 +6,7 @@ import { Cadastro } from './pages/cadastro/cadastro';
 import { FormDoador } from './components/form-doador/form-doador';
 import { FormOng } from './components/form-ong/form-ong';
 import { Explorar } from './pages/explorar/explorar';
+import { Termos } from './pages/termos-de-uso/termos-de-uso';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -17,6 +18,7 @@ export const routes: Routes = [
     {path: 'cadastrar-ong', component: FormOng},
     { path: 'explorar', component: Explorar},
     {path: 'form-doador', component: FormDoador},
-    {path: 'form-ong', component: FormOng}
+    {path: 'form-ong', component: FormOng},
+    {path: 'termos-de-uso', component: Termos}
 
 ];

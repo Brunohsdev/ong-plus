@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
+import { RouterLink } from '@angular/router';
+import { Termos } from '../../pages/termos-de-uso/termos-de-uso';
 
 @Component({
   selector: 'app-form-doador',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxMaskDirective],
+  imports: [CommonModule, FormsModule, NgxMaskDirective, RouterLink, Termos],
   templateUrl: './form-doador.html',
   styleUrls: ['./form-doador.css']
 })
