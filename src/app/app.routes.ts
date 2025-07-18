@@ -15,6 +15,8 @@ export const routes: Routes = [
     {path: 'cadastrar', component: Cadastro},
     {path: 'cadastrar-doador', component: FormDoador},
     {path: 'cadastrar-ong', component: FormOng},
-    { path: 'explorar', component: Explorar}
+    { path: 'explorar', component: Explorar},
+    {path: 'form-doador', component: FormDoador},
+    {path: 'form-ong', component: FormOng}
 
 ];

@@ -1,68 +1,64 @@
-<div class="home-page">
-    <!-- Hero Section -->
-    <section class="hero-section text-center py-5">
-      <div class="container">
-        <h1 class="display-4 fw-bold mb-3 text-primary">Solidarize</h1>
-        <p class="lead mb-4">Junte-se a nós e faça a diferença</p>
-  
-        <div class="cta-buttons">
-          <button class="btn btn-outline-primary btn-lg mx-2" (click)="abaSelecionada = 'doador'">
-            <i class="bi bi-heart-fill me-2"></i>Sou Concessor
-          </button>
-          <button class="btn btn-outline-primary btn-lg mx-2" (click)="abaSelecionada = 'ong'">
-            <i class="bi bi-building me-2"></i>Sou uma ONG
-          </button>
+<div class="registration-container">
+  <!-- Hero Section -->
+  <section class="registration-hero">
+    <div class="hero-content">
+      <div class="logo-container">
+       <img src="logo-icon.svg" alt="Logo do ONG+" width="100" height="auto">
+        <h1>Solidarize</h1>
+      </div>
+      <p class="hero-subtitle">Junte-se a nós e faça a diferença</p>
+
+      <div class="registration-tabs">
+        <button class="tab-button" [class.active]="abaSelecionada === 'doador'" (click)="abaSelecionada = 'doador'">
+          <i class="bi bi-heart-fill"></i> Sou Doador
+        </button>
+        <button class="tab-button" [class.active]="abaSelecionada === 'ong'" (click)="abaSelecionada = 'ong'">
+          <i class="bi bi-building"></i> Sou ONG
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form Section -->
+  <section class="form-section">
+    <div class="form-container">
+      <h2 class="form-title">Cadastro de {{ abaSelecionada === 'ong' ? 'ONG' : 'Doador' }}</h2>
+
+      <app-form-ong *ngIf="abaSelecionada === 'ong'"></app-form-ong>
+      <app-form-doador *ngIf="abaSelecionada === 'doador'"></app-form-doador>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h3>Conecte pessoas</h3>
+          <p>Una forças com quem quer fazer o bem</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h3>Segurança</h3>
+          <p>Todas as ONGs são verificadas</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-graph-up"></i>
+          </div>
+          <h3>Transparência</h3>
+          <p>Acompanhe o impacto real</p>
         </div>
       </div>
-    </section>
-    <!-- Formulário dinâmico -->
-    <section class="form-section py-5">
-      <div class="container">
-        <div class="card mx-auto shadow p-4" style="max-width: 700px">
-          <h2 class="text-center mb-4">Cadastro de {{ abaSelecionada === 'ong' ? 'ONG' : 'Doador' }}</h2>
-          <app-form-ong *ngIf="abaSelecionada === 'ong'"></app-form-ong>
-          <app-form-doador *ngIf="abaSelecionada === 'doador'"></app-form-doador>          
-        </div>
-      </div>
-    </section>
-  
-    <!-- Features Section -->
-    <section class="features-section py-5 bg-light">
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <i class="bi bi-people-fill feature-icon text-primary"></i>
-                <h3 class="h4">Conecte pessoas</h3>
-                <p>Una forças com quem quer fazer o bem</p>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <i class="bi bi-shield-check feature-icon text-primary"></i>
-                <h3 class="h4">Segurança</h3>
-                <p>Todas as ONGs são verificadas</p>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <i class="bi bi-graph-up feature-icon text-primary"></i>
-                <h3 class="h4">Transparência</h3>
-                <p>Acompanhe o impacto real</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  
-  
-    <!-- Call to Action -->
-  <app-footer></app-footer>
+    </div>
+  </section>
+</div>
+
+<app-footer></app-footer>
