@@ -17,7 +17,7 @@ featuredCampaigns = [
       id: 1,
       title: 'Doe Sangue, Salve Vidas',
       description: 'Participe da campanha de doação de sangue e ajude hospitais a manter seus estoques.',
-      image: 'assets/images/blood-donation.jpg',
+      image: 'sangue.jpg',
       category: 'Saúde',
       goal: 10000,
       raised: 6500,
@@ -27,7 +27,7 @@ featuredCampaigns = [
       id: 2,
       title: 'Ajude com Alimentos',
       description: 'Doe cestas básicas para famílias em situação de vulnerabilidade alimentar.',
-      image: 'assets/images/food-donation.jpg',
+      image: 'doacao-de-alimentos.jpg',
       category: 'Assistência',
       goal: 20000,
       raised: 12500,
@@ -37,7 +37,7 @@ featuredCampaigns = [
       id: 3,
       title: 'Acolhimento Animal',
       description: 'Ajude abrigos a cuidar de animais abandonados com doações de ração e medicamentos.',
-      image: 'assets/images/animal-rescue.jpg',
+      image: 'rescue-pets.jpg',
       category: 'Animais',
       goal: 8000,
       raised: 3200,
@@ -71,19 +71,19 @@ featuredCampaigns = [
       text: 'A ONG+ me conectou com um projeto animal incrível! Hoje sou voluntária com orgulho e vejo a diferença que fazemos.',
       author: 'Juliana Santos',
       role: 'Voluntária',
-      avatar: 'assets/images/testimonial1.jpg'
+      avatar: 'juliana.jpg'
     },
     {
       text: 'Conseguimos mais de 200 doações graças à visibilidade que a plataforma nos proporcionou. Essencial para ONGs pequenas!',
       author: 'Instituto Mãos que Ajudam',
       role: 'ONG Parceira',
-      avatar: 'assets/images/testimonial2.jpg'
+      avatar: 'maoshelp.jpg'
     },
     {
       text: 'Plataforma simples, segura e com causas que realmente importam. Consigo doar com apenas alguns cliques.',
       author: 'Carlos Mendes',
       role: 'Doador',
-      avatar: 'assets/images/testimonial3.jpg'
+      avatar: 'carlos.jpg'
     }
   ];
 }
