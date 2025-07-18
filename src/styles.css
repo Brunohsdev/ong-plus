@@ -5,3 +5,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+    --primary: #4361ee;
+    --primary-light: rgba(67, 97, 238, 0.1);
+    --primary-dark: #3a0ca3;
+    --secondary: #f72585;
+    --success: #4cc9f0;
+    --warning: #f8961e;
+    --danger: #ef233c;
+    --dark: #1c2a39;
+    --darker: #0d1b2a;
+    --light: #f8f9fa;
+    --lighter: #ffffff;
+    --gold: #ffd166;
+    
+    --font-heading: 'Playfair Display', serif;
+    --font-subheading: 'Montserrat', sans-serif;
+    --font-body: 'Lora', serif;
+    
+    --transition: all 0.4s ease;
+  }
