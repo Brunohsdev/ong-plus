@@ -52,4 +52,5 @@ const CampanhaSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Campanha', CampanhaSchema);
+
+module.exports = mongoose.models.Campanha || mongoose.model('Campanha', CampanhaSchema);

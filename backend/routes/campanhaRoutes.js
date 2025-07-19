@@ -5,9 +5,9 @@ const {
   createCampanha,
   updateCampanha,
   deleteCampanha
-} = require('../controllers/CampanhaController');
-const { protect, authorize } = require('../middlewares/auth');
-const advancedResults = require('../middlewares/advancedResults');
+} = require('../controllers/CampanhaController.js');
+const { protect, authorize } = require('../middlewares/auth.js');
+const advancedResults = require('../middlewares/advancedResults.js');
 const Campanha = require('../models/Campanha');
 
 const router = express.Router();

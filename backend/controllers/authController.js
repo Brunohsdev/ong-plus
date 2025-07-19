@@ -1,7 +1,7 @@
 const Usuario = require('../models/usuario.js');
 const Ong = require('../models/Ong');
 const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middlewares/async');
+const asyncHandler = require('../middlewares/async.js');
 
 // @desc    Registrar usuário
 // @route   POST /api/auth/registrar

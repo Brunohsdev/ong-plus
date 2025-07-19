@@ -1,0 +1,104 @@
+<!-- explore.component.html -->
+<div class="explore-container">
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Faça a diferença hoje</h1>
+      <p>Descubra campanhas incríveis e contribua para causas que transformam vidas</p>
+      <button mat-flat-button color="primary" class="hero-button">
+        Começar a doar
+      </button>
+    </div>
+  </section>
+
+  <section class="featured-section">
+    <h2 class="section-title">Campanhas em destaque</h2>
+    <div class="featured-campaigns">
+      <div *ngFor="let campaign of featuredCampaigns" class="featured-card">
+        <img [src]="campaign.image || 'assets/images/default-campaign.jpg'" alt="{{ campaign.title }}" class="featured-image">
+        <div class="featured-overlay">
+          <h3>{{ campaign.title }}</h3>
+          <p>{{ campaign.ong.name }}</p>
+          <mat-progress-bar
+            mode="determinate"
+            [value]="getProgress(campaign)"
+            color="primary">
+          </mat-progress-bar>
+          <div class="progress-text">
+            <span>{{ campaign.raised | currency:'BRL':'symbol':'1.2-2' }} arrecadados</span>
+            <span>{{ getProgress(campaign) | number:'1.0-0' }}%</span>
+          </div>
+          <button mat-flat-button color="primary" (click)="openDonationDialog(campaign)">
+            Doar agora
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="all-campaigns-section">
+    <div class="section-header">
+      <h2 class="section-title">Todas as campanhas</h2>
+      <div class="category-filter">
+        <button
+          mat-button
+          *ngFor="let category of categories"
+          [class.active]="selectedCategory === category"
+          (click)="filterByCategory(category)">
+          {{ category | titlecase }}
+        </button>
+        <button
+          mat-button
+          [class.active]="!selectedCategory"
+          (click)="filterByCategory('')">
+          Todas
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="loading-spinner">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+
+    <div class="campaigns-grid" *ngIf="!loading">
+      <mat-card *ngFor="let campaign of campaigns" class="campaign-card">
+        <img mat-card-image [src]="campaign.image || 'assets/images/default-campaign.jpg'" alt="{{ campaign.title }}">
+        <mat-card-content>
+          <div class="campaign-header">
+            <span class="category-badge" [ngClass]="campaign.category">
+              {{ campaign.category | titlecase }}
+            </span>
+            <span class="ong-name">{{ campaign.ong.name }}</span>
+          </div>
+          <h3>{{ campaign.title }}</h3>
+          <p class="campaign-description">{{ campaign.description | truncate:120 }}</p>
+
+          <div class="progress-container">
+            <mat-progress-bar
+              mode="determinate"
+              [value]="getProgress(campaign)"
+              color="accent">
+            </mat-progress-bar>
+            <div class="progress-text">
+              <span>{{ getProgress(campaign) | number:'1.0-0' }}% alcançado</span>
+              <span>{{ campaign.raised | currency:'BRL':'symbol':'1.2-2' }} de {{ campaign.goal | currency:'BRL':'symbol':'1.2-2' }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="openDonationDialog(campaign)">
+            Doar
+          </button>
+          <button mat-button color="accent" [routerLink]="['/donor/campaign', campaign._id]">
+            Detalhes
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div class="load-more" *ngIf="!loading && campaigns.length > 0">
+      <button mat-flat-button color="primary" class="load-more-button">
+        Carregar mais campanhas
+      </button>
+    </div>
+  </section>
+</div>

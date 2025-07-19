@@ -42,4 +42,5 @@ const OngSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Ong', OngSchema);
+
+module.exports = mongoose.models.Ong || mongoose.model('Ong', OngSchema);

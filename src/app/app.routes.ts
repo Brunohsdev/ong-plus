@@ -1,3 +1,4 @@
+import { Path } from './../../node_modules/@angular-devkit/core/src/virtual-fs/path.d';
 import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { Login } from './pages/login/login';
@@ -9,6 +10,7 @@ import { Explorar } from './pages/explorar/explorar';
 import { Termos } from './pages/termos-de-uso/termos-de-uso';
 import { DashboardOng } from './pages/dashboard-ong/dashboard-ong';
 import { DashboardDoador } from './pages/dashboard-doador/dashboard-doador';
+import { Campanhas } from './pages/campanhas/campanhas';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -23,6 +25,7 @@ export const routes: Routes = [
     {path: 'form-ong', component: FormOng},
     {path: 'termos-de-uso', component: Termos},
     {path: 'dashboard-ong', component: DashboardOng},
-    {path: 'dashboard-doador', component: DashboardDoador}
+    {path: 'dashboard-doador', component: DashboardDoador},
+    {path: 'campanhas', component: Campanhas}
 
 ];
