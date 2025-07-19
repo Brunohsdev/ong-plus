@@ -1,5 +1,7 @@
-import { Path } from './../../node_modules/@angular-devkit/core/src/virtual-fs/path.d';
+
 import { Routes } from '@angular/router';
+
+// Páginas
 import { Home } from './pages/home/home';
 import { Login } from './pages/login/login';
 import { QuemSomos } from './pages/quem-somos/quem-somos';
@@ -12,20 +14,37 @@ import { DashboardOng } from './pages/dashboard-ong/dashboard-ong';
 import { DashboardDoador } from './pages/dashboard-doador/dashboard-doador';
 import { Campanhas } from './pages/campanhas/campanhas';
 
-export const routes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    {path: 'home', component: Home},
-    {path: 'login', component: Login},
-    {path: 'quem-somos', component: QuemSomos},
-    {path: 'cadastrar', component: Cadastro},
-    {path: 'cadastrar-doador', component: FormDoador},
-    {path: 'cadastrar-ong', component: FormOng},
-    { path: 'explorar', component: Explorar},
-    {path: 'form-doador', component: FormDoador},
-    {path: 'form-ong', component: FormOng},
-    {path: 'termos-de-uso', component: Termos},
-    {path: 'dashboard-ong', component: DashboardOng},
-    {path: 'dashboard-doador', component: DashboardDoador},
-    {path: 'campanhas', component: Campanhas}
+// Guards
+import { AuthGuard } from './guards/auth-guard';
+import { RoleGuard } from './guards/role.guard-guard';
 
+export const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+
+  { path: 'home', component: Home },
+  { path: 'login', component: Login },
+  { path: 'quem-somos', component: QuemSomos },
+  { path: 'cadastrar', component: Cadastro },
+  { path: 'cadastrar-doador', component: FormDoador },
+  { path: 'cadastrar-ong', component: FormOng },
+  { path: 'explorar', component: Explorar },
+  { path: 'termos-de-uso', component: Termos },
+  { path: 'campanhas', component: Campanhas },
+
+  // Dashboards com proteção de rota
+  {
+    path: 'dashboard-ong',
+    component: DashboardOng,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'ong' }
+  },
+  {
+    path: 'dashboard-doador',
+    component: DashboardDoador,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'doador' }
+  },
+
+  // Rota coringa
+  { path: '**', redirectTo: 'home' }
 ];

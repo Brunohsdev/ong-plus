@@ -1,104 +1,66 @@
-// auth.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-
+import { environment } from '../environments/environment';
 import { User } from '../models/user.model';
-import { environment } from '../../environments/environment';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
-  private jwtHelper = new JwtHelperService();
+  private currentUser = signal<User | null>(null);
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(
-      this.getUserFromToken()
-    );
-    this.currentUser = this.currentUserSubject.asObservable();
+  constructor(private http: HttpClient) {
+    // Carregar usuário do localStorage ao inicializar
+    const user = localStorage.getItem('currentUser');
+    if (user) {
+      this.currentUser.set(JSON.parse(user));
+    }
   }
 
-  public get currentUserValue(): User | null {
-    return this.currentUserSubject.value;
-  }
-
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password })
+  login(email: string, password: string): Observable<{ user: User, token: string }> {
+    return this.http.post<{ user: User, token: string }>(`${environment.apiUrl}/auth/login`, { email, password })
       .pipe(
-        map(response => {
-          if (response.token) {
-            localStorage.setItem('token', response.token);
-            const user = this.getUserFromToken();
-            this.currentUserSubject.next(user);
-            return user;
-          }
-          throw new Error('No token received');
-        }),
-        catchError(error => {
-          return throwError(() => new Error('Login failed'));
+        tap(response => {
+          this.setCurrentUser(response.user, response.token);
         })
       );
   }
 
-  register(userData: any): Observable<User> {
-    return this.http.post<any>(`${environment.apiUrl}/auth/register`, userData)
+  register(userData: any): Observable<{ user: User, token: string }> {
+    return this.http.post<{ user: User, token: string }>(`${environment.apiUrl}/auth/register`, userData)
       .pipe(
-        map(response => {
-          if (response.token) {
-            localStorage.setItem('token', response.token);
-            const user = this.getUserFromToken();
-            this.currentUserSubject.next(user);
-            return user;
-          }
-          throw new Error('No token received');
-        }),
-        catchError(error => {
-          return throwError(() => new Error('Registration failed'));
+        tap(response => {
+          this.setCurrentUser(response.user, response.token);
         })
       );
   }
 
   logout(): void {
+    localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
-    this.currentUserSubject.next(null);
-    this.router.navigate(['/login']);
+    this.currentUser.set(null);
+  }
+
+  private setCurrentUser(user: User, token: string): void {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    this.currentUser.set(user);
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUser();
   }
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
-    return !this.jwtHelper.isTokenExpired(token);
-  }
-
-  getUserType(): string | null {
-    const user = this.currentUserValue;
-    return user ? user.type : null;
-  }
-
-  private getUserFromToken(): User | null {
-    const token = localStorage.getItem('token');
-    if (!token || this.jwtHelper.isTokenExpired(token)) {
-      return null;
-    }
-
-    const decodedToken = this.jwtHelper.decodeToken(token);
-    return {
-      id: decodedToken.id,
-      name: decodedToken.name,
-      email: decodedToken.email,
-      type: decodedToken.type
-    };
+    return !!this.currentUser();
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUserType(): 'doador' | 'ong' | null {
+    return this.currentUser()?.tipo || null;
   }
 }

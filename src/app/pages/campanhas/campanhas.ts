@@ -6,12 +6,12 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { MatTableDataSource } from '@angular/material/table';
 // import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { CampanhaService } from '../../services/campanha';
+import { CampaignService } from '../../services/campanha';
 import { ModelCampanha } from '../../models/campanha.models';
 
 @Component({
   selector: 'app-campaigns',
-  imports: [CampanhaService, ModelCampanha],
+  imports: [],
   templateUrl: './campanhas.html',
   styleUrls: ['./campanhas.css']
 })
@@ -21,7 +21,7 @@ export class Campanhas implements OnInit {
   loading = true;
 
   constructor(
-    private campaignService: CampanhaService,
+    private campaignService: CampaignService,
     private dialog: MatDialog
   ) {}
 
@@ -55,7 +55,7 @@ export class Campanhas implements OnInit {
     });
   }
 
-  editCampaign(campaign: Campaign): void {
+  editCampaign(campaign: ModelCampanha): void {
     const dialogRef = this.dialog.open(NewCampaignDialogComponent, {
       width: '800px',
       disableClose: true,
@@ -69,7 +69,7 @@ export class Campanhas implements OnInit {
     });
   }
 
-  deleteCampaign(campaign: Campaign): void {
+  deleteCampaign(campaign: ModelCampanha): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '500px',
       data: {
@@ -91,7 +91,7 @@ export class Campanhas implements OnInit {
     });
   }
 
-  getProgress(campaign: Campaign): number {
+  getProgress(campaign: ModelCampanha): number {
     return (campaign.raised / campaign.goal) * 100;
   }
 }

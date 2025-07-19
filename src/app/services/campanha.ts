@@ -1,75 +1,36 @@
-// campaign.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-// import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 import { ModelCampanha } from '../models/campanha.models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampanhaService {
+export class CampaignService {
   constructor(private http: HttpClient) {}
 
-  // getCampaigns(page = 1, limit = 10, filters?: any): Observable<{ campaigns: ModelCampanha[]; total: number }> {
-  //   let params = new HttpParams()
-  //     .set('page', page.toString())
-  //     .set('limit', limit.toString());
+  getCampaigns(): Observable<ModelCampanha[]> {
+    return this.http.get<ModelCampanha[]>(`${environment.apiUrl}/campaigns`);
+  }
 
-  //   if (filters) {
-  //     Object.keys(filters).forEach(key => {
-  //       if (filters[key]) {
-  //         params = params.set(key, filters[key]);
-  //       }
-  //     });
-  //   }
+  getFeaturedCampaigns(): Observable<ModelCampanha[]> {
+    return this.http.get<ModelCampanha[]>(`${environment.apiUrl}/campaigns/featured`);
+  }
 
-  //   return this.http.get<{ campaigns: ModelCampanha[]; total: number }>(
-  //     `${environment.apiUrl}/campaigns`,
-  //     { params }
-  //   );
-  // }
+  getCampaignById(id: string): Observable<ModelCampanha> {
+    return this.http.get<ModelCampanha>(`${environment.apiUrl}/campaigns/${id}`);
+  }
 
-  // getPublicCampaigns(category?: string): Observable<ModelCampanha[]> {
-  //   let params = new HttpParams();
-  //   if (category) {
-  //     params = params.set('category', category);
-  //   }
-  //   return this.http.get<ModelCampanha[]>(
-  //     `${environment.apiUrl}/campaigns/public`,
-  //     { params }
-  //   );
-  // }
+  createCampaign(campaignData: FormData): Observable<ModelCampanha> {
+    return this.http.post<ModelCampanha>(`${environment.apiUrl}/campaigns`, campaignData);
+  }
 
-  // getFeaturedCampaigns(): Observable<ModelCampanha[]> {
-  //   return this.http.get<ModelCampanha[]>(
-  //     `${environment.apiUrl}/campaigns/featured`
-  //   );
-  // }
+  updateCampaign(id: string, campaignData: FormData): Observable<ModelCampanha> {
+    return this.http.put<ModelCampanha>(`${environment.apiUrl}/campaigns/${id}`, campaignData);
+  }
 
-  // getCampaignById(id: string): Observable<ModelCampanha></ModelCampanha> {
-  //   return this.http.get<ModelCampanha>(
-  //     `${environment.apiUrl}/campaigns/${id}`
-  //   );
-  // }
-
-  // createCampaign(campaignData: FormData): Observable<ModelCampanha> {
-  //   return this.http.post<ModelCampanha>(
-  //     `${environment.apiUrl}/campaigns`,
-  //     campaignData
-  //   );
-  // }
-
-  // updateCampaign(id: string, campaignData: FormData): Observable<ModelCampanha> {
-  //   return this.http.put<ModelCampanha>(
-  //     `${environment.apiUrl}/campaigns/${id}`,
-  //     campaignData
-  //   );
-  // }
-
-  // deleteCampaign(id: string): Observable<any> {
-  //   return this.http.delete(
-  //     `${environment.apiUrl}/campaigns/${id}`
-  //   );
-  // }
+  deleteCampaign(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/campaigns/${id}`);
+  }
 }
