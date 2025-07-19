@@ -1,17 +1,50 @@
 // campaigns.component.ts
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-// import { NewCampaignDialogComponent } from './new-campaign-dialog/new-campaign-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 import { MatTableDataSource } from '@angular/material/table';
 // import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { CampaignService } from '../../services/campanha';
 import { ModelCampanha } from '../../models/campanha.models';
+import { NewCampaignDialogComponent } from '../../components/new-campaign-dialog/new-campaign-dialog';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-campaigns',
-  imports: [],
+  standalone: true,
+    imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    // Angular Material
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIcon
+  ],
   templateUrl: './campanhas.html',
   styleUrls: ['./campanhas.css']
 })
@@ -25,6 +58,20 @@ export class Campanhas implements OnInit {
     private dialog: MatDialog
   ) {}
 
+  categories: string[] = ['Educação', 'Saúde', 'Animais']; // Exemplo
+
+applyFilter(event: any) {
+  const value = (event.target as HTMLInputElement).value;
+  // sua lógica de filtro aqui
+}
+
+filterByCategory(value: string) {
+  // lógica de filtro por categoria
+}
+
+filterByStatus(value: string) {
+  // lógica de filtro por status
+}
   ngOnInit(): void {
     this.loadCampaigns();
   }
@@ -74,7 +121,7 @@ export class Campanhas implements OnInit {
       width: '500px',
       data: {
         title: 'Confirmar Exclusão',
-        message: `Tem certeza que deseja excluir a campanha "${campaign.title}"?`,
+        message: `Tem certeza que deseja excluir a campanha "${campaign.titulo}"?`,
         confirmText: 'Excluir',
         cancelText: 'Cancelar'
       }
@@ -92,6 +139,6 @@ export class Campanhas implements OnInit {
   }
 
   getProgress(campaign: ModelCampanha): number {
-    return (campaign.raised / campaign.goal) * 100;
+    return (campaign.meta / campaign.arrecadado) * 100;
   }
 }

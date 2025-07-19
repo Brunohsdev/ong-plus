@@ -1,0 +1,33 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.half-width {
+  width: calc(50% - 8px);
+  margin-right: 16px;
+}
+
+.half-width:last-child {
+  margin-right: 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.file-upload {
+  margin: 16px 0;
+}
+
+.file-upload label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.file-upload input {
+  display: block;
+}

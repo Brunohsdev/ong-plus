@@ -1,18 +1,18 @@
 // explore.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CampaignService } from '../../core/services/campaign.service';
-import { Campaign } from '../../core/models/campaign.model';
-import { DonationDialogComponent } from './donation-dialog/donation-dialog.component';
+import { CampaignService } from '../../services/campanha';
+import { ModelCampanha } from '../../models/campanha.models';
+// import { DonationDialogComponent } from './donation-dialog/donation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-explore',
-  templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.scss']
+  templateUrl: './explore.html',
+  styleUrls: ['./explore.css']
 })
-export class ExploreComponent implements OnInit {
-  campaigns: Campaign[] = [];
-  featuredCampaigns: Campaign[] = [];
+export class Explore implements OnInit {
+  campaigns: ModelCampanha[] = [];
+  featuredCampaigns: ModelCampanha[] = [];
   categories = ['alimentos', 'roupas', 'dinheiro', 'sangue', 'brinquedos', 'outros'];
   selectedCategory = '';
   loading = true;
@@ -23,22 +23,22 @@ export class ExploreComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadCampaigns();
+    // this.loadCampaigns();
     this.loadFeaturedCampaigns();
   }
 
-  loadCampaigns(): void {
-    this.loading = true;
-    this.campaignService.getPublicCampaigns(this.selectedCategory).subscribe({
-      next: (campaigns) => {
-        this.campaigns = campaigns;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-      }
-    });
-  }
+  // loadCampaigns(): void {
+  //   this.loading = true;
+  //   this.campaignService.getCampaignById(this.selectedCategory).subscribe({
+  //     next: (campaigns) => {
+  //       this.campaigns = campaigns;
+  //       this.loading = false;
+  //     },
+  //     error: () => {
+  //       this.loading = false;
+  //     }
+  //   });
+  // }
 
   loadFeaturedCampaigns(): void {
     this.campaignService.getFeaturedCampaigns().subscribe({
@@ -50,24 +50,24 @@ export class ExploreComponent implements OnInit {
 
   filterByCategory(category: string): void {
     this.selectedCategory = category;
-    this.loadCampaigns();
+    // this.loadCampaigns();
   }
 
-  openDonationDialog(campaign: Campaign): void {
-    const dialogRef = this.dialog.open(DonationDialogComponent, {
-      width: '600px',
-      data: { campaign }
-    });
+  // openDonationDialog(campaign: ModelCampanha): void {
+  //   const dialogRef = this.dialog.open(DonationDialogComponent, {
+  //     width: '600px',
+  //     data: { campaign }
+  //   });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Atualizar lista de campanhas após doação
-        this.loadCampaigns();
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result) {
+  //       // Atualizar lista de campanhas após doação
+  //       this.loadCampaigns();
+  //     }
+  //   });
+  // }
 
-  getProgress(campaign: Campaign): number {
-    return (campaign.raised / campaign.goal) * 100;
+  getProgress(campaign: ModelCampanha): number {
+    return (campaign.meta / campaign.arrecadado) * 100;
   }
 }

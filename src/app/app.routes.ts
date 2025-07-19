@@ -15,8 +15,8 @@ import { DashboardDoador } from './pages/dashboard-doador/dashboard-doador';
 import { Campanhas } from './pages/campanhas/campanhas';
 
 // Guards
-import { AuthGuard } from './guards/auth-guard';
-import { RoleGuard } from './guards/role.guard-guard';
+import { authGuard } from './guards/auth-guard';
+import { roleGuard } from './guards/role.guard-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -35,13 +35,13 @@ export const routes: Routes = [
   {
     path: 'dashboard-ong',
     component: DashboardOng,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [authGuard, roleGuard],
     data: { role: 'ong' }
   },
   {
     path: 'dashboard-doador',
     component: DashboardDoador,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [authGuard, roleGuard],
     data: { role: 'doador' }
   },
 
