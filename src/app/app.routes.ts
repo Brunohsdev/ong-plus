@@ -17,6 +17,7 @@ import { Campanhas } from './pages/campanhas/campanhas';
 // Guards
 import { authGuard } from './guards/auth-guard';
 import { roleGuard } from './guards/role.guard-guard';
+import { PrivacyPoliticy } from './pages/privacy-politicy/privacy-politicy';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -32,6 +33,7 @@ export const routes: Routes = [
   { path: 'campanhas', component: Campanhas },
   {path: 'dashboard-doador', component: DashboardDoador},
   {path: 'dashboard-ong', component: DashboardOng},
+  {path: 'policy-privacy', component: PrivacyPoliticy},
   // Dashboards com proteção de rota
   // {
   //   path: 'dashboard-ong',
