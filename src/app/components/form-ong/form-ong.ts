@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-form-ong',
@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./form-ong.css']
 })
 export class FormOng {
+  constructor(private router: Router) {}
   ong = {
     nome: '',
     cnpj: '',
@@ -37,5 +38,6 @@ export class FormOng {
   cadastrarOng() {
     console.log('ONG cadastrada:', this.ong);
     // Implementar lógica de cadastro
+    this.router.navigate(['/dashboard-ong']);
   }
 }

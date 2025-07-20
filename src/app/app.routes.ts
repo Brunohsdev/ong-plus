@@ -30,20 +30,21 @@ export const routes: Routes = [
   { path: 'explorar', component: Explorar },
   { path: 'termos-de-uso', component: Termos },
   { path: 'campanhas', component: Campanhas },
-
+  {path: 'dashboard-doador', component: DashboardDoador},
+  {path: 'dashboard-ong', component: DashboardOng},
   // Dashboards com proteção de rota
-  {
-    path: 'dashboard-ong',
-    component: DashboardOng,
-    canActivate: [authGuard, roleGuard],
-    data: { role: 'ong' }
-  },
-  {
-    path: 'dashboard-doador',
-    component: DashboardDoador,
-    canActivate: [authGuard, roleGuard],
-    data: { role: 'doador' }
-  },
+  // {
+  //   path: 'dashboard-ong',
+  //   component: DashboardOng,
+  //   canActivate: [authGuard, roleGuard],
+  //   data: { role: 'ong' }
+  // },
+  // {
+  //   path: 'dashboard-doador',
+  //   component: DashboardDoador,
+  //   canActivate: [authGuard, roleGuard],
+  //   data: { role: 'doador' }
+  // },
 
   // Rota coringa
   { path: '**', redirectTo: 'home' }

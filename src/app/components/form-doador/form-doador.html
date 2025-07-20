@@ -1,4 +1,4 @@
-<form class="donor-form" (ngSubmit)="cadastrarDoador()">
+<form class="donor-form" #formRef="ngForm" (ngSubmit)="cadastrarDoador()">
   <div class="form-grid">
     <div class="form-group">
       <label>Nome completo *</label>
@@ -83,7 +83,7 @@
     </div>
   </div>
 
-  <button type="submit" class="submit-button"><a routerLink="/dashboard-doador">
-    <i class="bi bi-check-circle"></i> Cadastrar como Doador</a>
-  </button>
+  <button type="submit" class="submit-button" [disabled]="!formRef.valid">
+  <i class="bi bi-check-circle"></i> Cadastrar como Doador
+</button>
 </form>
