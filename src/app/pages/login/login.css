@@ -148,6 +148,44 @@
   color: #6c757d;
   cursor: pointer;
 }
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 10px 40px 10px 40px; /* espaço para os ícones */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #000;
+  font-size: 1rem;
+}
+
+.input-with-icon i.bi-lock {
+  position: absolute;
+  left: 12px;
+  font-size: 1.1rem;
+  color: #666;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 1.1rem;
+  padding: 0;
+}
 
 .form-options {
   display: flex;
@@ -231,6 +269,9 @@
   text-decoration: underline;
 }
 
+.erro{
+  color: red;
+}
 @media (max-width: 768px) {
   .login-content {
     padding: 1rem;

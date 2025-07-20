@@ -6,7 +6,7 @@ import { Footer } from '../../components/footer/footer';
 
 @Component({
   selector: 'app-privacy-politicy',
-  imports: [CommonModule, RouterLink, Header, Footer],
+  imports: [CommonModule, Header, Footer],
   templateUrl: './privacy-politicy.html',
   styleUrl: './privacy-politicy.css'
 })
