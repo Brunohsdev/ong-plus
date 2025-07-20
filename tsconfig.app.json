@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-, "donation-service.ts"  ],
+,  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]

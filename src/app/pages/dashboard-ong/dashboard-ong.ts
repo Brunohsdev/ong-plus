@@ -91,14 +91,14 @@ export class DashboardOng{
 //   // Subscriptions
 //   private subscriptions = new Subscription();
 
-//   constructor(
+  constructor(
 //     // private authService: AuthService,
 //     // private ongService: OngService,
 //     // private notificationService: NotificationService,
-//     private router: Router,
+    private router: Router,
 //     private breakpointObserver: BreakpointObserver,
 //     private dialog: MatDialog
-//   ) {}
+  ) {}
 
 //   ngOnInit(): void {
 //     this.setupResponsiveLayout();
@@ -205,9 +205,9 @@ export class DashboardOng{
 //     });
 //   }
 
-//   logout(): void {
-//     this.authService.logout();
-//     this.router.navigate(['/login']);
-//   }
+  logout(): void {
+
+    this.router.navigate(['/login']);
+  }
 // }
 }

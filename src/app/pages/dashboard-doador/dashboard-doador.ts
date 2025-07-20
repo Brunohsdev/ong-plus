@@ -13,6 +13,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Footer } from '../../components/footer/footer';
 import { Header } from '../../components/header/header';
+import { Perfil } from "../perfil/perfil";
 
 // // Services
 // import { CampaignService } from '@app/core/services/campaign.service';
@@ -47,7 +48,9 @@ import { Header } from '../../components/header/header';
     Footer
     // DonationDialogComponent,
     // CampaignCardComponent
-  ],
+    ,
+    Perfil
+],
   templateUrl: './dashboard-doador.html',
   styleUrls: ['./dashboard-doador.css']
 })

@@ -18,6 +18,7 @@ import { Campanhas } from './pages/campanhas/campanhas';
 import { authGuard } from './guards/auth-guard';
 import { roleGuard } from './guards/role.guard-guard';
 import { PrivacyPoliticy } from './pages/privacy-politicy/privacy-politicy';
+import { Perfil } from './pages/perfil/perfil';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -31,6 +32,7 @@ export const routes: Routes = [
   { path: 'explorar', component: Explorar },
   { path: 'termos-de-uso', component: Termos },
   { path: 'campanhas', component: Campanhas },
+  {path: 'perfil', component: Perfil},
   {path: 'dashboard-doador', component: DashboardDoador},
   {path: 'dashboard-ong', component: DashboardOng},
   {path: 'policy-privacy', component: PrivacyPoliticy},

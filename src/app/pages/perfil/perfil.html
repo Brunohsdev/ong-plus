@@ -1,0 +1,64 @@
+<!-- perfil-page.component.html -->
+<div class="perfil-container">
+  <div class="perfil-card">
+    <!-- Cabeçalho do Perfil -->
+    <div class="perfil-header">
+      <div class="perfil-avatar">
+        <img [src]="user.foto || 'https://via.placeholder.com/150'" alt="Foto de perfil" class="avatar-img">
+      </div>
+      <div class="perfil-titulo">
+        <h1>{{ user.nome }}</h1>
+        <p class="tipo-usuario" [ngClass]="{'ong': user.tipo === 'ong', 'doador': user.tipo === 'doador'}">
+          {{ user.tipo === 'ong' ? 'Organização Não Governamental' : 'Doador' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Corpo do Perfil -->
+    <div class="perfil-body">
+      <!-- Seção de Informações Básicas -->
+      <div class="info-section">
+        <h2>Informações</h2>
+        <div class="info-item">
+          <span class="info-label">Email:</span>
+          <span>{{ user.email }}</span>
+        </div>
+        <div class="info-item" *ngIf="user.telefone">
+          <span class="info-label">Telefone:</span>
+          <span>{{ user.telefone }}</span>
+        </div>
+        <div class="info-item" *ngIf="user.localizacao">
+          <span class="info-label">Localização:</span>
+          <span>{{ user.localizacao }}</span>
+        </div>
+        <div class="info-item" *ngIf="user.bio">
+          <span class="info-label">Bio:</span>
+          <p class="bio-text">{{ user.bio }}</p>
+        </div>
+      </div>
+
+      <!-- Seção Específica por Tipo de Usuário -->
+      <div class="info-section" *ngIf="user.tipo === 'ong' && user.causas && user.causas.length">
+        <h2>Causas Apoiadas</h2>
+        <div class="causas-list">
+          <span class="causa-badge" *ngFor="let causa of user.causas">
+            {{ getCausaIcon(causa) }} {{ causa }}
+          </span>
+        </div>
+      </div>
+
+      <div class="info-section" *ngIf="user.tipo === 'doador' && user.doacoesRealizadas !== undefined">
+        <h2>Contribuições</h2>
+        <div class="doacoes-info">
+          <span class="doacoes-count">{{ user.doacoesRealizadas }}</span>
+          <span>doações realizadas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rodapé do Perfil -->
+    <div class="perfil-footer">
+      <button class="btn-editar">Editar Perfil</button>
+    </div>
+  </div>
+</div>
