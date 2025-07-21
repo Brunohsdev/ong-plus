@@ -1,0 +1,153 @@
+
+<div class="admin-layout">
+  <mat-sidenav-container class="sidenav-container" [hasBackdrop]="isHandset">
+    <!-- Sidebar Elegante -->
+    <mat-sidenav #sidenav
+                 [(opened)]="sidenavOpened"
+                 [mode]="sidenavMode"
+                 class="admin-sidenav"
+                 fixedInViewport="true"
+                 [fixedTopGap]="isHandset ? 56 : 0">
+
+      <div class="sidenav-header">
+        <div class="logo-container">
+          <img src="logo-ong-white.svg" alt="ONG+" class="logo w-25">
+          <span class="app-name">ONG+</span>
+        </div>
+
+        <div class="ong-profile" >
+          <!-- *ngIf="currentOng" -->
+          <div class="avatar-container">
+            <!-- <img [src]="currentOng.logo || 'assets/images/default-ong.png'"
+                 alt="{{ currentOng.name }}"
+                 class="ong-avatar"> -->
+          </div>
+          <div class="ong-info">
+            <!-- <h3 class="ong-name">{{ currentOng.name }}</h3> -->
+            <p class="ong-status">
+              <mat-icon class="status-icon">verified</mat-icon>
+              Verificada
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <mat-nav-list class="sidenav-menu">
+        <!-- <a mat-list-item
+           *ngFor="let item of menuItems"
+           [routerLink]="item.route"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: item.exact}">
+          <mat-icon class="menu-icon">{{ item.icon }}</mat-icon>
+          <span class="menu-label">{{ item.label }}</span>
+        </a> -->
+      </mat-nav-list>
+
+      <div class="sidenav-footer">
+        <!-- <button mat-stroked-button
+                class="quick-action-btn"
+                (click)="openQuickActionDialog()">
+          <mat-icon>bolt</mat-icon>
+          Ação Rápida
+        </button> -->
+      </div>
+    </mat-sidenav>
+
+    <!-- Conteúdo Principal -->
+    <mat-sidenav-content class="admin-content">
+      <header class="admin-toolbar">
+        <div class="toolbar-left">
+          <button mat-icon-button (click)="toggleSidenav()" class="menu-toggle">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <!-- <h1 class="page-title">{{ pageTitle }}</h1> -->
+        </div>
+
+        <div class="toolbar-right">
+          <!-- <button mat-icon-button
+                  class="notification-btn"
+                  [matMenuTriggerFor]="notificationsMenu"
+                  [matBadge]="unreadCount"
+                  matBadgeColor="warn"
+                  matBadgeSize="small">
+            <mat-icon>notifications</mat-icon>
+          </button> -->
+
+          <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu">
+            <div class="user-avatar">
+              <!-- <img [src]="currentUser?.photo || 'assets/images/default-avatar.png'"
+                   alt="{{ currentUser?.name }}"> -->
+            </div>
+            <!-- <span class="user-name">{{ currentUser?.name }}</span> -->
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+        </div>
+
+        <!-- Menu de Notificações -->
+        <mat-menu #notificationsMenu="matMenu" class="notification-menu">
+          <div class="notification-header">
+            <h3>Notificações</h3>
+            <button mat-icon-button (click)="$event.stopPropagation()"
+                    routerLink="/admin/notifications">
+              <mat-icon>settings</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+
+          <!-- <div *ngIf="notifications.length === 0" class="empty-notifications">
+            <mat-icon>notifications_off</mat-icon>
+            <p>Nenhuma notificação</p>
+          </div>
+
+          <div *ngFor="let notification of notifications.slice(0, 5)"
+               class="notification-item"
+               [class.unread]="!notification.read"
+               (click)="markAsRead(notification); $event.stopPropagation()">
+            <div class="notification-icon" [ngSwitch]="notification.type">
+              <mat-icon *ngSwitchCase="'donation'" color="primary">attach_money</mat-icon>
+              <mat-icon *ngSwitchCase="'volunteer'" color="accent">group_add</mat-icon>
+              <mat-icon *ngSwitchDefault>info</mat-icon>
+            </div>
+            <div class="notification-content">
+              <p class="notification-message">{{ notification.message }}</p>
+               <span class="notification-time">{{ notification.createdAt | timeAgo }}</span>
+            </div>
+          </div> -->
+
+          <mat-divider></mat-divider>
+          <button mat-menu-item routerLink="/admin/notifications">
+            Ver todas notificações
+          </button>
+        </mat-menu>
+
+        <!-- Menu do Usuário -->
+        <mat-menu #userMenu="matMenu" class="user-profile-menu">
+          <button mat-menu-item routerLink="/perfil">
+            <mat-icon>account_circle</mat-icon>
+            <span>Meu Perfil</span>
+          </button>
+          <button mat-menu-item routerLink="/admin/settings">
+            <mat-icon>settings</mat-icon>
+            <span>Configurações</span>
+          </button>
+          <button mat-menu-item routerLink="/home">
+            <mat-icon>logout</mat-icon>
+            <span>Sair</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Sair</span>
+          </button>
+        </mat-menu>
+      </header>
+
+      <main class="content-wrapper">
+        <router-outlet></router-outlet>
+      </main>
+
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+<app-footer></app-footer>

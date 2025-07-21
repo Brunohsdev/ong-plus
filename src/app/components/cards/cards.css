@@ -1,0 +1,52 @@
+.campaign-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.campaign-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.campaign-card mat-card-content {
+  flex: 1;
+}
+
+.campaign-category {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.campaign-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.campaign-description {
+  margin: 0 0 16px;
+  color: var(--text-medium);
+  font-size: 14px;
+}
+
+.campaign-progress {
+  margin-top: 16px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-medium);
+}
+
+.campaign-card mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}

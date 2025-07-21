@@ -1,0 +1,164 @@
+/* perfil-page.component.css */
+.perfil-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.perfil-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.perfil-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  text-align: center;
+}
+
+.perfil-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.perfil-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.tipo-usuario {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.tipo-usuario.ong {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.tipo-usuario.doador {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.perfil-body {
+  padding: 2rem;
+}
+
+.info-section {
+  margin-bottom: 1.5rem;
+}
+
+.info-section h2 {
+  font-size: 1.3rem;
+  color: #444;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.info-item {
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.info-label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+  color: #555;
+  min-width: 100px;
+}
+
+.bio-text {
+  margin: 0;
+  color: #666;
+  line-height: 1.5;
+}
+
+.causas-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.causa-badge {
+  background-color: #f0f4ff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.doacoes-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.doacoes-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4caf50;
+}
+
+.perfil-footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+
+.btn-editar {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-editar:hover {
+  background-color: #0d8bf2;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .perfil-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .info-item {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .info-label {
+    min-width: auto;
+  }
+}

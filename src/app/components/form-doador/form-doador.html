@@ -1,4 +1,4 @@
-<form class="donor-form" (ngSubmit)="cadastrarDoador()">
+<form class="donor-form" #formRef="ngForm" (ngSubmit)="cadastrarDoador()">
   <div class="form-grid">
     <div class="form-group">
       <label>Nome completo *</label>
@@ -78,12 +78,12 @@
     <div class="form-group full-width">
       <div class="form-check">
         <input type="checkbox" id="termos" [(ngModel)]="doador.aceitouTermos" name="termos" required>
-        <label for="termos">Li e aceito os <a routerLink="/termos-de-uso" >termos de uso</a> e <a href="#">política de privacidade</a> *</label>
+        <label for="termos">Li e aceito os <a routerLink="/termos-de-uso" >termos de uso</a> e <a routerLink="/policy-privacy">política de privacidade</a> *</label>
       </div>
     </div>
   </div>
 
-  <button type="submit" class="submit-button">
-    <i class="bi bi-check-circle"></i> Cadastrar como Doador
-  </button>
+  <button type="submit" class="submit-button" [disabled]="!formRef.valid">
+  <i class="bi bi-check-circle"></i> Cadastrar como Doador
+</button>
 </form>

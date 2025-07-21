@@ -3,16 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { RouterLink } from '@angular/router';
-import { Termos } from '../../pages/termos-de-uso/termos-de-uso';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-doador',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxMaskDirective, RouterLink, Termos],
+  imports: [CommonModule, FormsModule, NgxMaskDirective, RouterLink],
   templateUrl: './form-doador.html',
   styleUrls: ['./form-doador.css']
 })
 export class FormDoador {
+  constructor(private router: Router) {}
   doador = {
     nome: '',
     cpf: '',
@@ -40,5 +41,6 @@ export class FormDoador {
   cadastrarDoador() {
     console.log('Doador cadastrado:', this.doador);
     // Implementar lógica de cadastro
+      this.router.navigate(['/dashboard-doador']);
   }
 }

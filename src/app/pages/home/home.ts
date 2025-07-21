@@ -71,19 +71,19 @@ featuredCampaigns = [
       text: 'A ONG+ me conectou com um projeto animal incrível! Hoje sou voluntária com orgulho e vejo a diferença que fazemos.',
       author: 'Juliana Santos',
       role: 'Voluntária',
-      avatar: 'assets/images/testimonial1.jpg'
+      avatar: 'juliana.jpg'
     },
     {
       text: 'Conseguimos mais de 200 doações graças à visibilidade que a plataforma nos proporcionou. Essencial para ONGs pequenas!',
       author: 'Instituto Mãos que Ajudam',
       role: 'ONG Parceira',
-      avatar: 'assets/images/testimonial2.jpg'
+      avatar: 'maoshelp.jpg'
     },
     {
       text: 'Plataforma simples, segura e com causas que realmente importam. Consigo doar com apenas alguns cliques.',
       author: 'Carlos Mendes',
       role: 'Doador',
-      avatar: 'assets/images/testimonial3.jpg'
+      avatar: 'carlos.jpg'
     }
   ];
 }

@@ -1,0 +1,94 @@
+<h2 mat-dialog-title>{{ data.campaign ? 'Editar Campanha' : 'Nova Campanha' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" required>
+      <mat-error *ngIf="campaignForm.get('titulo')?.hasError('required')">
+        Título é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="descricao" rows="4" required></textarea>
+      <mat-error *ngIf="campaignForm.get('descricao')?.hasError('required')">
+        Descrição é obrigatória
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Categoria</mat-label>
+      <mat-select formControlName="categoria" required>
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{ category | titlecase }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="campaignForm.get('categoria')?.hasError('required')">
+        Categoria é obrigatória
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Meta (R$)</mat-label>
+      <input matInput type="number" formControlName="meta" required>
+      <mat-error *ngIf="campaignForm.get('meta')?.hasError('required')">
+        Meta é obrigatória
+      </mat-error>
+      <mat-error *ngIf="campaignForm.get('meta')?.hasError('min')">
+        Meta deve ser maior que zero
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Data de Término</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dataFim" [min]="minDate" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="campaignForm.get('dataFim')?.hasError('required')">
+        Data de término é obrigatória
+      </mat-error>
+    </mat-form-field>
+
+    <div formGroupName="local">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Endereço</mat-label>
+        <input matInput formControlName="endereco" required>
+        <mat-error *ngIf="campaignForm.get('local.endereco')?.hasError('required')">
+          Endereço é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <div class="row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Cidade</mat-label>
+          <input matInput formControlName="cidade" required>
+          <mat-error *ngIf="campaignForm.get('local.cidade')?.hasError('required')">
+            Cidade é obrigatória
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Estado</mat-label>
+          <input matInput formControlName="estado" required>
+          <mat-error *ngIf="campaignForm.get('local.estado')?.hasError('required')">
+            Estado é obrigatório
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="file-upload">
+      <label for="file">Imagem da Campanha</label>
+      <input type="file" id="file" (change)="onFileSelected($event)" accept="image/*">
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="campaignForm.invalid">
+    {{ data.campaign ? 'Atualizar' : 'Criar' }}
+  </button>
+</mat-dialog-actions>

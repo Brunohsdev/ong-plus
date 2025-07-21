@@ -1,4 +1,4 @@
-<form class="ong-form" (ngSubmit)="cadastrarOng()">
+<form class="ongform" #formRef="ngForm" (ngSubmit)="cadastrarOng()">
   <div class="form-grid">
     <div class="form-group">
       <label>Nome da ONG *</label>
@@ -72,12 +72,12 @@
     <div class="form-group full-width">
       <div class="form-check">
         <input type="checkbox" id="termos-ong" [(ngModel)]="ong.aceitouTermos" name="termos" required>
-        <label for="termos-ong">Li e aceito os <a routerLink="/termos-de-uso">termos de uso</a> e <a href="#">política de privacidade</a> *</label>
+        <label for="termos-ong">Li e aceito os <a routerLink="/termos-de-uso">termos de uso</a> e <a routerLink="/policy-privacy">política de privacidade</a> *</label>
       </div>
     </div>
   </div>
 
-  <button type="submit" class="submit-button">
-    <i class="bi bi-check-circle"></i> Cadastrar ONG
-  </button>
+   <button type="submit" class="submit-button" [disabled]="!formRef.valid">
+  <i class="bi bi-check-circle"></i> Cadastrar como Ong
+</button>
 </form>
