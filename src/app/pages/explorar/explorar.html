@@ -2,27 +2,30 @@
 
 <div class="explore-container">
   <!-- Hero Section -->
- <section class="explore-hero">
-  <div class="hero-content">
-    <h1>Encontre sua causa</h1>
-    <p class="lead">Conecte-se com organizações que precisam da sua ajuda</p>
+  <section class="explore-hero">
+    <div class="hero-content">
+      <h1>Encontre sua causa</h1>
+      <p class="lead">Conecte-se com organizações que precisam da sua ajuda</p>
 
-    <div class="search-container">
-      <div class="search-input">
-        <i class="bi bi-search"></i>
-        <input type="text" placeholder="Buscar por palavras-chave...">
-        <button class="btn-search">Buscar</button>
-      </div>
-      <div class="search-tags">
-        <span class="tag" *ngFor="let tag of popularTags"
-              [class.active]="selectedTag === tag"
-              (click)="selectTag(tag)">
-          {{tag}}
-        </span>
+      <div class="search-container">
+        <div class="search-input">
+          <i class="bi bi-search"></i>
+          <input
+            type="text"
+            placeholder="Buscar por palavras-chave..."
+            [(ngModel)]="searchTerm">
+        </div>
+        <div class="search-tags">
+          <span class="tag" *ngFor="let tag of popularTags"
+                [class.active]="selectedTag === tag"
+                (click)="selectTag(tag)">
+            {{tag}}
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
   <!-- Filtros -->
   <section class="filters-section">
     <div class="filter-toggle" (click)="toggleFilters()">
@@ -35,7 +38,8 @@
         <h4>Categoria</h4>
         <div class="filter-options">
           <label *ngFor="let category of categories">
-            <input type="checkbox" [checked]="selectedCategories.includes(category)"
+            <input type="checkbox"
+                   [checked]="selectedCategories.includes(category)"
                    (change)="toggleCategory(category)">
             {{category}}
           </label>
@@ -55,46 +59,44 @@
   <!-- Resultados -->
   <section class="results-section">
     <div class="results-header">
-      <h2>{{filteredCauses.length}} causas encontradas</h2>
-      <div class="sort-options">
-        <select class="form-select" [(ngModel)]="sortOption">
-          <option value="recent">Mais recentes</option>
-          <option value="popular">Mais populares</option>
-          <option value="urgent">Mais urgentes</option>
-        </select>
-      </div>
+      <h2>{{filteredCauses.length}} campanhas encontradas</h2>
+
     </div>
 
     <div class="causes-grid">
-      <div class="cause-card" *ngFor="let cause of filteredCauses" (click)="viewCause(cause.id)">
+      <div class="cause-card" *ngFor="let cause of filteredCauses" (click)="viewCause(cause._id)">
         <div class="cause-image">
-          <img [src]="cause.image" [alt]="cause.title">
-          <div class="cause-category" [style.backgroundColor]="getCategoryColor(cause.category)">
-            {{cause.category}}
+          <img [src]="cause.imagem" [alt]="cause.titulo">
+          <div class="cause-category" [style.backgroundColor]="getCategoryColor(cause.categoria)">
+            {{cause.categoria}}
           </div>
         </div>
 
         <div class="cause-content">
-          <h3>{{cause.title}}</h3>
-          <p class="cause-description">{{cause.description}}</p>
+          <h3>{{cause.titulo}}</h3>
+          <p class="cause-description">{{cause.descricao}}</p>
 
           <div class="cause-progress">
-            <div class="progress-bar" [style.width.%]="(cause.raised / cause.goal) * 100"></div>
+            <div class="progress-bar" [style.width.%]="(cause.arrecadado / cause.meta) * 100"></div>
             <div class="progress-info">
-              <span>R$ {{cause.raised | number}}</span>
-              <span>{{(cause.raised / cause.goal) * 100 | number:'1.0-0'}}%</span>
+              <span>R$ {{cause.arrecadado | number}}</span>
+              <span>{{(cause.arrecadado / cause.meta) * 100 | number:'1.0-0'}}%</span>
             </div>
           </div>
 
           <div class="cause-meta">
-            <span><i class="bi bi-geo-alt"></i> {{cause.location}}</span>
-            <span><i class="bi bi-people"></i> {{cause.donors}} apoiadores</span>
+            <span *ngIf="cause.local?.cidade"><i class="bi bi-geo-alt"></i> {{cause.local.cidade}}</span>
+            <span><i class="bi bi-people"></i> {{cause.avaliacaoCount || 0}} avaliações</span>
           </div>
         </div>
 
         <div class="cause-hover">
           <button class="btn-donate">Quero Ajudar</button>
         </div>
+      </div>
+
+      <div *ngIf="filteredCauses.length === 0" class="no-results">
+        <p>Nenhuma campanha encontrada com os filtros atuais.</p>
       </div>
     </div>
   </section>

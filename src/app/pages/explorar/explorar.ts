@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Header } from "../../components/header/header";
 import { Footer } from "../../components/footer/footer";
+import { CampaignService } from '../../services/campanha';
+import { ModelCampanha } from '../../models/campanha.models';
 
 @Component({
   selector: 'app-explore',
@@ -17,16 +19,31 @@ export class Explorar {
   selectedTag = '';
   sortOption = 'recent';
   selectedLocation = '';
+  searchTerm: string = '';
 
-  popularTags = ['Animais', 'Educação', 'Meio Ambiente', 'Saúde', 'Alimentos', 'Idosos'];
+  featuredCampaigns: ModelCampanha[] = [];
+
+  constructor(private campaignService: CampaignService) {}
+
+  ngOnInit() {
+    this.campaignService.getCampaigns().subscribe({
+      next: (data) => {
+        console.log("campanhas recebidas", data);
+        this.featuredCampaigns = data;
+      },
+      error: (err) => console.error('Erro ao buscar campanhas:', err)
+    });
+  }
+
+  popularTags = ['alimentos', 'roupas', 'dinheiro', 'sangue', 'brinquedos', 'outros'];
 
   categories = [
-    'Animais',
-    'Crianças',
-    'Educação',
-    'Meio Ambiente',
-    'Saúde',
-    'Direitos Humanos'
+    'alimentos',
+    'roupas',
+    'dinheiro',
+    'sangue',
+    'brinquedos',
+    'outros'
   ];
   selectedCategories: string[] = [];
 
@@ -39,44 +56,34 @@ export class Explorar {
     'Todas regiões'
   ];
 
-  causes = [
-    {
-      id: 1,
-      title: 'Abrigo para Animais de Rua',
-      description: 'Ajude a construir um abrigo para animais abandonados na região metropolitana...',
-      category: 'Animais',
-      image: 'rescue-pets.jpg',
-      goal: 50000,
-      raised: 32500,
-      location: 'São Paulo',
-      donors: 142,
-      urgent: true
-    },
-    
-  ];
-
   get filteredCauses() {
-    let results = [...this.causes];
+    let results = [...this.featuredCampaigns];
 
-    // Filtros
+    if (this.searchTerm.trim()) {
+      const keyword = this.searchTerm.trim().toLowerCase();
+      results = results.filter(c =>
+        c.titulo.toLowerCase().includes(keyword) ||
+        c.descricao.toLowerCase().includes(keyword)
+      );
+    }
+
     if (this.selectedTag) {
-      results = results.filter(c => c.category === this.selectedTag);
+      results = results.filter(c => c.categoria === this.selectedTag);
     }
 
     if (this.selectedCategories.length > 0) {
-      results = results.filter(c => this.selectedCategories.includes(c.category));
+      results = results.filter(c => this.selectedCategories.includes(c.categoria));
     }
 
     if (this.selectedLocation) {
-      results = results.filter(c => c.location === this.selectedLocation);
+      results = results.filter(c => c.local.cidade === this.selectedLocation);
     }
 
-    // Ordenação
     switch (this.sortOption) {
       case 'popular':
-        return results.sort((a, b) => b.donors - a.donors);
+        return results.sort((a, b) => (b.avaliacaoCount || 0) - (a.avaliacaoCount || 0));
       case 'urgent':
-        return results.sort((a, b) => (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0));
+        return results.sort((a, b) => new Date(a.dataFim).getTime() - new Date(b.dataFim).getTime());
       default:
         return results;
     }
@@ -100,18 +107,18 @@ export class Explorar {
 
   getCategoryColor(category: string) {
     const colors: Record<string, string> = {
-      'Animais': '#FF9A76',
-      'Crianças': '#6A8CAF',
-      'Educação': '#A7D7C5',
-      'Meio Ambiente': '#86C166',
-      'Saúde': '#F47C7C',
-      'Direitos Humanos': '#C4A7CB'
+      'alimentos': '#FF9A76',
+      'roupas': '#6A8CAF',
+      'dinheiro': '#A7D7C5',
+      'sangue': '#F47C7C',
+      'brinquedos': '#86C166',
+      'outros': '#C4A7CB'
     };
     return colors[category] || '#B08D57';
   }
 
-  viewCause(id: number) {
-    // Navegar para detalhes da causa
-    console.log('Visualizar causa:', id);
+  viewCause(id: string) {
+    console.log('Visualizar campanha:', id);
+    // Ex: navegar para detalhes da campanha com router
   }
 }
