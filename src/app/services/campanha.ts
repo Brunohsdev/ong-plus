@@ -1,36 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
-import { ModelCampanha } from '../models/campanha.models';
 import { Observable } from 'rxjs';
+import { ModelCampanha } from '../models/campanha.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CampaignService {
+  // Coloque a URL fixa da API aqui:
+  private apiUrl = 'http://localhost:3000/api/campanhas'; // ou sua URL real
+
   constructor(private http: HttpClient) {}
 
   getCampaigns(): Observable<ModelCampanha[]> {
-    return this.http.get<ModelCampanha[]>(`${environment.apiUrl}/campaigns`);
+    return this.http.get<ModelCampanha[]>(this.apiUrl);
   }
-
-  getFeaturedCampaigns(): Observable<ModelCampanha[]> {
-    return this.http.get<ModelCampanha[]>(`${environment.apiUrl}/campaigns/featured`);
-  }
-
   getCampaignById(id: string): Observable<ModelCampanha> {
-    return this.http.get<ModelCampanha>(`${environment.apiUrl}/campaigns/${id}`);
+    return this.http.get<ModelCampanha>(`${this.apiUrl}/campanhas/${id}`);
   }
 
-  createCampaign(campaignData: FormData): Observable<ModelCampanha> {
-    return this.http.post<ModelCampanha>(`${environment.apiUrl}/campaigns`, campaignData);
+  createCampaign(campaign: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/campaigns`, campaign);
   }
-
-  updateCampaign(id: string, campaignData: FormData): Observable<ModelCampanha> {
-    return this.http.put<ModelCampanha>(`${environment.apiUrl}/campaigns/${id}`, campaignData);
+  
+  updateCampaign(id: string, campaign: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/campanhas/${id}`, campaign);
   }
+  
 
   deleteCampaign(id: string): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/campaigns/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/campanhas/${id}`);
   }
 }

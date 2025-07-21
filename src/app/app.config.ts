@@ -12,9 +12,6 @@ import ptBr from '@angular/common/locales/pt';
 // NGX-Mask
 import { provideNgxMask } from 'ngx-mask';
 
-// Interceptors
-import { authInterceptor } from './intecerptors/auth.interceptor';
-import { errorInterceptor } from './intecerptors/error.interceptor';
 
 // Rotas
 import { routes } from './app.routes';
@@ -27,9 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(
-      withInterceptors([authInterceptor, errorInterceptor])
-    ),
+    provideHttpClient(),
     provideAnimations(),
 
     // Angular Material

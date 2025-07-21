@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <img src="pra-pagina-home.jpg" alt="Pessoas se ajudando" class="img-fluid">
+          <img src="pra-pagina-home.jpg" alt="Pessoas se ajudando" class="img-fluid" />
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
         <div class="col-lg-8">
           <h2 class="fw-bold mb-4">Nossa Missão</h2>
           <p class="lead text-muted">
-            "ONG+ é a ponte digital entre quem quer ajudar e quem precisa de ajuda. Facilitamos a conexão entre doadores, voluntários e organizações que transformam vidas diariamente."
+            ONG+ é a ponte digital entre quem quer ajudar e quem precisa de ajuda. Facilitamos a conexão entre doadores, voluntários e organizações que transformam vidas diariamente.
           </p>
           <a routerLink="/quem-somos" class="btn btn-outline-secondary mt-3">
             <i class="bi bi-info-circle me-2"></i>Conheça nossa história
@@ -41,51 +41,38 @@
     </div>
   </section>
 
-  <!-- Featured Campaigns -->
-  <section class="campaigns-section py-5 bg-light">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold">Campanhas em Destaque</h2>
-        <p class="text-muted">Causas que precisam do seu apoio agora</p>
-      </div>
 
-      <div class="row g-4">
-        <div class="col-md-4" *ngFor="let campaign of featuredCampaigns">
-          <div class="card h-100 border-0 shadow-sm hover-effect">
-            <div class="card-img-top-container">
-              <img [src]="campaign.image" class="card-img-top" [alt]="campaign.title">
-              <div class="campaign-badge" [ngClass]="'bg-' + campaign.badgeColor">
-                {{ campaign.category }}
-              </div>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title fw-bold">{{ campaign.title }}</h5>
-              <p class="card-text text-muted">{{ campaign.description }}</p>
-              <div class="progress mb-3">
-                <div class="progress-bar"
-                     [style.width]="(campaign.raised / campaign.goal * 100) + '%'"
-                     [ngClass]="'bg-' + campaign.badgeColor">
-                </div>
-              </div>
-              <div class="d-flex justify-content-between text-sm">
-                <span>Arrecadado: {{ campaign.raised | currency }}</span>
-                <span>Meta: {{ campaign.goal | currency }}</span>
-              </div>
-            </div>
-            <div class="card-footer bg-white border-0">
-              <a [routerLink]="['/campaign', campaign.id]" class="btn btn-sm w-100"
-                 [ngClass]="'btn-' + campaign.badgeColor">
-                Apoiar esta causa
-              </a>
-            </div>
+  <!-- Featured Campaigns -->
+<section class="campaigns-section py-5 bg-light" *ngIf="featuredCampaigns?.length">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let campaign of featuredCampaigns">
+        <div class="card mb-4 shadow-sm">
+          <img *ngIf="campaign.imagem" [src]="campaign.imagem" class="card-img-top" [alt]="campaign.titulo">
+
+          <div class="card-body">
+            <h5 class="card-title">{{ campaign.titulo }}</h5>
+            <p class="card-text">{{ campaign.descricao }}</p>
+            <span class="badge bg-{{ getBadgeColor(campaign.categoria) }}">{{ campaign.categoria }}</span>
+            <p class="mt-2">
+              Arrecadado: {{ campaign.arrecadado | currency:'BRL':'symbol-narrow' }} <br />
+              Meta: {{ campaign.meta | currency:'BRL':'symbol-narrow' }}
+            </p>
+          </div>
+          <div class="card-footer bg-white border-0">
+            <a [routerLink]="['/campaign', campaign._id]" class="btn btn-sm w-100"
+               [ngClass]="'btn-' + getBadgeColor(campaign.categoria)">
+              Apoiar esta causa
+            </a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- How It Works -->
-  <section class="how-it-works py-5">
+  <section class="how-it-works py-5" *ngIf="howItWorksSteps?.length">
     <div class="container">
       <div class="text-center mb-5">
         <h2 class="fw-bold">Como Funciona</h2>
@@ -105,36 +92,33 @@
       </div>
     </div>
   </section>
+  <!-- testemunhas Section -->
+<section class="testimonials-section py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">O que dizem sobre nós</h2>
+      <p class="text-muted">Depoimentos de quem já faz parte da mudança</p>
+    </div>
 
-  <!-- Testimonials -->
-  <section class="testimonials-section py-5 bg-light">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold">Quem já ajudou</h2>
-        <p class="text-muted">Veja o que estão falando sobre nós</p>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-md-4" *ngFor="let testimonial of testimonials">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="mb-4">
-                <i class="bi bi-quote display-5 text-muted opacity-25"></i>
-              </div>
-              <p class="card-text mb-4">{{ testimonial.text }}</p>
-              <div class="d-flex align-items-center">
-                <img [src]="testimonial.avatar" class="rounded-circle me-3" width="50" [alt]="testimonial.author">
-                <div>
-                  <h6 class="mb-0 fw-bold">{{ testimonial.author }}</h6>
-                  <small class="text-muted">{{ testimonial.role }}</small>
-                </div>
-              </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let testimonial of testimonials">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <p class="card-text fst-italic">“{{ testimonial.text }}”</p>
+          </div>
+          <div class="card-footer d-flex align-items-center bg-white border-0">
+            <img [src]="testimonial.avatar" alt="{{ testimonial.author }}" class="rounded-circle me-3" width="50" height="50">
+            <div>
+              <h6 class="mb-0 fw-bold">{{ testimonial.author }}</h6>
+              <small class="text-muted">{{ testimonial.role }}</small>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- CTA Section -->
   <section class="cta-section py-5 bg-primary text-white">

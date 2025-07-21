@@ -1,49 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { RouterModule } from '@angular/router';
 import { CommonModule, CurrencyPipe, NgClass } from '@angular/common';
-
+import { CampaignService } from '../../services/campanha';
+import { ModelCampanha } from '../../models/campanha.models';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, Footer, RouterModule, NgClass,CurrencyPipe, CommonModule ],
+  imports: [Header, Footer, RouterModule, NgClass, CurrencyPipe, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {
-featuredCampaigns = [
-    {
-      id: 1,
-      title: 'Doe Sangue, Salve Vidas',
-      description: 'Participe da campanha de doação de sangue e ajude hospitais a manter seus estoques.',
-      image: 'sangue.jpg',
-      category: 'Saúde',
-      goal: 10000,
-      raised: 6500,
-      badgeColor: 'danger'
-    },
-    {
-      id: 2,
-      title: 'Ajude com Alimentos',
-      description: 'Doe cestas básicas para famílias em situação de vulnerabilidade alimentar.',
-      image: 'doacao-de-alimentos.jpg',
-      category: 'Assistência',
-      goal: 20000,
-      raised: 12500,
-      badgeColor: 'success'
-    },
-    {
-      id: 3,
-      title: 'Acolhimento Animal',
-      description: 'Ajude abrigos a cuidar de animais abandonados com doações de ração e medicamentos.',
-      image: 'rescue-pets.jpg',
-      category: 'Animais',
-      goal: 8000,
-      raised: 3200,
-      badgeColor: 'warning'
-    }
-  ];
+export class Home implements OnInit {
+  featuredCampaigns: ModelCampanha[] = [];
+
+  constructor(private campaignService: CampaignService) {}
+
+  ngOnInit() {
+    this.campaignService.getCampaigns().subscribe({
+
+      next: (data) => { 
+        console.log("campanhas recebidas", data)
+        this.featuredCampaigns = data;},
+        error: (err) => console.error('Erro ao buscar campanhas:', err)
+      });
+  }
 
   howItWorksSteps = [
     {
@@ -86,4 +68,12 @@ featuredCampaigns = [
       avatar: 'carlos.jpg'
     }
   ];
+  getBadgeColor(categoria: string): string {
+    switch (categoria.toLowerCase()) {
+      case 'educação': return 'primary';
+      case 'meio ambiente': return 'success';
+      case 'saúde': return 'danger';
+      default: return 'secondary';
+    }
+  }
 }

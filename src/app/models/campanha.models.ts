@@ -13,7 +13,7 @@ export interface ModelCampanha {
   dataInicio: Date;
   dataFim: Date;
   status: 'ativa' | 'encerrada' | 'suspensa';
-  fotos: string[];
+  imagem: string[];
   local: {
     endereco: string;
     cidade: string;
