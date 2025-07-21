@@ -22,7 +22,7 @@ let doacoes = [];
 // ROTAS DE AUTENTICAÇÃO
 // ========================
 
-app.post("/api/auth/register", (req, res) => {
+app.post("/register", (req, res) => {
   const { email } = req.body;
   if (usuarios.find(u => u.email === email)) {
     return res.status(409).json({ message: "Usuário já existe" });
@@ -38,7 +38,7 @@ app.post("/api/auth/register", (req, res) => {
   res.status(201).json({ user: novoUsuario, token: "fake-token" });
 });
 
-app.post("/api/auth/login", (req, res) => {
+app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const usuario = usuarios.find(u => u.email === email && u.senha === password);
   if (!usuario) {
