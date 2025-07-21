@@ -8,6 +8,23 @@
 .hover-effect {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1); /* deixa branco se fundo for escuro */
+}
+
+.carousel-inner {
+  width: 100%;
+}
+
+.carousel-item {
+  width: 100%;
+}
+
+.carousel-item .card {
+  margin: 0 auto;
+}
+
 
 .hover-effect:hover {
   transform: translateY(-5px);

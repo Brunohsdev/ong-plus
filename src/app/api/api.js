@@ -124,7 +124,7 @@ campanhas = [
     {
       id: 5,
       titulo: 'Tecnologia para inclusão',
-      descricao: 'Leve cursos de informática para jovens em situação de vulnerabilidade.',
+      descricao: 'Leve cursos de informática para jovens em vulnerabilidade.',
       ong: 'IncluirTech',
       categoria: 'tecnologia',
       imagem: 'http://localhost:3000/imagens/inclusao.jpg'

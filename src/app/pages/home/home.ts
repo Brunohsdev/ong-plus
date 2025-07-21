@@ -14,19 +14,28 @@ import { ModelCampanha } from '../../models/campanha.models';
 })
 export class Home implements OnInit {
   featuredCampaigns: ModelCampanha[] = [];
+   groupedCampaigns: ModelCampanha[][] = [];
 
   constructor(private campaignService: CampaignService) {}
 
   ngOnInit() {
     this.campaignService.getCampaigns().subscribe({
 
-      next: (data) => { 
+      next: (data) => {
         console.log("campanhas recebidas", data)
-        this.featuredCampaigns = data;},
+        this.featuredCampaigns = data;
+       this.groupedCampaigns = this.groupArray(this.featuredCampaigns, 3);
+      },
         error: (err) => console.error('Erro ao buscar campanhas:', err)
       });
   }
-
+  groupArray(arr: any[], size: number) {
+    const newArr = [];
+    for (let i = 0; i < arr.length; i += size) {
+      newArr.push(arr.slice(i, i + size));
+    }
+    return newArr;
+  }
   howItWorksSteps = [
     {
       title: 'Explore',

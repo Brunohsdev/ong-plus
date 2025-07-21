@@ -45,31 +45,58 @@
   <!-- Featured Campaigns -->
 <section class="campaigns-section py-5 bg-light" *ngIf="featuredCampaigns?.length">
   <div class="container">
-    <div class="row">
-      <div class="col-md-4" *ngFor="let campaign of featuredCampaigns">
-        <div class="card mb-4 shadow-sm">
-          <img *ngIf="campaign.imagem" [src]="campaign.imagem" class="card-img-top" [alt]="campaign.titulo">
+    <h2 class="fw-bold mb-4 text-center">Campanhas em Destaque</h2>
 
-          <div class="card-body">
-            <h5 class="card-title">{{ campaign.titulo }}</h5>
-            <p class="card-text">{{ campaign.descricao }}</p>
-            <span class="badge bg-{{ getBadgeColor(campaign.categoria) }}">{{ campaign.categoria }}</span>
-            <p class="mt-2">
-              Arrecadado: {{ campaign.arrecadado | currency:'BRL':'symbol-narrow' }} <br />
-              Meta: {{ campaign.meta | currency:'BRL':'symbol-narrow' }}
-            </p>
+    <div id="campaignCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <div
+          class="carousel-item"
+          *ngFor="let campaign of featuredCampaigns; let i = index"
+          [class.active]="i === 0">
+
+          <div class="d-flex justify-content-center">
+            <div class="card mb-4 shadow-sm" style="max-width: 600px; width: 100%;">
+              <img *ngIf="campaign.imagem" [src]="campaign.imagem" class="card-img-top" [alt]="campaign.titulo">
+
+              <div class="card-body">
+                <h5 class="card-title">{{ campaign.titulo }}</h5>
+                <p class="card-text">{{ campaign.descricao }}</p>
+                <span class="badge bg-{{ getBadgeColor(campaign.categoria) }}">{{ campaign.categoria }}</span>
+                <p class="mt-2">
+                  Arrecadado: {{ campaign.arrecadado | currency:'BRL':'symbol-narrow' }} <br />
+                  Meta: {{ campaign.meta | currency:'BRL':'symbol-narrow' }}
+                </p>
+              </div>
+
+              <div class="card-footer bg-white border-0">
+                <a [routerLink]="['/campaign', campaign._id]" class="btn btn-sm w-100"
+                   [ngClass]="'btn-' + getBadgeColor(campaign.categoria)">
+                  Apoiar esta causa
+                </a>
+              </div>
+            </div>
           </div>
-          <div class="card-footer bg-white border-0">
-            <a [routerLink]="['/campaign', campaign._id]" class="btn btn-sm w-100"
-               [ngClass]="'btn-' + getBadgeColor(campaign.categoria)">
-              Apoiar esta causa
-            </a>
-          </div>
+
         </div>
+
       </div>
+
+      <!-- Controles -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#campaignCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+
+      <button class="carousel-control-next" type="button" data-bs-target="#campaignCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Próximo</span>
+      </button>
     </div>
   </div>
 </section>
+
+
 
   <!-- How It Works -->
   <section class="how-it-works py-5" *ngIf="howItWorksSteps?.length">
