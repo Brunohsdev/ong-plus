@@ -16,7 +16,7 @@ import { Header } from '../../components/header/header';
     RouterModule, 
     FormOng, 
     FormDoador,
-    Header
+    Header,
   Footer],
   templateUrl: './cadastro.html',
   styleUrls: ['./cadastro.css']
