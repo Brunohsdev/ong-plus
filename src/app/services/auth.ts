@@ -8,7 +8,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/login'; // ou sua URL real
+  private apiUrl = '//jogando-a-vera-com-o-ong-plus.vercel.app/api/campanhas';
   private currentUser = signal<User | null>(null);
 
   constructor(private http: HttpClient) {
