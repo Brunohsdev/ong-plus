@@ -90,54 +90,57 @@ app.delete("/api/campanhas/:id", (req, res) => {
 // CAMPANHAS MODELO COMPLETO
 campanhas = [
   {
-    _id: uuidv4(),
+    id: 1,
     titulo: 'Doe sangue, salve vidas',
     descricao: 'Campanha de doação de sangue para hospitais da região.',
-    ong: {
-      _id: uuidv4(),
-      nome: 'Vida+, Saúde',
-      logo: ''
-    },
-    categoria: 'sangue',
-    meta: 100,
-    arrecadado: 0,
-    dataInicio: new Date('2025-07-01'),
-    dataFim: new Date('2025-08-01'),
-    status: 'ativa',
-    imagem: ['http://localhost:3000/imagens/sangue.jpg'],
-    local: {
-      endereco: 'Rua da Vida, 100',
-      cidade: 'Salvador',
-      estado: 'BA'
-    },
-    avaliacaoMedia: 0,
-    avaliacaoCount: 0
+    ong: 'Vida+, Saúde',
+    categoria: 'saude',
+    imagem: 'http://localhost:3000/imagens/sangue.jpg'
   },
   {
-    _id: uuidv4(),
+    id: 2,
     titulo: 'Educação para Todos',
     descricao: 'Ajude a fornecer material escolar para crianças carentes.',
-    ong: {
-      _id: uuidv4(),
-      nome: 'Educar ONG',
-      logo: ''
-    },
-    categoria: 'outros',
-    meta: 200,
-    arrecadado: 0,
-    dataInicio: new Date('2025-07-01'),
-    dataFim: new Date('2025-08-15'),
-    status: 'ativa',
-    imagem: ['http://localhost:3000/imagens/educacao.jpg'],
-    local: {
-      endereco: 'Rua da Educação, 50',
-      cidade: 'Feira de Santana',
-      estado: 'BA'
-    },
-    avaliacaoMedia: 0,
-    avaliacaoCount: 0
+    ong: 'Educar ONG',
+    categoria: 'educacao',
+    imagem: 'http://localhost:3000/imagens/educacao.jpg'
+  },
+  {
+    id: 3,
+    titulo: 'Reflorestamento do Cerrado',
+    descricao: 'Participe do plantio de árvores no cerrado matogrossense.',
+    ong: 'Verde Novo',
+    categoria: 'meio ambiente',
+    imagem: 'http://localhost:3000/imagens/cerrado.jpg'
+  },
+  {
+    id: 4,
+    titulo: 'Acolhimento animal',
+    descricao: 'Ajude na vacinação e resgate de animais de rua.',
+    ong: 'Pet Feliz',
+    categoria: 'animais',
+    imagem: 'http://localhost:3000/imagens/rescue-pets.jpg'
+  },
+  {
+    id: 5,
+    titulo: 'Tecnologia para inclusão',
+    descricao: 'Leve cursos de informática para jovens em vulnerabilidade.',
+    ong: 'IncluirTech',
+    categoria: 'tecnologia',
+    imagem: 'http://localhost:3000/imagens/inclusao.jpg'
+  },
+  {
+    id: 6,
+    titulo: 'Apoio à saúde mental',
+    descricao: 'Grupo de apoio gratuito com psicólogos voluntários.',
+    ong: 'Mente em Paz',
+    categoria: 'saude',
+    imagem: 'http://localhost:3000/imagens/saude-mental.jpg'
   }
 ];
+
+
+
 
 // ========================
 // ROTAS DE DOAÇÕES
