@@ -2,9 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+const serverless = require("serverless-http"); // IMPORTANTE
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 
 app.use(cors());
 app.use(express.json());
@@ -163,6 +165,5 @@ app.post("/api/donations", (req, res) => {
 // INICIAR SERVIDOR
 // ========================
 
-app.listen(PORT, () => {
-  console.log(`API rodando em http://localhost:${PORT}/api`);
-});
+module.exports = app;
+module.exports.handler = serverless(app); // <-- ISSO É ESSENCIAL!
