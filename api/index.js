@@ -136,8 +136,7 @@ campanhas = [
     },
     avaliacaoMedia: 0,
     avaliacaoCount: 0
-  },
-  
+  }
 ];
 
 // ========================
