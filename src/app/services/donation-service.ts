@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
 import { Donation } from '../models/donation.model';
 import { Observable } from 'rxjs';
 
@@ -8,13 +7,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DonationService {
+  private apiUrl = 'http://localhost:3000/api/donations'; // ou sua URL real
   constructor(private http: HttpClient) {}
 
   getDonations(): Observable<Donation[]> {
-    return this.http.get<Donation[]>(`${environment.apiUrl}/donations`);
+    return this.http.get<Donation[]>(`${this.apiUrl}/donations`);
   }
 
   createDonation(donation: Donation): Observable<Donation> {
-    return this.http.post<Donation>(`${environment.apiUrl}/donations`, donation);
+    return this.http.post<Donation>(`${this.apiUrl}/donations`, donation);
   }
 }

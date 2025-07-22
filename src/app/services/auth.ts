@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
+
 import { User } from '../models/user.model';
 import { Observable, tap } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = 'http://localhost:3000/api/login'; // ou sua URL real
   private currentUser = signal<User | null>(null);
 
   constructor(private http: HttpClient) {
@@ -19,7 +20,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<{ user: User, token: string }> {
-    return this.http.post<{ user: User, token: string }>(`${environment.apiUrl}/auth/login`, { email, password })
+    return this.http.post<{ user: User, token: string }>(`${this.apiUrl}/auth/login`, { email, password })
       .pipe(
         tap(response => {
           this.setCurrentUser(response.user, response.token);
@@ -28,7 +29,7 @@ export class AuthService {
   }
 
   register(userData: any): Observable<{ user: User, token: string }> {
-    return this.http.post<{ user: User, token: string }>(`${environment.apiUrl}/auth/register`, userData)
+    return this.http.post<{ user: User, token: string }>(`${this.apiUrl}/auth/register`, userData)
       .pipe(
         tap(response => {
           this.setCurrentUser(response.user, response.token);
