@@ -110,18 +110,17 @@
   font-weight: 500;
   font-size: 0.9rem;
 }
-
-.input-with-icon {
-  position: relative;
-}
-
-.input-with-icon i {
+.input-with-icon i.bi-envelope {
   position: absolute;
-  left: 1rem;
+  left: 12px;
+  font-size: 1.1rem;
+  color: #666;
   top: 50%;
   transform: translateY(-50%);
-  color: #6c757d;
+  pointer-events: none;
 }
+
+
 
 .input-with-icon input {
   width: 100%;
@@ -154,15 +153,46 @@
   align-items: center;
 }
 
-.input-with-icon input {
+.input-with-icon i.bi-lock {
+  position: absolute;
+  left: 14px;
+  font-size: 1.1rem;
+  color: #666;
+  pointer-events: none;
+}
+
+.password-input {
   width: 100%;
-  padding: 10px 40px 10px 40px; /* espaço para os ícones */
+  padding: 10px 40px 10px 40px; /* ícone de cadeado e olho */
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: #fff;
   color: #000;
   font-size: 1rem;
 }
+
+.password-input:focus {
+  outline: none;
+  border-color: #B08D57;
+  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.1);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 1.2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 .input-with-icon i.bi-lock {
   position: absolute;
@@ -268,10 +298,35 @@
 .signup-link a:hover {
   text-decoration: underline;
 }
-
-.erro{
-  color: red;
+input.ng-invalid.ng-touched {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
 }
+
+.erro {
+  background-color: #ffe5e5;
+  color: #d9534f;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animação opcional para entrada suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 768px) {
   .login-content {
     padding: 1rem;

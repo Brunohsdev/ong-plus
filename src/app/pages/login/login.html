@@ -23,7 +23,7 @@
      <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
   <!-- Campo de e-mail -->
   <div class="form-group">
-    <label for="email">E-mail</label>
+    <label for="email">E-mail*</label>
     <div class="input-with-icon">
       <i class="bi bi-envelope"></i>
       <input
@@ -37,30 +37,31 @@
     </div>
   </div>
 
-  <!-- Campo de senha -->
-  <div class="form-group">
-    <label for="password">Senha</label>
-    <div class="input-with-icon">
-      <i class="bi bi-lock"></i>
-      <input
-        id="password"
-        name="senha"
-        [type]="hidePassword ? 'password' : 'text'"
-        [(ngModel)]="senha"
-        placeholder="Sua senha"
-        autocomplete="current-password"
-        required
-        />
-         <button
+<div class="form-group">
+  <label for="password">Senha*</label>
+  <div class="input-with-icon">
+    <i class="bi bi-lock"></i>
+    <input
+      id="password"
+      name="senha"
+      [type]="hidePassword ? 'password' : 'text'"
+      [(ngModel)]="senha"
+      placeholder="Sua senha"
+      autocomplete="current-password"
+      required
+      class="password-input"
+    />
+    <button
       type="button"
       class="toggle-password"
       (click)="hidePassword = !hidePassword"
+      aria-label="Mostrar/ocultar senha"
     >
       <i class="bi" [ngClass]="hidePassword ? 'bi-eye-slash' : 'bi-eye'"></i>
     </button>
-
-    </div>
   </div>
+</div>
+
 
 
         <!-- Opções extras -->
