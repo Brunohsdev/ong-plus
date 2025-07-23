@@ -8,7 +8,7 @@ import { ModelCampanha } from '../models/campanha.models';
 })
 export class CampaignService {
   // ✅ Substitua pela URL da API publicada no Vercel (sem barra no final)
-  private readonly baseUrl = 'https://jogando-a-vera-com-o-ong-plus.vercel.app/api/';
+  private readonly baseUrl = 'https://jogando-a-vera-com-o-ong-plus.vercel.app/api/campanhas';
 
   constructor(private http: HttpClient) {}
 
