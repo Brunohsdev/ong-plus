@@ -109,7 +109,7 @@ campanhas = [
     {
       id: 3,
       titulo: 'Reflorestamento do Cerrado',
-      descricao: 'Participe do plantio de árvores no cerrado matogrossense.',
+      descricao: 'Participe do plantio de árvores no cerrado.',
       ong: 'Verde Novo',
       categoria: 'meio ambiente',
       imagem: 'http://localhost:3000/imagens/cerrado.jpg'
