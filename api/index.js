@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const serverless = require("serverless-http"); // IMPORTANTE
-
+app.use(cors());
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -11,6 +11,25 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
+
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+const allowedOrigins = [
+  'https://ongplus.com',
+  'https://app.ongplus.com'
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  }
+}));
 
 // ========================
 // DADOS EM MEMÓRIA

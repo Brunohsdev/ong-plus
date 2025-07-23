@@ -8,7 +8,7 @@ import { ModelCampanha } from '../models/campanha.models';
 })
 export class CampaignService {
   // Coloque a URL fixa da API aqui:
-  private apiUrl = 'https://jogando-a-vera-com-o-ong-plus-h6qkn4tof-brunohsdevs-projects.vercel.app';
+  private apiUrl = '';
 
   constructor(private http: HttpClient) {}
 
