@@ -2,34 +2,23 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-const serverless = require("serverless-http"); // IMPORTANTE
-app.use(cors());
+const serverless = require("serverless-http");
+
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-
+// ✅ CORS liberado (desenvolvimento)
 app.use(cors());
+
+// ✅ Ou, se quiser mais controle, pode usar isso no lugar:
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
-
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-const allowedOrigins = [
-  'https://ongplus.com',
-  'https://app.ongplus.com'
-];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error('Not allowed by CORS'));
-  }
-}));
 
 // ========================
 // DADOS EM MEMÓRIA
@@ -41,7 +30,6 @@ let doacoes = [];
 // ========================
 // ROTAS DE AUTENTICAÇÃO
 // ========================
-
 app.post("/register", (req, res) => {
   const { email } = req.body;
   if (usuarios.find(u => u.email === email)) {
@@ -70,7 +58,6 @@ app.post("/login", (req, res) => {
 // ========================
 // ROTAS DE CAMPANHAS
 // ========================
-
 app.get("/campanhas", (req, res) => {
   res.json(campanhas);
 });
@@ -106,70 +93,68 @@ app.delete("/campanhas/:id", (req, res) => {
   res.status(204).send();
 });
 
-// CAMPANHAS MODELO COMPLETO
+// ========================
+// CAMPANHAS MODELO
+// ========================
 campanhas = [
   {
-    id: 1,
+    _id: uuidv4(),
     titulo: 'Doe sangue, salve vidas',
     descricao: 'Campanha de doação de sangue para hospitais da região.',
     ong: 'Vida+, Saúde',
     categoria: 'saude',
-    imagem: 'http://localhost:3000/imagens/sangue.jpg'
+    imagem: '/imagens/sangue.jpg'
   },
   {
-    id: 2,
+    _id: uuidv4(),
     titulo: 'Educação para Todos',
     descricao: 'Ajude a fornecer material escolar para crianças carentes.',
     ong: 'Educar ONG',
     categoria: 'educacao',
-    imagem: 'http://localhost:3000/imagens/educacao.jpg'
+    imagem: '/imagens/educacao.jpg'
   },
   {
-    id: 3,
+    _id: uuidv4(),
     titulo: 'Reflorestamento do Cerrado',
     descricao: 'Participe do plantio de árvores no cerrado matogrossense.',
     ong: 'Verde Novo',
     categoria: 'meio ambiente',
-    imagem: 'http://localhost:3000/imagens/cerrado.jpg'
+    imagem: '/imagens/cerrado.jpg'
   },
   {
-    id: 4,
+    _id: uuidv4(),
     titulo: 'Acolhimento animal',
     descricao: 'Ajude na vacinação e resgate de animais de rua.',
     ong: 'Pet Feliz',
     categoria: 'animais',
-    imagem: 'http://localhost:3000/imagens/rescue-pets.jpg'
+    imagem: '/imagens/rescue-pets.jpg'
   },
   {
-    id: 5,
+    _id: uuidv4(),
     titulo: 'Tecnologia para inclusão',
     descricao: 'Leve cursos de informática para jovens em vulnerabilidade.',
     ong: 'IncluirTech',
     categoria: 'tecnologia',
-    imagem: 'http://localhost:3000/imagens/inclusao.jpg'
+    imagem: '/imagens/inclusao.jpg'
   },
   {
-    id: 6,
+    _id: uuidv4(),
     titulo: 'Apoio à saúde mental',
     descricao: 'Grupo de apoio gratuito com psicólogos voluntários.',
     ong: 'Mente em Paz',
     categoria: 'saude',
-    imagem: 'http://localhost:3000/imagens/saude-mental.jpg'
+    imagem: '/imagens/saude-mental.jpg'
   }
 ];
-
-
-
 
 // ========================
 // ROTAS DE DOAÇÕES
 // ========================
-
-app.get("/api/donations", (req, res) => {
+app.get("/donations", (req, res) => {
   res.json(doacoes);
 });
 
-app.post("/api/donations", (req, res) => {
+app.post("/donations", (req, res) => {
   const nova = {
     _id: uuidv4(),
     dataDoacao: new Date(),
@@ -184,8 +169,7 @@ app.post("/api/donations", (req, res) => {
 });
 
 // ========================
-// INICIAR SERVIDOR
+// EXPORTAÇÃO PARA VERCEL
 // ========================
-
 module.exports = app;
-module.exports.handler = serverless(app); // <-- ISSO É ESSENCIAL!
+module.exports.handler = serverless(app);
