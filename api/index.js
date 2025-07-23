@@ -52,17 +52,17 @@ app.post("/login", (req, res) => {
 // ROTAS DE CAMPANHAS
 // ========================
 
-app.get("/api/campanhas", (req, res) => {
+app.get("/campanhas", (req, res) => {
   res.json(campanhas);
 });
 
-app.get("/api/campanhas/:id", (req, res) => {
+app.get("/campanhas/:id", (req, res) => {
   const campanha = campanhas.find(c => c._id === req.params.id);
   if (!campanha) return res.status(404).json({ message: "Campanha não encontrada" });
   res.json(campanha);
 });
 
-app.post("/api/campanhas", (req, res) => {
+app.post("/campanhas", (req, res) => {
   const nova = {
     _id: uuidv4(),
     arrecadado: 0,
@@ -75,14 +75,14 @@ app.post("/api/campanhas", (req, res) => {
   res.status(201).json(nova);
 });
 
-app.put("/api/campanhas/:id", (req, res) => {
+app.put("/campanhas/:id", (req, res) => {
   const index = campanhas.findIndex(c => c._id === req.params.id);
   if (index === -1) return res.status(404).json({ message: "Campanha não encontrada" });
   campanhas[index] = { ...campanhas[index], ...req.body };
   res.json(campanhas[index]);
 });
 
-app.delete("/api/campanhas/:id", (req, res) => {
+app.delete("/campanhas/:id", (req, res) => {
   campanhas = campanhas.filter(c => c._id !== req.params.id);
   res.status(204).send();
 });

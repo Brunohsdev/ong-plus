@@ -8,7 +8,7 @@ import { ModelCampanha } from '../models/campanha.models';
 })
 export class CampaignService {
   // Coloque a URL fixa da API aqui:
-  private apiUrl = '//jogando-a-vera-com-o-ong-plus.vercel.app/api/campanhas';
+  private apiUrl = 'https://jogando-a-vera-com-o-ong-plus.vercel.app/api';
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,7 @@ export class CampaignService {
   }
 
   createCampaign(campaign: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/campaigns`, campaign);
+    return this.http.post(`${this.apiUrl}/campanhas`, campaign);
   }
   
   updateCampaign(id: string, campaign: FormData): Observable<any> {
