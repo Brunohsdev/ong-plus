@@ -2,12 +2,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ModelCampanha } from '../../models/campanha.models';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
+import { Doacao } from '../../pages/doacao/doacao';
 
 @Component({
   selector: 'app-campaign-card',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, Doacao, RouterLink],
   templateUrl: './cards.html',
   styleUrls: ['./cards.css']
 })
