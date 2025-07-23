@@ -22,8 +22,9 @@ export class Home implements OnInit {
     this.campaignService.getCampaigns().subscribe({
 
       next: (data) => {
+        const shuffled = [...data].sort(() => 0.5 - Math.random());
         console.log("campanhas recebidas", data)
-        this.featuredCampaigns = data;
+        this.featuredCampaigns = shuffled.slice(0, 3);
        this.groupedCampaigns = this.groupArray(this.featuredCampaigns, 3);
       },
         error: (err) => console.error('Erro ao buscar campanhas:', err)
@@ -78,11 +79,45 @@ export class Home implements OnInit {
     }
   ];
   getBadgeColor(categoria: string): string {
-    switch (categoria.toLowerCase()) {
-      case 'educação': return 'primary';
-      case 'meio ambiente': return 'success';
-      case 'saúde': return 'danger';
-      default: return 'secondary';
+    // Primeiro converte para minúsculas para comparação
+    const categoriaLower = categoria.toLowerCase();
+    
+    switch (categoriaLower) {
+      case 'saúde':        // #4E9F3D → Verde (success)
+        return 'success';
+      
+      case 'educação':     // #1E5128 → Verde escuro (não tem exato, usar success)
+        return 'success';
+      
+      case 'meio ambiente': // #3E7C17 → Verde (success)
+        return 'success';
+      
+      case 'tecnologia':    // #191A19 → Quase preto (dark)
+        return 'dark';
+      
+      case 'animais':       // #D8E9A8 → Verde claro (não tem exato, usar success com opacidade)
+        return 'success';    // Ou criar uma classe customizada
+      
+      case 'alimentos':     // #FF9A76 → Laranja (warning)
+        return 'warning';
+      
+      case 'roupas':        // #6A8CAF → Azul (info)
+        return 'info';
+      
+      case 'dinheiro':      // #A7D7C5 → Verde água (não tem exato, info)
+        return 'info';
+      
+      case 'sangue':        // #F47C7C → Vermelho (danger)
+        return 'danger';
+      
+      case 'brinquedos':    // #86C166 → Verde (success)
+        return 'success';
+      
+      case 'outros':        // #C4A7CB → Lilás (não tem exato, secondary)
+        return 'secondary';
+      
+      default:
+        return 'secondary';
     }
   }
 }
