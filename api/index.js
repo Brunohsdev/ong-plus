@@ -1,28 +1,20 @@
+
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-const serverless = require("serverless-http");
 
 const app = express();
+const PORT = 3000;
 
-// ✅ CORS liberado (desenvolvimento)
 app.use(cors());
-
-// ✅ Ou, se quiser mais controle, pode usar isso no lugar:
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   next();
-// });
-
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // ========================
 // DADOS EM MEMÓRIA
 // ========================
+
 let usuarios = [];
 let campanhas = [];
 let doacoes = [];
@@ -30,6 +22,7 @@ let doacoes = [];
 // ========================
 // ROTAS DE AUTENTICAÇÃO
 // ========================
+
 app.post("/register", (req, res) => {
   const { email } = req.body;
   if (usuarios.find(u => u.email === email)) {
@@ -58,17 +51,18 @@ app.post("/login", (req, res) => {
 // ========================
 // ROTAS DE CAMPANHAS
 // ========================
-app.get("/campanhas", (req, res) => {
+
+app.get("/api/campanhas", (req, res) => {
   res.json(campanhas);
 });
 
-app.get("/campanhas/:id", (req, res) => {
+app.get("/api/campanhas/:id", (req, res) => {
   const campanha = campanhas.find(c => c._id === req.params.id);
   if (!campanha) return res.status(404).json({ message: "Campanha não encontrada" });
   res.json(campanha);
 });
 
-app.post("/campanhas", (req, res) => {
+app.post("/api/campanhas", (req, res) => {
   const nova = {
     _id: uuidv4(),
     arrecadado: 0,
@@ -81,95 +75,106 @@ app.post("/campanhas", (req, res) => {
   res.status(201).json(nova);
 });
 
-app.put("/campanhas/:id", (req, res) => {
+app.put("/api/campanhas/:id", (req, res) => {
   const index = campanhas.findIndex(c => c._id === req.params.id);
   if (index === -1) return res.status(404).json({ message: "Campanha não encontrada" });
   campanhas[index] = { ...campanhas[index], ...req.body };
   res.json(campanhas[index]);
 });
 
-app.delete("/campanhas/:id", (req, res) => {
+app.delete("/api/campanhas/:id", (req, res) => {
   campanhas = campanhas.filter(c => c._id !== req.params.id);
   res.status(204).send();
 });
 
-// ========================
-// CAMPANHAS MODELO
-// ========================
+
+
 campanhas = [
-  {
-    _id: uuidv4(),
-    titulo: 'Doe sangue, salve vidas',
-    descricao: 'Campanha de doação de sangue para hospitais da região.',
-    ong: 'Vida+, Saúde',
-    categoria: 'saude',
-    imagem: '/imagens/sangue.jpg'
-  },
-  {
-    _id: uuidv4(),
-    titulo: 'Educação para Todos',
-    descricao: 'Ajude a fornecer material escolar para crianças carentes.',
-    ong: 'Educar ONG',
-    categoria: 'educacao',
-    imagem: '/imagens/educacao.jpg'
-  },
-  {
-    _id: uuidv4(),
-    titulo: 'Reflorestamento do Cerrado',
-    descricao: 'Participe do plantio de árvores no cerrado matogrossense.',
-    ong: 'Verde Novo',
-    categoria: 'meio ambiente',
-    imagem: '/imagens/cerrado.jpg'
-  },
-  {
-    _id: uuidv4(),
-    titulo: 'Acolhimento animal',
-    descricao: 'Ajude na vacinação e resgate de animais de rua.',
-    ong: 'Pet Feliz',
-    categoria: 'animais',
-    imagem: '/imagens/rescue-pets.jpg'
-  },
-  {
-    _id: uuidv4(),
-    titulo: 'Tecnologia para inclusão',
-    descricao: 'Leve cursos de informática para jovens em vulnerabilidade.',
-    ong: 'IncluirTech',
-    categoria: 'tecnologia',
-    imagem: '/imagens/inclusao.jpg'
-  },
-  {
-    _id: uuidv4(),
-    titulo: 'Apoio à saúde mental',
-    descricao: 'Grupo de apoio gratuito com psicólogos voluntários.',
-    ong: 'Mente em Paz',
-    categoria: 'saude',
-    imagem: '/imagens/saude-mental.jpg'
-  }
-];
+    {
+      id: 1,
+      titulo: 'Doe sangue, salve vidas',
+      descricao: 'Campanha de doação de sangue para hospitais da região.',
+      ong: 'Vida+, Saúde',
+      categoria: 'saúde',
+      imagem: 'http://localhost:3000/imagens/sangue.jpg'
+    },
+    {
+      id: 2,
+      titulo: 'Educação para Todos',
+      descricao: 'Ajude a fornecer material escolar para crianças carentes.',
+      ong: 'Educar ONG',
+      categoria: 'educação',
+      imagem: 'http://localhost:3000/imagens/educacao.jpg'
+    },
+    {
+      id: 3,
+      titulo: 'Reflorestamento do Cerrado',
+      descricao: 'Participe do plantio de árvores no cerrado matogrossense.',
+      ong: 'Verde Novo',
+      categoria: 'meio ambiente',
+      imagem: 'http://localhost:3000/imagens/cerrado.jpg'
+    },
+    {
+      id: 4,
+      titulo: 'Acolhimento animal',
+      descricao: 'Ajude na vacinação e resgate de animais de rua.',
+      ong: 'Pet Feliz',
+      categoria: 'animais',
+      imagem: 'http://localhost:3000/imagens/rescue-pets.jpg'
+    },
+    {
+      id: 5,
+      titulo: 'Tecnologia para inclusão',
+      descricao: 'Leve cursos de informática para jovens em vulnerabilidade.',
+      ong: 'IncluirTech',
+      categoria: 'tecnologia',
+      imagem: 'http://localhost:3000/imagens/inclusao.jpg'
+    },
+    {
+      id: 6,
+      titulo: 'Apoio à saúde mental',
+      descricao: 'Grupo de apoio gratuito com psicólogos voluntários.',
+      ong: 'Mente em Paz',
+      categoria: 'saúde',
+      imagem: 'http://localhost:3000/imagens/saude-mental.jpg'
+    }
+  ];
+
+
+
+
+
+
+
+
+
+
 
 // ========================
 // ROTAS DE DOAÇÕES
 // ========================
-app.get("/donations", (req, res) => {
+
+app.get("/api/donations", (req, res) => {
   res.json(doacoes);
 });
 
-app.post("/donations", (req, res) => {
+app.post("/api/donations", (req, res) => {
   const nova = {
     _id: uuidv4(),
     dataDoacao: new Date(),
     ...req.body
   };
   doacoes.push(nova);
-
+  // Atualizar valor arrecadado
   const campanha = campanhas.find(c => c._id === nova.campanha._id);
   if (campanha) campanha.arrecadado += nova.valor;
-
   res.status(201).json(nova);
 });
 
 // ========================
-// EXPORTAÇÃO PARA VERCEL
+// INICIAR SERVIDOR
 // ========================
-module.exports = app;
-module.exports.handler = serverless(app);
+
+app.listen(PORT, () => {
+  console.log(`API rodando em http://localhost:${PORT}/api`);
+});

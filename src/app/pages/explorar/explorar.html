@@ -1,22 +1,23 @@
+<!-- explorar.html -->
 <app-header></app-header>
 
 <div class="explore-container">
   <!-- Hero Section -->
   <section class="explore-hero">
     <div class="hero-content">
-      <h1>Encontre sua causa</h1>
-      <p class="lead">Conecte-se com organizações que precisam da sua ajuda</p>
-
+      <h1>Descubra Causas que Merecem Seu Apoio</h1>
+      <p class="lead">Conectamos você às melhores campanhas de arrecadação com transparência e impacto real</p>
+      
       <div class="search-container">
         <div class="search-input">
           <i class="bi bi-search"></i>
-          <input
-            type="text"
-            placeholder="Buscar por palavras-chave..."
-            [(ngModel)]="searchTerm">
+          <input type="text" placeholder="Buscar campanhas..." [(ngModel)]="searchTerm">
+          <button class="btn-search">Buscar</button>
         </div>
+        
         <div class="search-tags">
-          <span class="tag" *ngFor="let tag of popularTags"
+          <span *ngFor="let tag of popularTags" 
+                class="tag" 
                 [class.active]="selectedTag === tag"
                 (click)="selectTag(tag)">
             {{tag}}
@@ -29,28 +30,37 @@
   <!-- Filtros -->
   <section class="filters-section">
     <div class="filter-toggle" (click)="toggleFilters()">
-      <i class="bi bi-funnel"></i> Filtros
-      <i class="bi" [class.bi-chevron-down]="!showFilters" [class.bi-chevron-up]="showFilters"></i>
+      <i class="bi bi-funnel" [class.rotated]="showFilters"></i>
+      <span>Filtrar Campanhas</span>
     </div>
-
+    
     <div class="filters-content" *ngIf="showFilters">
       <div class="filter-group">
-        <h4>Categoria</h4>
+        <h4>Categorias</h4>
         <div class="filter-options">
           <label *ngFor="let category of categories">
-            <input type="checkbox"
+            <input type="checkbox" 
                    [checked]="selectedCategories.includes(category)"
                    (change)="toggleCategory(category)">
             {{category}}
           </label>
         </div>
       </div>
-
+      
       <div class="filter-group">
         <h4>Localização</h4>
         <select class="form-select" [(ngModel)]="selectedLocation">
-          <option value="">Todas regiões</option>
+          <option value="">Todas localizações</option>
           <option *ngFor="let location of locations" [value]="location">{{location}}</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <h4>Ordenar por</h4>
+        <select class="form-select" [(ngModel)]="sortOption">
+          <option value="recent">Mais recentes</option>
+          <option value="popular">Mais populares</option>
+          <option value="urgent">Mais urgentes</option>
         </select>
       </div>
     </div>
@@ -59,53 +69,36 @@
   <!-- Resultados -->
   <section class="results-section">
     <div class="results-header">
-      <h2>{{filteredCauses.length}} campanhas encontradas</h2>
-
+      <h2>{{filteredCauses.length}} campanhas premium encontradas</h2>
+      <div class="sort-options">
+        <select class="form-select" [(ngModel)]="sortOption">
+          <option value="recent">Mais recentes</option>
+          <option value="popular">Mais populares</option>
+          <option value="urgent">Mais urgentes</option>
+        </select>
+      </div>
     </div>
 
-    <div class="causes-grid">
-      <div class="cause-card" *ngFor="let cause of filteredCauses" (click)="viewCause(cause._id)">
-        <div class="cause-image">
-          <img [src]="cause.imagem" [alt]="cause.titulo">
-          <div class="cause-category" [style.backgroundColor]="getCategoryColor(cause.categoria)">
-            {{cause.categoria}}
-          </div>
-        </div>
+    <div class="premium-causes-grid">
+      <app-campaign-card 
+        *ngFor="let cause of filteredCauses" 
+        [campaign]="cause"
+        (donate)="handleDonate($event)">
+      </app-campaign-card>
+    </div>
 
-        <div class="cause-content">
-          <h3>{{cause.titulo}}</h3>
-          <p class="cause-description">{{cause.descricao}}</p>
-
-          <div class="cause-progress">
-            <div class="progress-bar" [style.width.%]="(cause.arrecadado / cause.meta) * 100"></div>
-            <div class="progress-info">
-              <span>R$ {{cause.arrecadado | number}}</span>
-              <span>{{(cause.arrecadado / cause.meta) * 100 | number:'1.0-0'}}%</span>
-            </div>
-          </div>
-
-          <div class="cause-meta">
-            <span *ngIf="cause.local?.cidade"><i class="bi bi-geo-alt"></i> {{cause.local.cidade}}</span>
-            <span><i class="bi bi-people"></i> {{cause.avaliacaoCount || 0}} avaliações</span>
-          </div>
-        </div>
-
-        <div class="cause-hover">
-          <button class="btn-donate">Quero Ajudar</button>
-        </div>
-      </div>
-
-      <div *ngIf="filteredCauses.length === 0" class="no-results">
-        <p>Nenhuma campanha encontrada com os filtros atuais.</p>
-      </div>
+    <div *ngIf="filteredCauses.length === 0" class="no-results">
+      <img src="assets/images/no-results.svg" alt="Nenhum resultado" class="no-results-img">
+      <h3>Nenhuma campanha encontrada</h3>
+      <p>Experimente ajustar seus filtros de busca ou <a (click)="resetFilters()">limpar todos os filtros</a></p>
     </div>
   </section>
 
-  <!-- CTA Section -->
+  <!-- CTA -->
   <section class="explore-cta">
     <div class="cta-content">
-      <h2>Não encontrou o que procurava?</h2>
-      <p>Cadastre sua ONG e comece a receber apoio para sua causa</p>
+      <h2>Quer que sua campanha apareça aqui?</h2>
+      <p>Cadastre sua ONG e tenha acesso a nossa plataforma premium para alcançar mais doadores</p>
       <a routerLink="/cadastrar" class="btn-cta">Cadastrar Minha ONG</a>
     </div>
   </section>
