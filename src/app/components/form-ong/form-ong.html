@@ -17,24 +17,28 @@
       <div *ngIf="nome.invalid && nome.touched" class="error-msg">Nome da ONG é obrigatório.</div>
     </div>
 
-    <!-- CNPJ -->
-    <div class="form-group">
-      <label>CNPJ *</label>
-      <div class="input-with-icon">
-        <i class="bi bi-file-text"></i>
-        <input
-          type="text"
-          [(ngModel)]="ong.cnpj"
-          name="cnpj"
-          required
-          mask="00.000.000/0000-00"
-          #cnpj="ngModel"
-          [class.is-invalid]="(cnpj.invalid || !cnpjValido) && cnpj.touched"
-        />
-      </div>
-      <div *ngIf="cnpj.invalid && cnpj.touched" class="error-msg">CNPJ é obrigatório.</div>
-      <div *ngIf="!cnpjValido && cnpj.touched" class="error-msg">CNPJ inválido.</div>
-    </div>
+ 
+   <!-- CNPJ -->
+<!-- CNPJ -->
+<div class="form-group">
+  <label for="cnpj">CNPJ *</label>
+  <div class="input-with-icon">
+    <i class="bi bi-file-text"></i>
+    <input
+    id="cnpj"
+    type="text"
+    name="cnpj"
+    [ngModel]="ong.cnpj"
+    (ngModelChange)="onCnpjChange($event)"
+    required
+    mask="00.000.000/0000-00"
+    [class.is-invalid]="!cnpjValido && ong.cnpj.length > 0"
+  />
+  
+
+  </div>
+  <div *ngIf="!cnpjValido && ong.cnpj.length > 0" class="error-msg">CNPJ inválido.</div>
+</div>
 
     <!-- E‑mail -->
     <div class="form-group">

@@ -50,17 +50,23 @@ export class FormOng {
   }
 
   validarCNPJ(cnpj: string): boolean {
-    cnpj = cnpj.replace(/\D/g, '');
+    if (!cnpj) return false;
+
+    cnpj = cnpj.replace(/[^\d]+/g, '');
+
     if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
+
     let tamanho = cnpj.length - 2;
     let numeros = cnpj.substring(0, tamanho);
     let digitos = cnpj.substring(tamanho);
-    let soma = 0, pos = tamanho - 7;
+    let soma = 0;
+    let pos = tamanho - 7;
 
     for (let i = tamanho; i >= 1; i--) {
       soma += +numeros[tamanho - i] * pos--;
       if (pos < 2) pos = 9;
     }
+
     let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
     if (resultado !== +digitos[0]) return false;
 
@@ -68,10 +74,12 @@ export class FormOng {
     numeros = cnpj.substring(0, tamanho);
     soma = 0;
     pos = tamanho - 7;
+
     for (let i = tamanho; i >= 1; i--) {
       soma += +numeros[tamanho - i] * pos--;
       if (pos < 2) pos = 9;
     }
+
     resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
     return resultado === +digitos[1];
   }
@@ -80,4 +88,9 @@ export class FormOng {
     const regex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     return regex.test(senha);
   }
+  onCnpjChange(value: string) {
+  this.ong.cnpj = value;
+  this.cnpjValido = this.validarCNPJ(value);
+}
+
 }

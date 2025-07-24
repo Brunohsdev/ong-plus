@@ -17,25 +17,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Breakpoint Observer
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Footer } from "../../components/footer/footer";
-import { Header } from '../../components/header/header';
+import { Footer } from '../../components/footer/footer';
 
-// Services
-// import { AuthService } from '@app/core/services/auth.service';
-// import { OngService } from '@app/core/services/ong.service';
-// import { NotificationService } from '@app/core/services/notification.service';
-
-// Components
-// import { QuickActionDialogComponent } from './components/quick-action-dialog/quick-action-dialog.component';
-
-// Pipes
-// import { TimeAgoPipe } from '@app/shared/pipes/time-ago.pipe';
 
 @Component({
-  selector: 'app-admin-layout',
+  selector: 'dashboard-ong',
   standalone: true,
   imports: [
     CommonModule,
@@ -53,161 +43,166 @@ import { Header } from '../../components/header/header';
     MatProgressBarModule,
     MatTooltipModule,
     MatCardModule,
-    Footer
-],
+    MatProgressSpinnerModule,
+    Footer,
+    
+  ],
   templateUrl: './dashboard-ong.html',
   styleUrls: ['./dashboard-ong.css']
 })
-export class DashboardOng{
+export class DashboardOng implements OnInit, OnDestroy {
+  // Dados do usuário e organização
+  email = 'admin@ong.org';
 
+  currentUser: any = {
+    name: 'Admin',
+    email: 'admin@ong.org',
+    role: 'Administrador'
+  };
 
-// export class AdminLayoutComponent implements OnInit, OnDestroy {
-//   // Dados do usuário e organização
-//   currentUser: any;
-//   currentOng: any;
+  currentOng: any = {
+    name: 'Minha ONG',
+    verified: true,
+    mission: 'Transformando vidas desde 2010',
+    monthlyGoal: 75,
+    campaigns: 12,
+    donations: 34250,
+    volunteers: 48
+  };
 
   // Estado do layout
   isHandset = false;
   sidenavOpened = true;
   sidenavMode: 'side' | 'over' = 'side';
+  loading = false;
 
-//   // Navegação
-//   pageTitle = 'Dashboard';
-//   menuItems = [
-//     { icon: 'dashboard', label: 'Dashboard', route: '/admin/dashboard', exact: true },
-//     { icon: 'campaign', label: 'Campanhas', route: '/admin/campaigns' },
-//     { icon: 'volunteer_activism', label: 'Doações', route: '/admin/donations' },
-//     { icon: 'groups', label: 'Voluntários', route: '/admin/volunteers' },
-//     { icon: 'star_rate', label: 'Avaliações', route: '/admin/reviews' },
-//     { icon: 'verified', label: 'Selos', route: '/admin/badges' },
-//     { icon: 'notifications', label: 'Notificações', route: '/admin/notifications' },
-//     { icon: 'settings', label: 'Configurações', route: '/admin/settings' }
-//   ];
+  // Navegação
+  pageTitle = 'Painel da ONG';
+  unreadNotifications = 3;
 
-//   // Notificações
-//   notifications: Notification[] = [];
-//   unreadCount = 0;
+  // Atividades recentes
+  recentActivities = [
+    {
+      user: 'Maria Silva',
+      action: 'doou R$ 200 para Campanha A',
+      time: '2 horas atrás',
+      avatar: 'assets/images/user1.jpg'
+    },
+    {
+      user: 'João Oliveira',
+      action: 'se voluntariou para Evento B',
+      time: 'Ontem, 15:30',
+      avatar: 'assets/images/user2.jpg'
+    },
+    {
+      entity: 'ONG',
+      action: 'publicou nova campanha: Ajuda Animal',
+      time: '5 de Out, 2023',
+      initials: 'NG'
+    }
+  ];
 
-//   // Subscriptions
-//   private subscriptions = new Subscription();
+  // Subscriptions
+  private subscriptions = new Subscription();
 
   constructor(
-//     // private authService: AuthService,
-//     // private ongService: OngService,
-//     // private notificationService: NotificationService,
     private router: Router,
-//     private breakpointObserver: BreakpointObserver,
-//     private dialog: MatDialog
+    private breakpointObserver: BreakpointObserver
   ) {}
 
-//   ngOnInit(): void {
-//     this.setupResponsiveLayout();
-//     this.loadUserData();
-//     this.loadOngData();
-//     this.loadNotifications();
-//     this.setupRouterEvents();
-//   }
+  ngOnInit(): void {
+    this.setupResponsiveLayout();
+    this.setupRouterEvents();
+    this.simulateDataLoading();
+  }
 
-//   ngOnDestroy(): void {
-//     this.subscriptions.unsubscribe();
-//   }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 
-//   private setupResponsiveLayout(): void {
-//     this.subscriptions.add(
-//       this.breakpointObserver.observe([
-//         Breakpoints.Handset,
-//         Breakpoints.TabletPortrait
-//       ]).subscribe(result => {
-//         this.isHandset = result.matches;
-//         this.sidenavMode = this.isHandset ? 'over' : 'side';
-//         this.sidenavOpened = !this.isHandset;
-//       })
-//     );
-//   }
+  private setupResponsiveLayout(): void {
+    this.subscriptions.add(
+      this.breakpointObserver.observe([
+        Breakpoints.Handset,
+        Breakpoints.TabletPortrait
+      ]).subscribe(result => {
+        this.isHandset = result.matches;
+        this.sidenavMode = this.isHandset ? 'over' : 'side';
+        this.sidenavOpened = !this.isHandset;
+      })
+    );
+  }
 
-//   private loadUserData(): void {
-//     this.subscriptions.add(
-//       this.authService.currentUser.subscribe(user => {
-//         this.currentUser = user;
-//       })
-//     );
-//   }
+  private setupRouterEvents(): void {
+    this.subscriptions.add(
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe(() => {
+        this.updatePageTitle();
+      })
+    );
+  }
 
-//   private loadOngData(): void {
-//     if (this.authService.getUserType() === 'ong') {
-//       this.subscriptions.add(
-//         this.ongService.getCurrentOng().subscribe(ong => {
-//           this.currentOng = ong;
-//         })
-//       );
-//     }
-//   }
+  private updatePageTitle(): void {
+    // Você pode implementar lógica mais sofisticada aqui baseada na rota
+    const routeTitles: {[key: string]: string} = {
+      '/campanhas': 'Campanhas',
+      '/doacoes': 'Doações',
+      '/configuracoes': 'Configurações'
+    };
+    
+    this.pageTitle = routeTitles[this.router.url] || 'Painel da ONG';
+  }
 
-//   private loadNotifications(): void {
-//     this.subscriptions.add(
-//       this.notificationService.getNotifications().subscribe({
-//         next: (notifications) => {
-//           this.notifications = notifications;
-//           this.unreadCount = notifications.filter(n => !n.read).length;
-//         },
-//         error: (err) => console.error('Failed to load notifications', err)
-//       })
-//     );
-//   }
-
-//   private setupRouterEvents(): void {
-//     this.subscriptions.add(
-//       this.router.events.pipe(
-//         filter(event => event instanceof NavigationEnd)
-//       ).subscribe(() => {
-//         this.updatePageTitle();
-//       })
-//     );
-//   }
-
-//   private updatePageTitle(): void {
-//     const activeItem = this.menuItems.find(item =>
-//       this.router.isActive(item.route, item.exact || false)
-//     );
-//     this.pageTitle = activeItem?.label || 'Dashboard';
-//   }
+  private simulateDataLoading(): void {
+    this.loading = true;
+    // Simula carregamento de dados
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
+  }
 
   toggleSidenav(): void {
     this.sidenavOpened = !this.sidenavOpened;
   }
 
-//   markAsRead(notification: Notification): void {
-//     if (!notification.read) {
-//       this.subscriptions.add(
-//         this.notificationService.markAsRead(notification._id).subscribe({
-//           next: () => {
-//             notification.read = true;
-//             this.unreadCount--;
-//           },
-//           error: (err) => console.error('Failed to mark notification as read', err)
-//         })
-//       );
-//     }
-//   }
-
-//   openQuickActionDialog(): void {
-//     const dialogRef = this.dialog.open(QuickActionDialogComponent, {
-//       width: this.isHandset ? '90vw' : '600px',
-//       maxWidth: '100vw',
-//       panelClass: 'quick-action-dialog'
-//     });
-
-//     dialogRef.afterClosed().subscribe(result => {
-//       if (result) {
-//         // Ação rápida selecionada
-//         this.router.navigate([result.action]);
-//       }
-//     });
-//   }
+  markNotificationAsRead(): void {
+    if (this.unreadNotifications > 0) {
+      this.unreadNotifications--;
+    }
+  }
 
   logout(): void {
-
-    this.router.navigate(['/login']);
+    // Simula logout
+    this.loading = true;
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+      this.loading = false;
+    }, 800);
   }
-// }
+
+  // Funções para dados de exemplo
+  getDonationTrend(): {icon: string, value: string, positive: boolean} {
+    return {
+      icon: 'trending_up',
+      value: '+22%',
+      positive: true
+    };
+  }
+
+  getVolunteerTrend(): {icon: string, value: string, positive: boolean} {
+    return {
+      icon: 'trending_down',
+      value: '-3%',
+      positive: false
+    };
+  }
+
+  getCampaignTrend(): {icon: string, value: string, positive: boolean} {
+    return {
+      icon: 'trending_up',
+      value: '+5%',
+      positive: true
+    };
+  }
 }
