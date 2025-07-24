@@ -1,5 +1,5 @@
 export interface Donation {
-  _id: string;
+  _id?: string;
   doador: {
     _id: string;
     nome: string;
@@ -15,4 +15,6 @@ export interface Donation {
   anonima: boolean;
   comprovante?: string;
   dataDoacao: Date;
+  status?: string;
+  metodoPagamento?: string;
 }

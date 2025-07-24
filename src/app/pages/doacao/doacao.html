@@ -85,13 +85,13 @@
                class="payment-method"
                [class.selected]="selectedPaymentMethod === method"
                (click)="selectedPaymentMethod = method">
-            <!-- <div class="method-icon">
+            <div class="method-icon">
               <i [class]="getPaymentMethodIcon(method)"></i>
-            </div> -->
-            <!-- <div class="method-info">
+            </div>
+            <div class="method-info">
               <h4>{{ getPaymentMethodName(method) }}</h4>
               <p>{{ getPaymentMethodDescription(method) }}</p>
-            </div> -->
+            </div>
           </div>
         </div>
 
@@ -100,14 +100,14 @@
             <span>Valor da doação:</span>
             <span>R$ {{ donation.valor | number:'1.2-2' }}</span>
           </div>
-          <!-- <div class="summary-item">
+          <div class="summary-item">
             <span>Taxa de serviço:</span>
             <span>R$ {{ calculateFee() | number:'1.2-2' }}</span>
           </div>
           <div class="summary-item total">
             <span>Total:</span>
             <span>R$ {{ (donation.valor! + calculateFee()) | number:'1.2-2' }}</span>
-          </div> -->
+          </div>
         </div>
 
         <div class="step-actions">
@@ -137,7 +137,7 @@
     <div class="donation-receipt">
       <div class="receipt-item">
         <span>Código:</span>
-        <!-- <span>#{{ generateReceiptCode() }}</span> -->
+        <span>#{{ generateReceiptCode() }}</span>
       </div>
       <div class="receipt-item">
         <span>Valor:</span>
@@ -145,17 +145,17 @@
       </div>
       <div class="receipt-item">
         <span>Data:</span>
-        <!-- <span>{{ getCurrentDate() | date:'dd/MM/yyyy HH:mm' }}</span> -->
+        <span>{{ getCurrentDate() | date:'dd/MM/yyyy HH:mm' }}</span>
       </div>
     </div>
 
-    <!-- <div class="success-actions">
+    <div class="success-actions">
       <button class="btn-share" (click)="shareDonation()">
         <i class="bi bi-share"></i> Compartilhar
       </button>
       <button class="btn-finish" (click)="finishDonation()">
         Concluir
       </button>
-    </div> -->
+    </div>
   </div>
 </ng-template>

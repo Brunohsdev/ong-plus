@@ -7,6 +7,8 @@ import { Footer } from "../../components/footer/footer";
 import { CampaignService } from '../../services/campanha';
 import { ModelCampanha } from '../../models/campanha.models';
 import { CampanhasCards } from '../../components/cards/cards';
+import { Doacao } from '../doacao/doacao';
+import { Donation } from '../../models/donation.model';
 
 @Component({
   selector: 'app-explore',
@@ -17,52 +19,23 @@ import { CampanhasCards } from '../../components/cards/cards';
     RouterModule, 
     Header, 
     Footer,
-    CampanhasCards, 
+    CampanhasCards,
+    Doacao,
     RouterLink
   ],
   templateUrl: './explorar.html',
   styleUrls: ['./explorar.css']
 })
 export class Explorar {
-  // Controle de UI
   showFilters = false;
-  
-  // Filtros
+  selectedTag = '';
+  sortOption = 'recent';
+  selectedLocation = '';
   searchTerm: string = '';
-  selectedTag: string = '';
-  selectedCategories: string[] = [];
-  selectedLocation: string = '';
-  sortOption: 'recent' | 'popular' | 'urgent' = 'recent';
   
-  // Dados
   featuredCampaigns: ModelCampanha[] = [];
-  
-  // Opções de filtro
-  popularTags = ['saúde', 'educação', 'meio ambiente', 'tecnologia', 'animais', 'outros'];
-  
-  categories = [
-    'saúde', 
-    'educação', 
-    'meio ambiente', 
-    'tecnologia', 
-    'animais',
-    'alimentos',
-    'roupas',
-    'dinheiro',
-    'sangue',
-    'brinquedos',
-    'outros'
-  ];
-  
-  locations = [
-    'São Paulo',
-    'Rio de Janeiro',
-    'Belo Horizonte',
-    'Brasília',
-    'Bahia',
-    'Porto Alegre',
-    'Todas regiões'
-  ];
+  showDonationModal: boolean = false;
+  selectedCampaign: ModelCampanha | null = null;
 
   constructor(private campaignService: CampaignService) {}
 
@@ -70,101 +43,69 @@ export class Explorar {
     this.loadCampaigns();
   }
 
-  /**
-   * Carrega as campanhas do serviço
-   */
   loadCampaigns(): void {
     this.campaignService.getCampaigns().subscribe({
       next: (data) => {
         this.featuredCampaigns = data;
-        console.log("Campanhas carregadas:", data);
       },
-      error: (err) => {
-        console.error('Erro ao buscar campanhas:', err);
-        // Aqui você pode adicionar tratamento de erro mais sofisticado
-      }
+      error: (err) => console.error('Erro ao buscar campanhas:', err)
     });
   }
 
-  /**
-   * Filtra as campanhas com base nos critérios selecionados
-   */
-  get filteredCauses(): ModelCampanha[] {
+  popularTags = ['saúde', 'educação', 'meio ambiente', 'tecnologia', 'animais', 'outros'];
+
+  categories = [
+    'saúde', 'educação', 'meio ambiente', 'tecnologia', 'animais',
+    'alimentos', 'roupas', 'dinheiro', 'sangue', 'brinquedos', 'outros'
+  ];
+  selectedCategories: string[] = [];
+
+  locations = [
+    'São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 
+    'Brasília', 'Bahia', 'Porto Alegre', 'Todas regiões'
+  ];
+
+  get filteredCauses() {
     let results = [...this.featuredCampaigns];
 
-    // Filtro por termo de busca
     if (this.searchTerm.trim()) {
       const keyword = this.searchTerm.trim().toLowerCase();
       results = results.filter(c =>
         c.titulo.toLowerCase().includes(keyword) ||
-        c.descricao.toLowerCase().includes(keyword) ||
-        (c.ong?.nome?.toLowerCase().includes(keyword) ?? false)
-      );
-    }
+        c.descricao.toLowerCase().includes(keyword)
+    )}
 
-    // Filtro por tag selecionada
     if (this.selectedTag) {
       results = results.filter(c => c.categoria === this.selectedTag);
     }
 
-    // Filtro por categorias selecionadas
     if (this.selectedCategories.length > 0) {
       results = results.filter(c => this.selectedCategories.includes(c.categoria));
     }
 
-    // Filtro por localização
-    if (this.selectedLocation && this.selectedLocation !== 'Todas regiões') {
-      results = results.filter(c => 
-        c.local?.cidade === this.selectedLocation ||
-        c.local?.estado === this.selectedLocation
-      );
+    if (this.selectedLocation) {
+      results = results.filter(c => c.local.cidade === this.selectedLocation);
     }
 
-    // Ordenação
-    return this.sortCampaigns(results);
-  }
-
-  /**
-   * Aplica a ordenação às campanhas
-   */
-  private sortCampaigns(campaigns: ModelCampanha[]): ModelCampanha[] {
     switch (this.sortOption) {
       case 'popular':
-        return campaigns.sort((a, b) => (b.avaliacaoCount || 0) - (a.avaliacaoCount || 0));
+        return results.sort((a, b) => (b.avaliacaoCount || 0) - (a.avaliacaoCount || 0));
       case 'urgent':
-        return campaigns.sort((a, b) => {
-          const dateA = a.dataFim ? new Date(a.dataFim).getTime() : 0;
-          const dateB = b.dataFim ? new Date(b.dataFim).getTime() : 0;
-          return dateA - dateB;
-        });
-      case 'recent':
+        return results.sort((a, b) => new Date(a.dataFim).getTime() - new Date(b.dataFim).getTime());
       default:
-        return campaigns.sort((a, b) => {
-          const dateA = a.dataInicio ? new Date(a.dataInicio).getTime() : 0;
-          const dateB = b.dataInicio ? new Date(b.dataInicio).getTime() : 0;
-          return dateB - dateA;
-        });
+        return results;
     }
   }
 
-  /**
-   * Alterna a exibição dos filtros
-   */
-  toggleFilters(): void {
+  toggleFilters() {
     this.showFilters = !this.showFilters;
   }
 
-  /**
-   * Seleciona/deseleciona uma tag
-   */
-  selectTag(tag: string): void {
+  selectTag(tag: string) {
     this.selectedTag = this.selectedTag === tag ? '' : tag;
   }
 
-  /**
-   * Alterna uma categoria nos filtros
-   */
-  toggleCategory(category: string): void {
+  toggleCategory(category: string) {
     if (this.selectedCategories.includes(category)) {
       this.selectedCategories = this.selectedCategories.filter(c => c !== category);
     } else {
@@ -172,27 +113,8 @@ export class Explorar {
     }
   }
 
-  /**
-   * Reseta todos os filtros
-   */
-  resetFilters(): void {
-    this.searchTerm = '';
-    this.selectedTag = '';
-    this.selectedCategories = [];
-    this.selectedLocation = '';
-    this.sortOption = 'recent';
-  }
-
-  /**
-   * Retorna a cor associada a uma categoria
-   */
-  getCategoryColor(category: string): string {
+  getCategoryColor(category: string) {
     const colors: Record<string, string> = {
-      'saúde': '#4E9F3D',
-      'educação': '#1E5128',
-      'meio ambiente': '#3E7C17',
-      'tecnologia': '#191A19',
-      'animais': '#D8E9A8',
       'alimentos': '#FF9A76',
       'roupas': '#6A8CAF',
       'dinheiro': '#A7D7C5',
@@ -203,12 +125,19 @@ export class Explorar {
     return colors[category] || '#B08D57';
   }
 
-  /**
-   * Manipula o evento de doação
-   */
-  handleDonate(campaign: ModelCampanha): void {
-    console.log("Doar para campanha:", campaign);
-    // Implemente a lógica de doação aqui
-    // Pode ser redirecionamento ou abertura de modal
+  openDonationModal(campaign: ModelCampanha) {
+    this.selectedCampaign = campaign;
+    this.showDonationModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeDonationModal() {
+    this.showDonationModal = false;
+    document.body.style.overflow = '';
+  }
+
+  handleDonationComplete(donation: Donation) {
+    console.log("Doação realizada:", donation);
+    this.closeDonationModal();
   }
 }

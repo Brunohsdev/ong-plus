@@ -1,20 +1,22 @@
-// cards.ts
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ModelCampanha } from '../../models/campanha.models';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { Doacao } from '../../pages/doacao/doacao';
 
 @Component({
   selector: 'app-campaign-card',
   standalone: true,
-  imports: [CommonModule, RouterModule, Doacao, RouterLink],
+  imports: [CommonModule, RouterModule, Doacao],
   templateUrl: './cards.html',
   styleUrls: ['./cards.css']
 })
 export class CampanhasCards {
   @Input({ required: true }) campaign!: ModelCampanha;
   @Output() donate = new EventEmitter<ModelCampanha>();
+  
+  // Adicione estas propriedades
+  showDonationModal: boolean = false;
   selectedCampaign: ModelCampanha | null = null;
 
   getProgressPercentage(): number {
@@ -24,6 +26,20 @@ export class CampanhasCards {
   }
 
   onDonate(): void {
+    this.showDonationModal = true;
+    this.selectedCampaign = this.campaign;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeModal(event: Event): void {
+    event.stopPropagation();
+    this.showDonationModal = false;
+    this.selectedCampaign = null;
+    document.body.style.overflow = '';
+  }
+
+  handleDonationComplete(donation: any): void {
+    this.closeModal(new Event('close'));
     this.donate.emit(this.campaign);
   }
 
@@ -32,24 +48,11 @@ export class CampanhasCards {
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
   }
 
-  getImageUrl(): string {
-    const imagem = this.campaign.imagem;
-    if (Array.isArray(imagem) && imagem.length > 0) {
-      return imagem[0];
-    } else if (typeof imagem === 'string') {
-      return imagem;
+ getImageUrl(): string {
+    if (Array.isArray(this.campaign.imagem)) {
+      return this.campaign.imagem[0] || 'assets/images/default-campaign.jpg';
     }
-    return 'assets/images/default-campaign.jpg'; // fallback
+    return this.campaign.imagem || 'assets/images/default-campaign.jpg';
   }
-
-  openModal(): void {
-    this.selectedCampaign = this.campaign;
-    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-  }
-
-  closeModal(event: Event): void {
-    event.stopPropagation();
-    this.selectedCampaign = null;
-    document.body.style.overflow = '';
-  }
+  
 }

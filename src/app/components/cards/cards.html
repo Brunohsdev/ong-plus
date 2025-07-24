@@ -1,5 +1,4 @@
-<!-- cards.html -->
-<div class="premium-card" [class.active]="selectedCampaign" (click)="openModal()">
+<div class="premium-card" [class.active]="selectedCampaign" (click)="onDonate()">
   <div class="card-badge">PREMIUM</div>
   
   <div class="card-image-container">
@@ -31,14 +30,14 @@
   </div>
   
   <div class="card-hover">
-    <button class="btn-donate" (click)="onDonate(); $event.stopPropagation()" Router-link="/doacao">
+    <button class="btn-donate" (click)="onDonate(); $event.stopPropagation()">
       Doar Agora
     </button>
   </div>
 </div>
 
 <!-- Modal Premium -->
-<div class="premium-modal-overlay" *ngIf="selectedCampaign" (click)="closeModal($event)">
+<div class="premium-modal-overlay" *ngIf="showDonationModal" (click)="closeModal($event)">
   <div class="premium-modal" (click)="$event.stopPropagation()">
     <button class="modal-close-btn" (click)="closeModal($event)">
       <i class="bi bi-x"></i>
@@ -46,30 +45,30 @@
     
     <div class="modal-content">
       <div class="modal-image-container">
-        <img [src]="getImageUrl()" [alt]="selectedCampaign.titulo" class="modal-image">
+        <img [src]="getImageUrl()" [alt]="campaign.titulo" class="modal-image">
         <div class="modal-badge">DESTAQUE</div>
       </div>
       
       <div class="modal-main">
         <div class="modal-header">
-          <div class="modal-category">{{ selectedCampaign.categoria | titlecase }}</div>
-          <h2 class="modal-title">{{ selectedCampaign.titulo }}</h2>
+          <div class="modal-category">{{ campaign.categoria | titlecase }}</div>
+          <h2 class="modal-title">{{ campaign.titulo }}</h2>
           <div class="modal-ong">
             <img src="assets/icons/ong-icon.svg" alt="ONG" class="ong-icon">
-            <span>{{ selectedCampaign.ong?.nome || 'ONG Parceira' }}</span>
+            <span>{{ campaign.ong?.nome || 'ONG Parceira' }}</span>
           </div>
         </div>
         
         <div class="modal-body">
-          <p class="modal-description">{{ selectedCampaign.descricao }}</p>
+          <p class="modal-description">{{ campaign.descricao }}</p>
           
           <div class="modal-stats">
             <div class="stat-item">
-              <div class="stat-value">{{ selectedCampaign.arrecadado | currency:'BRL':'symbol':'1.2-2' }}</div>
+              <div class="stat-value">{{ campaign.arrecadado | currency:'BRL':'symbol':'1.2-2' }}</div>
               <div class="stat-label">Arrecadado</div>
             </div>
             <div class="stat-item">
-              <div class="stat-value">{{ selectedCampaign.meta | currency:'BRL':'symbol':'1.2-2' }}</div>
+              <div class="stat-value">{{ campaign.meta | currency:'BRL':'symbol':'1.2-2' }}</div>
               <div class="stat-label">Meta</div>
             </div>
             <div class="stat-item">
@@ -90,9 +89,21 @@
           <button class="btn-primary" (click)="onDonate()">
             Doar Agora
           </button>
-         
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal de Doação -->
+<div class="modal-overlay" *ngIf="showDonationModal">
+  <div class="modal-content">
+    <app-donation
+      [campaignId]="campaign._id"
+      [campaignTitle]="campaign.titulo"
+      [campaignImage]="getImageUrl()"
+      (donationComplete)="handleDonationComplete($event)">
+    </app-donation>
+  </div>
+</div>
+<!-- (closeModal)="closeModal($event)"> -->

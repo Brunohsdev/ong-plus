@@ -69,7 +69,7 @@
   <!-- Resultados -->
   <section class="results-section">
     <div class="results-header">
-      <h2>{{filteredCauses.length}} campanhas premium encontradas</h2>
+      <h2>{{filteredCauses.length}} campanhas encontradas</h2>
       <div class="sort-options">
         <select class="form-select" [(ngModel)]="sortOption">
           <option value="recent">Mais recentes</option>
@@ -83,16 +83,27 @@
       <app-campaign-card 
         *ngFor="let cause of filteredCauses" 
         [campaign]="cause"
-        (donate)="handleDonate($event)">
+        (donate)="openDonationModal($event)">
       </app-campaign-card>
     </div>
 
     <div *ngIf="filteredCauses.length === 0" class="no-results">
-      <img src="assets/images/no-results.svg" alt="Nenhum resultado" class="no-results-img">
-      <h3>Nenhuma campanha encontrada</h3>
-      <p>Experimente ajustar seus filtros de busca ou <a (click)="resetFilters()">limpar todos os filtros</a></p>
+      <p>Nenhuma campanha encontrada com os filtros atuais.</p>
     </div>
   </section>
+
+  <!-- Modal de Doação -->
+  <div class="modal-overlay" *ngIf="showDonationModal">
+    <div class="modal-content">
+      <app-donation
+        [campaignId]="selectedCampaign?._id || ''"
+        [campaignTitle]="selectedCampaign?.titulo || ''"
+        
+        (donationComplete)="handleDonationComplete($event)"
+        (closeModal)="closeDonationModal()">
+      </app-donation>
+    </div>
+  </div>
 
   <!-- CTA -->
   <section class="explore-cta">

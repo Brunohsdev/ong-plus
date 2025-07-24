@@ -7,14 +7,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DonationService {
-  private apiUrl = 'http://localhost:3000/api/donations'; // ou sua URL real
+  private apiUrl = 'http://localhost:3000/api/donations';
+
   constructor(private http: HttpClient) {}
 
-  getDonations(): Observable<Donation[]> {
-    return this.http.get<Donation[]>(`${this.apiUrl}/donations`);
-  }
-
   createDonation(donation: Donation): Observable<Donation> {
-    return this.http.post<Donation>(`${this.apiUrl}/donations`, donation);
+    return this.http.post<Donation>(`${this.apiUrl}`, donation);
   }
 }
