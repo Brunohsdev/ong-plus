@@ -8,32 +8,6 @@
   overflow: hidden;
   font-family: 'Montserrat', sans-serif;
 }
-.back-home {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.back-button {
-  align-self: center;
-  margin-top: auto;
-  margin: 16px 0;
-  padding: 10px 16px;
-  background-color: transparent;
-  border: 2px solid #c5a23f;
-  color: #c5a23f;
-  border-radius: 8px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.back-button:hover {
-  background-color: #c5a23f;
-  color: white;
-}
-
-.back-button i {
-  margin-right: 8px;
-}
 
 .login-background {
   position: absolute;
@@ -352,7 +326,74 @@ input.ng-invalid.ng-touched {
     transform: translateY(0);
   }
 }
+/* Botão Voltar - Adicionado ao final do CSS existente */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  border: 2px solid #B08D57;
+  color: #B08D57;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
 
+.back-button:hover {
+  background-color: #B08D57;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.back-button i {
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover i {
+  transform: translateX(-5px);
+}
+
+/* Ajustes finos nos inputs para melhor consistência */
+.input-with-icon input {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-with-icon input:focus {
+  border-color: #B08D57;
+  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.2);
+}
+
+/* Melhoria no checkbox "Manter conectado" */
+.remember-me {
+  cursor: pointer;
+}
+
+.remember-me input {
+  accent-color: #B08D57;
+  cursor: pointer;
+}
+
+/* Ajuste no hover do link de cadastro */
+.signup-link a:hover {
+  color: #9a7a4d;
+  text-decoration: underline;
+}
+
+/* Melhoria na mensagem de erro */
+.erro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.erro:before {
+  content: "⚠";
+  font-size: 1.1rem;
+}
 @media (max-width: 768px) {
   .login-content {
     padding: 1rem;
@@ -370,3 +411,4 @@ input.ng-invalid.ng-touched {
     padding: 1.5rem;
   }
 }
+

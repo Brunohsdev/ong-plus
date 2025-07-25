@@ -1,67 +1,56 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { User } from '../models/user.model';
+import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = '//jogando-a-vera-com-o-ong-plus.vercel.app/api/';
-  private currentUser = signal<User | null>(null);
+  private apiUrl = 'https://jogando-a-vera-com-o-ong-plus.vercel.app/api';
 
-  constructor(private http: HttpClient) {
-    // Carregar usuário do localStorage ao inicializar
-    const user = localStorage.getItem('currentUser');
-    if (user) {
-      this.currentUser.set(JSON.parse(user));
-    }
+  constructor(private http: HttpClient, private router: Router) {}
+
+  login(user: { email: string; senha: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, user).pipe(
+      tap((res: any) => {
+        if (res && res.user) {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user', JSON.stringify(res.user));
+        }
+      })
+    );
   }
 
-  login(email: string, password: string): Observable<{ user: User, token: string }> {
-    return this.http.post<{ user: User, token: string }>(`${this.apiUrl}/auth/login`, { email, password })
-      .pipe(
-        tap(response => {
-          this.setCurrentUser(response.user, response.token);
-        })
-      );
-  }
-
-  register(userData: any): Observable<{ user: User, token: string }> {
-    return this.http.post<{ user: User, token: string }>(`${this.apiUrl}/auth/register`, userData)
-      .pipe(
-        tap(response => {
-          this.setCurrentUser(response.user, response.token);
-        })
-      );
+  register(user: User): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user);
   }
 
   logout(): void {
-    localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
-    this.currentUser.set(null);
+    localStorage.removeItem('user');
+    this.router.navigate(['/home']);
   }
 
-  private setCurrentUser(user: User, token: string): void {
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    localStorage.setItem('token', token);
-    this.currentUser.set(user);
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
   }
 
-  getCurrentUser(): User | null {
-    return this.currentUser();
+  getUser(): User | null {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
-
-  isAuthenticated(): boolean {
-    return !!this.currentUser();
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  getUserType(): 'doador' | 'ong' | null {
-    return this.currentUser()?.tipo || null;
+  getUserType(): string | null {
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const parsedUser = JSON.parse(user);
+        return parsedUser.tipo || null; // 'tipo' deve ser o campo com o tipo do usuário, ex: 'doador' ou 'ong'
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
   }
 }

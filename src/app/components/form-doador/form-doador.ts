@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { RouterLink, Router } from '@angular/router';
+import { RegisterService } from '../../services/register'; // ajuste o caminho conforme sua estrutura
+
 
 @Component({
   selector: 'app-form-doador',
@@ -12,7 +14,8 @@ import { RouterLink, Router } from '@angular/router';
   styleUrls: ['./form-doador.css']
 })
 export class FormDoador {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private registerService: RegisterService) {}
+  
 
   doador = {
     nome: '',
@@ -44,12 +47,20 @@ export class FormDoador {
     this.cpfValido = this.validarCPF(this.doador.cpf);
     this.idadeValida = this.validarIdade(this.doador.nascimento);
     this.senhaValida = this.validarSenha(this.doador.senha);
-
+  
     if (!this.cpfValido || !this.idadeValida || !this.senhaValida) return;
-
-    console.log('Doador cadastrado:', this.doador);
-    this.router.navigate(['/dashboard-doador']);
+  
+    this.registerService.registerUser({ ...this.doador, tipo: 'doador' }).subscribe({
+      next: (res) => {
+        console.log('Registro feito:', res);
+        this.router.navigate(['/dashboard-doador']);
+      },
+      error: (err) => {
+        alert('Erro ao registrar: ' + (err?.error?.message || 'tente novamente mais tarde'));
+      }
+    });
   }
+  
 
   validarCPF(cpf: string): boolean {
     cpf = cpf.replace(/\D/g, '');

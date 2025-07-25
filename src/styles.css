@@ -20,6 +20,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --lighter: #ffffff;
     --gold: #ffd166;
     
+    --primary-dark: #1C2A39;
+    --primary-darker: #0F1721;
+    --accent-gold: #B08D57;
+    --accent-light-gold: #c5a23f;
+    --neutral-beige: #D6CFC7;
+    --neutral-light: #F8F5F0;
+    --text-dark: #333;
+    --text-medium: #6c757d;
+    --text-light: #e2e8f0;
+    --error: #dc3545;
+    --error-light: #f5c6cb;
+    
+    
     --font-heading: 'Playfair Display', serif;
     --font-subheading: 'Montserrat', sans-serif;
     --font-body: 'Lora', serif;
