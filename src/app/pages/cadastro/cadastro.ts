@@ -11,10 +11,10 @@ import { Header } from '../../components/header/header';
 @Component({
   selector: 'app-cadastro',
   imports: [
-    CommonModule, 
-    FormsModule, 
-    RouterModule, 
-    FormOng, 
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    FormOng,
     FormDoador,
     Header,
   Footer],
@@ -24,49 +24,4 @@ import { Header } from '../../components/header/header';
 export class Cadastro {
   abaSelecionada: 'ong' | 'doador' = 'ong';
 
-  ong = {
-    nome: '',
-    cnpj: '',
-    email: '',
-    senha: '',
-    telefone: '',
-    areaAtuacao: '',
-    endereco: '',
-    site: '',
-    descricao: '',
-    aceitouTermos: false
-  };
-
-  doador = {
-    nome: '',
-    email: '',
-    senha: '',
-    cpf: '',
-    telefone: '',
-    nascimento: '',
-    genero: '',
-    interesses: [] as string[],
-    receberNewsletter: false,
-    aceitouTermos: false
-  };
-
-  cadastrarOng() {
-    if (this.ong.nome && this.ong.cnpj && this.ong.email && this.ong.senha && this.ong.areaAtuacao && this.ong.aceitouTermos) {
-      console.log('ONG cadastrada:', this.ong);
-      // Aqui você faria a chamada para o serviço de cadastro
-      alert('ONG cadastrada com sucesso!');
-    } else {
-      alert('Por favor, preencha todos os campos obrigatórios.');
-    }
-  }
-
-  cadastrarDoador() {
-    if (this.doador.nome && this.doador.email && this.doador.senha && this.doador.cpf && this.doador.nascimento && this.doador.genero && this.doador.aceitouTermos) {
-      console.log('Doador cadastrado:', this.doador);
-      // Aqui você faria a chamada para o serviço de cadastro
-      alert('Doador cadastrado com sucesso!');
-    } else {
-      alert('Por favor, preencha todos os campos obrigatórios.');
-    }
-  }
 }

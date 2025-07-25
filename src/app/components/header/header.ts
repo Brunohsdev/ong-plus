@@ -1,9 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { filter } from 'rxjs';
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -26,9 +28,20 @@ export class Header implements OnInit {
   mostrarBusca = false;
   busca = '';
 
+  constructor(private router: Router) {}
+
   ngOnInit() {
     this.atualizarEstado();
-    window.addEventListener('storage', () => this.atualizarEstado()); // Detecta alterações no localStorage em outras abas
+
+    // Detecta mudança de rota
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.atualizarEstado();
+    });
+
+    // Detecta mudanças no localStorage em outras abas
+    window.addEventListener('storage', () => this.atualizarEstado());
   }
 
   atualizarEstado() {
@@ -36,11 +49,12 @@ export class Header implements OnInit {
     this.tipoUsuario = localStorage.getItem('tipoUsuario');
     this.usuarioNome = localStorage.getItem('usuarioNome');
     this.avatarUrl = localStorage.getItem('avatarUrl');
-    this.mostrarBusca = location.pathname === '/explorar';
+    this.mostrarBusca = this.router.url === '/explorar';
   }
 
   logout() {
     localStorage.clear();
-    window.location.href = '/login';
+    this.atualizarEstado();
+    this.router.navigate(['/login']);
   }
 }

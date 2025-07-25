@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component,signal } from '@angular/core';
-import {CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -9,38 +9,47 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    RouterModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatButtonModule, 
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
     MatIconModule
   ],
-   changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.html',
   styleUrls: ['./login.css']
-
 })
 export class Login {
   email = '';
   senha = '';
   erro = '';
   mostrarSenha = false;
-  login(){}
   hidePassword = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  fazerLogin(): void {
+  login(): void {
     this.authService.login({ email: this.email, senha: this.senha }).subscribe({
-      next: () => {
-        const user = this.authService.getUser();
+      next: (res) => {
+        const user = res.user;
+        const token = res.token;
+
+        // ✅ Salva os dados no localStorage
+        localStorage.setItem('token', token || '');
+        localStorage.setItem('usuarioNome', user?.nome || 'Usuário');
+        localStorage.setItem('avatarUrl', user?.fotoPerfil || ''); // Ajustado para 'fotoPerfil'
+        localStorage.setItem('tipoUsuario', user?.tipo || '');
+
+        // ✅ Dispara evento para atualizar o header
+        window.dispatchEvent(new Event("storage"));
+
+        // ✅ Redireciona conforme o tipo do usuário
         if (user?.tipo === 'doador') {
           this.router.navigate(['/dashboard-doador']);
         } else if (user?.tipo === 'ong') {

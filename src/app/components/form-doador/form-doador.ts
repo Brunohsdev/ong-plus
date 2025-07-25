@@ -15,7 +15,7 @@ import { RegisterService } from '../../services/register'; // ajuste o caminho c
 })
 export class FormDoador {
   constructor(private router: Router, private registerService: RegisterService) {}
-  
+
 
   doador = {
     nome: '',
@@ -44,23 +44,35 @@ export class FormDoador {
   }
 
   cadastrarDoador() {
-    this.cpfValido = this.validarCPF(this.doador.cpf);
-    this.idadeValida = this.validarIdade(this.doador.nascimento);
-    this.senhaValida = this.validarSenha(this.doador.senha);
-  
-    if (!this.cpfValido || !this.idadeValida || !this.senhaValida) return;
-  
-    this.registerService.registerUser({ ...this.doador, tipo: 'doador' }).subscribe({
-      next: (res) => {
-        console.log('Registro feito:', res);
-        this.router.navigate(['/dashboard-doador']);
-      },
-      error: (err) => {
-        alert('Erro ao registrar: ' + (err?.error?.message || 'tente novamente mais tarde'));
-      }
-    });
-  }
-  
+  this.cpfValido = this.validarCPF(this.doador.cpf);
+  this.idadeValida = this.validarIdade(this.doador.nascimento);
+  this.senhaValida = this.validarSenha(this.doador.senha);
+
+  if (!this.cpfValido || !this.idadeValida || !this.senhaValida) return;
+
+  this.registerService.registerUser({ ...this.doador, tipo: 'doador' }).subscribe({
+    next: (res) => {
+      console.log('Registro feito:', res);
+
+      // ✅ Armazenar os dados no localStorage
+      localStorage.setItem('token', res.token || '');
+      localStorage.setItem('usuarioNome', res.user?.nome || 'Usuário');
+      localStorage.setItem('avatarUrl', res.user?.fotoPerfil || '');
+      localStorage.setItem('tipoUsuario', res.user?.tipo || '');
+
+      // ✅ Notificar o header da mudança de estado
+      window.dispatchEvent(new Event("storage"));
+
+      // ✅ Redirecionar para dashboard doador
+      this.router.navigate(['/dashboard-doador']);
+    },
+    error: (err) => {
+      alert('Erro ao registrar: ' + (err?.error?.message || 'tente novamente mais tarde'));
+    }
+  });
+}
+
+
 
   validarCPF(cpf: string): boolean {
     cpf = cpf.replace(/\D/g, '');

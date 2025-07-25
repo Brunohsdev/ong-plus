@@ -45,7 +45,7 @@ import { Footer } from '../../components/footer/footer';
     MatCardModule,
     MatProgressSpinnerModule,
     Footer,
-    
+
   ],
   templateUrl: './dashboard-ong.html',
   styleUrls: ['./dashboard-ong.css']
@@ -150,7 +150,7 @@ export class DashboardOng implements OnInit, OnDestroy {
       '/doacoes': 'Doações',
       '/configuracoes': 'Configurações'
     };
-    
+
     this.pageTitle = routeTitles[this.router.url] || 'Painel da ONG';
   }
 
@@ -176,7 +176,7 @@ export class DashboardOng implements OnInit, OnDestroy {
     // Simula logout
     this.loading = true;
     setTimeout(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
       this.loading = false;
     }, 800);
   }
