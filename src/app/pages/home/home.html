@@ -70,10 +70,12 @@
               </div>
 
               <div class="card-footer bg-white border-0">
-                <a [routerLink]="['/explorar']" class="btn btn-sm w-100"
-                   [ngClass]="'btn-' + getBadgeColor(campaign.categoria)">
-                  Apoiar esta causa
-                </a>
+                <a [routerLink]="['/explorar']"
+                [queryParams]="{ campanhaId: campaign._id }"
+                class="btn btn-sm w-100"
+                [ngClass]="'btn-' + getBadgeColor(campaign.categoria)">
+                Apoiar esta causa
+                </a>             
               </div>
             </div>
           </div>

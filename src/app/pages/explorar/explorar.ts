@@ -9,6 +9,7 @@ import { ModelCampanha } from '../../models/campanha.models';
 import { CampanhasCards } from '../../components/cards/cards';
 import { Doacao } from '../doacao/doacao';
 import { Donation } from '../../models/donation.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-explore',
@@ -27,6 +28,11 @@ import { Donation } from '../../models/donation.model';
   styleUrls: ['./explorar.css']
 })
 export class Explorar {
+  constructor(
+    private route: ActivatedRoute,
+    private campaignService: CampaignService  
+  ) {}
+  
   showFilters = false;
   selectedTag = '';
   sortOption = 'recent';
@@ -37,12 +43,27 @@ export class Explorar {
   showDonationModal: boolean = false;
   selectedCampaign: ModelCampanha | null = null;
 
-  constructor(private campaignService: CampaignService) {}
+ 
 
   ngOnInit() {
     this.loadCampaigns();
+    this.route.queryParams.subscribe(params => {
+      const campanhaId = params['campanha._id'];
+      if (campanhaId) {
+        this.openCampaignModalById(campanhaId);
+      }
+    });
   }
-
+  
+  openCampaignModalById(id: string) {
+    const found = this.featuredCampaigns.find(c => c._id === id);
+    if (found) {
+      this.selectedCampaign = found;
+      this.showDonationModal = true;
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  
   loadCampaigns(): void {
     this.campaignService.getCampaigns().subscribe({
       next: (data) => {

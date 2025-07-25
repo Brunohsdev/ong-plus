@@ -14,32 +14,37 @@ import { Doacao } from '../../pages/doacao/doacao';
 export class CampanhasCards {
   @Input({ required: true }) campaign!: ModelCampanha;
   @Output() donate = new EventEmitter<ModelCampanha>();
-  
-  // Adicione estas propriedades
-  showDonationModal: boolean = false;
-  selectedCampaign: ModelCampanha | null = null;
+
+  showPremiumModal = false;
+  showDonationModal = false;
 
   getProgressPercentage(): number {
-    return this.campaign.meta > 0 
+    return this.campaign.meta > 0
       ? (this.campaign.arrecadado / this.campaign.meta) * 100
       : 0;
   }
 
-  onDonate(): void {
-    this.showDonationModal = true;
-    this.selectedCampaign = this.campaign;
+  openPremiumModal(): void {
+    this.showPremiumModal = true;
     document.body.style.overflow = 'hidden';
   }
 
-  closeModal(event: Event): void {
-    event.stopPropagation();
+  openDonationModal(event?: Event): void {
+    event?.stopPropagation();
+    this.showPremiumModal = false;
+    this.showDonationModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeModal(event?: Event): void {
+    event?.stopPropagation?.();
+    this.showPremiumModal = false;
     this.showDonationModal = false;
-    this.selectedCampaign = null;
     document.body.style.overflow = '';
   }
 
   handleDonationComplete(donation: any): void {
-    this.closeModal(new Event('close'));
+    this.closeModal();
     this.donate.emit(this.campaign);
   }
 
@@ -48,11 +53,10 @@ export class CampanhasCards {
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
   }
 
- getImageUrl(): string {
+  getImageUrl(): string {
     if (Array.isArray(this.campaign.imagem)) {
       return this.campaign.imagem[0] || 'assets/images/default-campaign.jpg';
     }
     return this.campaign.imagem || 'assets/images/default-campaign.jpg';
   }
-  
 }
