@@ -40,8 +40,8 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  const usuario = usuarios.find(u => u.email === email && u.senha === password);
+  const { email, senha } = req.body; // mudar para 'senha'
+  const usuario = usuarios.find(u => u.email === email && u.senha === senha);
   if (!usuario) {
     return res.status(401).json({ message: "Credenciais inválidas" });
   }
