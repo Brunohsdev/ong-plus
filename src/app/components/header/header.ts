@@ -33,14 +33,12 @@ export class Header implements OnInit {
   ngOnInit() {
     this.atualizarEstado();
 
-    // Detecta mudança de rota
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.atualizarEstado();
     });
 
-    // Detecta mudanças no localStorage em outras abas
     window.addEventListener('storage', () => this.atualizarEstado());
   }
 

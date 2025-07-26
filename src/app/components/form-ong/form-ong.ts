@@ -40,14 +40,39 @@ export class FormOng {
   ];
 
   cadastrarOng() {
-    this.cnpjValido = this.validarCNPJ(this.ong.cnpj);
-    this.senhaValida = this.validarSenha(this.ong.senha);
+  this.cnpjValido = this.validarCNPJ(this.ong.cnpj);
+  this.senhaValida = this.validarSenha(this.ong.senha);
 
-    if (!this.cnpjValido || !this.senhaValida) return;
+  if (!this.cnpjValido || !this.senhaValida) return;
 
-    console.log('ONG cadastrada:', this.ong);
-    this.router.navigate(['/dashboard-ong']);
-  }
+  // Envia a ONG para a API
+  fetch('http://localhost:3000/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...this.ong, tipo: 'ong' })
+  })
+    .then(res => res.json())
+    .then(res => {
+      console.log('ONG registrada:', res);
+
+      // ✅ Armazena os dados no localStorage
+      localStorage.setItem('token', res.token || '');
+      localStorage.setItem('usuarioNome', res.user?.nome || 'Minha ONG');
+      localStorage.setItem('avatarUrl', res.user?.fotoPerfil || '/ong-exemplo.svg');
+      localStorage.setItem('tipoUsuario', res.user?.tipo || 'ong');
+      localStorage.setItem('email', res.user?.email || '');
+
+      // ✅ Redireciona para o dashboard
+      this.router.navigate(['/dashboard-ong']);
+    })
+    .catch(err => {
+      console.error('Erro ao cadastrar ONG:', err);
+      alert('Erro ao registrar a ONG. Tente novamente mais tarde.');
+    });
+    
+
+}
+
 
   validarCNPJ(cnpj: string): boolean {
     if (!cnpj) return false;

@@ -51,17 +51,16 @@ import { Footer } from '../../components/footer/footer';
   styleUrls: ['./dashboard-ong.css']
 })
 export class DashboardOng implements OnInit, OnDestroy {
-  // Dados do usuário e organização
-  email = 'admin@ong.org';
 
-  currentUser: any = {
-    name: 'Admin',
-    email: 'admin@ong.org',
-    role: 'Administrador'
-  };
+  // Dados carregados dinamicamente
+  usuarioNome = '';
+  email = '';
+  avatarUrl = '';
+
+
 
   currentOng: any = {
-    name: 'Minha ONG',
+   
     verified: true,
     mission: 'Transformando vidas desde 2010',
     monthlyGoal: 75,
@@ -70,39 +69,14 @@ export class DashboardOng implements OnInit, OnDestroy {
     volunteers: 48
   };
 
-  // Estado do layout
   isHandset = false;
   sidenavOpened = true;
   sidenavMode: 'side' | 'over' = 'side';
   loading = false;
 
-  // Navegação
   pageTitle = 'Painel da ONG';
   unreadNotifications = 3;
 
-  // Atividades recentes
-  recentActivities = [
-    {
-      user: 'Maria Silva',
-      action: 'doou R$ 200 para Campanha A',
-      time: '2 horas atrás',
-      avatar: 'assets/images/user1.jpg'
-    },
-    {
-      user: 'João Oliveira',
-      action: 'se voluntariou para Evento B',
-      time: 'Ontem, 15:30',
-      avatar: 'assets/images/user2.jpg'
-    },
-    {
-      entity: 'ONG',
-      action: 'publicou nova campanha: Ajuda Animal',
-      time: '5 de Out, 2023',
-      initials: 'NG'
-    }
-  ];
-
-  // Subscriptions
   private subscriptions = new Subscription();
 
   constructor(
@@ -111,6 +85,7 @@ export class DashboardOng implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.carregarDadosDoLocalStorage();
     this.setupResponsiveLayout();
     this.setupRouterEvents();
     this.simulateDataLoading();
@@ -118,6 +93,32 @@ export class DashboardOng implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  private carregarDadosDoLocalStorage(): void {
+    this.usuarioNome = localStorage.getItem('usuarioNome') || 'Minha ONG';
+    this.email = localStorage.getItem('email') || 'admin@ong.org';
+    this.avatarUrl = localStorage.getItem('avatarUrl') || '/ong-exemplo.svg';
+  }
+
+  toggleSidenav(): void {
+    this.sidenavOpened = !this.sidenavOpened;
+  }
+
+  markNotificationAsRead(): void {
+    if (this.unreadNotifications > 0) {
+      this.unreadNotifications--;
+    }
+  }
+
+  logout(): void {
+    this.loading = true;
+
+    setTimeout(() => {
+      localStorage.clear();
+      this.router.navigate(['/h']);
+      this.loading = false;
+    }, 800);
   }
 
   private setupResponsiveLayout(): void {
@@ -144,7 +145,6 @@ export class DashboardOng implements OnInit, OnDestroy {
   }
 
   private updatePageTitle(): void {
-    // Você pode implementar lógica mais sofisticada aqui baseada na rota
     const routeTitles: {[key: string]: string} = {
       '/campanhas': 'Campanhas',
       '/doacoes': 'Doações',
@@ -156,53 +156,41 @@ export class DashboardOng implements OnInit, OnDestroy {
 
   private simulateDataLoading(): void {
     this.loading = true;
-    // Simula carregamento de dados
     setTimeout(() => {
       this.loading = false;
     }, 1500);
   }
 
-  toggleSidenav(): void {
-    this.sidenavOpened = !this.sidenavOpened;
+  getDonationTrend() {
+    return { icon: 'trending_up', value: '+22%', positive: true };
   }
 
-  markNotificationAsRead(): void {
-    if (this.unreadNotifications > 0) {
-      this.unreadNotifications--;
-    }
+  getVolunteerTrend() {
+    return { icon: 'trending_down', value: '-3%', positive: false };
   }
 
-  logout(): void {
-    // Simula logout
-    this.loading = true;
-    setTimeout(() => {
-      this.router.navigate(['/home']);
-      this.loading = false;
-    }, 800);
+  getCampaignTrend() {
+    return { icon: 'trending_up', value: '+5%', positive: true };
   }
+  recentActivities = [
+  {
+    user: 'Maria Silva',
+    action: 'doou R$ 200 para Campanha A',
+    time: '2 horas atrás',
+    avatar: 'logo-ong-white.svg'
+  },
+  {
+    user: 'João Oliveira',
+    action: 'se voluntariou para Evento B',
+    time: 'Ontem, 15:30',
+    avatar: 'logo-ong-white.svg'
+  },
+  {
+    entity: 'ONG',
+    action: 'publicou nova campanha: Ajuda Animal',
+    time: '5 de Out, 2023',
+    initials: 'NG'
+  }
+];
 
-  // Funções para dados de exemplo
-  getDonationTrend(): {icon: string, value: string, positive: boolean} {
-    return {
-      icon: 'trending_up',
-      value: '+22%',
-      positive: true
-    };
-  }
-
-  getVolunteerTrend(): {icon: string, value: string, positive: boolean} {
-    return {
-      icon: 'trending_down',
-      value: '-3%',
-      positive: false
-    };
-  }
-
-  getCampaignTrend(): {icon: string, value: string, positive: boolean} {
-    return {
-      icon: 'trending_up',
-      value: '+5%',
-      positive: true
-    };
-  }
 }

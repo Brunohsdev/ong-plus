@@ -24,6 +24,8 @@ import { CampaignService } from '../../services/campanha';
 import { ModelCampanha } from '../../models/campanha.models';
 import { NewCampaignDialogComponent } from '../../components/new-campaign-dialog/new-campaign-dialog';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog';
+import { Footer } from '../../components/footer/footer';
+import { Header } from '../../components/header/header';
 
 @Component({
   selector: 'app-campaigns',
@@ -43,7 +45,9 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatIcon
+    MatIcon,
+    Footer,
+    Header
   ],
   templateUrl: './campanhas.html',
   styleUrls: ['./campanhas.css']

@@ -1,7 +1,7 @@
 <div class="admin-luxury-layout d-flex flex-column min-vh-100">
-  <!-- Sidenav Container with Gold Accent -->
+  <!-- Sidenav Container with Accent -->
   <mat-sidenav-container class="luxury-sidenav-container flex-grow-1" [hasBackdrop]="isHandset">
-    
+
     <!-- Luxury Sidebar -->
     <mat-sidenav #sidenav
                  [(opened)]="sidenavOpened"
@@ -9,139 +9,138 @@
                  class="luxury-sidenav"
                  fixedInViewport="true"
                  [fixedTopGap]="isHandset ? 56 : 0">
-      
-      <!-- Sidebar Header with Gold Gradient -->
+
+      <!-- Sidebar Header with Gradient -->
       <div class="sidenav-header luxury-header">
         <div class="logo-container d-flex align-items-center mb-4">
           <img src="logo-ong-white.svg" alt="ONG+" class="logo me-2 w-25">
-          <span class="app-name fw-bold ">ONG+</span>
-          
+          <span class="app-name fw-bold">ONG+</span>
+
         </div>
 
         <!-- ONG Profile Card -->
         <div class="ong-profile-card">
           <div class="avatar-container">
-            <img src="/ong-exemplo.svg" alt="Logo ONG" class="ong-avatar">
+            <img [src]="avatarUrl" alt="Logo ONG" class="ong-avatar" />
             <div class="verification-badge">
               <mat-icon>verified</mat-icon>
             </div>
           </div>
           <div class="ong-info">
-            <h3 class="ong-name">Minha ONG</h3>
-            <p class="ong-mission">Transformando vidas desde 2010</p>
+            <h3 class="ong-name">{{ usuarioNome }}</h3>
+            <p class="ong-mission">{{ currentOng.mission }}</p>
             <div class="progress-container">
-              <span class="progress-label">Meta mensal: 75%</span>
-              <mat-progress-bar mode="determinate" value="75" class="luxury-progress"></mat-progress-bar>
+              <span class="progress-label">Meta mensal: {{ currentOng.monthlyGoal }}%</span>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="currentOng.monthlyGoal"
+                class="luxury-progress"
+              ></mat-progress-bar>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Luxury Menu with Hover Effects -->
+      <!-- Luxury Menu -->
       <mat-nav-list class="luxury-menu">
-        <a mat-list-item routerLink="/campanhas" routerLinkActive="active" class="luxury-menu-item">
-          <div class="menu-icon-container">
-            <mat-icon>campaign</mat-icon>
-          </div>
-          <span class="menu-label">Campanhas</span>
-          <span class="menu-counter">12</span>
-        </a>
-        
-        <a mat-list-item routerLink="/doacoes" routerLinkActive="active" class="luxury-menu-item">
-          <div class="menu-icon-container">
-            <mat-icon>volunteer_activism</mat-icon>
-          </div>
-          <span class="menu-label">Doações</span>
-          <span class="menu-counter">48</span>
-        </a>
-        
-        <a mat-list-item routerLink="/configuracoes" routerLinkActive="active" class="luxury-menu-item">
-          <div class="menu-icon-container">
-            <mat-icon>settings</mat-icon>
-          </div>
-          <span class="menu-label">Configurações</span>
-        </a>
-      </mat-nav-list>
+  <a mat-list-item routerLink="/campanhas" routerLinkActive="active" class="luxury-menu-item d-flex align-items-center">
+    <div class="menu-icon-container d-flex align-items-center justify-content-center">
+      <mat-icon>campaign</mat-icon>
+    </div>
+    <span class="menu-label flex-grow-1 text-white">Campanhas</span>
 
-      <!-- Sidebar Footer with Signature -->
+  </a>
+
+  <a mat-list-item routerLink="/doacoes" routerLinkActive="active" class="luxury-menu-item d-flex align-items-center">
+    <div class="menu-icon-container d-flex align-items-center justify-content-center">
+      <mat-icon>volunteer_activism</mat-icon>
+      <span class="menu-label flex-grow-1 text-white">Doações</span>
+    </div>
+
+  </a>
+</mat-nav-list>
+
+      <!-- Sidebar Footer -->
       <div class="sidenav-footer">
         <button mat-flat-button color="warn" class="luxury-logout-btn" (click)="logout()">
           <mat-icon>logout</mat-icon>
           Sair da conta
         </button>
         <div class="luxury-signature">
-          <span>ONG+ Premium </span>
+          <span>ONG+ </span>
+          <span class="version">v2.1.0</span>
         </div>
       </div>
     </mat-sidenav>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <mat-sidenav-content class="luxury-content d-flex flex-column">
-      
-      <!-- Luxury Toolbar -->
+
+      <!-- Toolbar -->
       <header class="luxury-toolbar">
         <div class="toolbar-left">
           <button mat-icon-button (click)="toggleSidenav()" class="luxury-menu-btn">
             <mat-icon>menu</mat-icon>
           </button>
           <h1 class="page-title">
-            <span class="title-main">Painel da ONG</span>
+            <span class="title-main">{{ pageTitle }}</span>
             <span class="title-sub">Bem-vindo de volta!</span>
           </h1>
         </div>
 
-        <div class="toolbar-right">
-          <button mat-icon-button class="luxury-notification-btn">
-            <mat-icon>notifications</mat-icon>
-            <span class="notification-badge">3</span>
-          </button>
-          
-          <div class="user-profile" [matMenuTriggerFor]="userMenu">
-            <img src="/ong-exemplo.svg" alt="Avatar" class="user-avatar">
-            <div class="user-info">
-              <span class="user-name">Minha Ong</span>
-              
-            </div>
-            <mat-icon>arrow_drop_down</mat-icon>
+
+
+
+        <div class="dropdown" #userMenu>
+    <div class="user-profile " data-bs-toggle="dropdown" aria-expanded="false">
+      <img [src]="avatarUrl" alt="Avatar" class="user-avatar" />
+      <div class="user-info">
+        <span class="user-name">{{ usuarioNome }}</span>
+        <span class="user-role">Administrador</span>
+      </div>
+
+    </div>
+
+    <ul class="dropdown-menu luxury-profile-menu">
+      <li class="dropdown-header">
+        <div class="menu-header">
+          <img [src]="avatarUrl" alt="Avatar" class="menu-avatar" />
+          <div class="menu-user-info">
+            <h4>{{ usuarioNome }}</h4>
+            <p>{{ email }}</p>
           </div>
         </div>
+      </li>
+      <li><mat-divider class="dropdown-divider"></mat-divider></li>
+      <li>
+        <a class="dropdown-item" routerLink="/perfil">
+          <mat-icon>account_circle</mat-icon>
+          <span>Meu Perfil</span>
+        </a>
+      </li>
+      <li><mat-divider class="dropdown-divider"></mat-divider></li>
+      <li>
+        <a class="dropdown-item" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
       </header>
 
       <!-- User Menu -->
-      <mat-menu #userMenu="matMenu" class="luxury-profile-menu">
-        <div class="menu-header">
-          <img src="/ong-exemplo.svg" alt="Avatar" class="menu-avatar">
-          <div class="menu-user-info">
-            <h4>Admin</h4>
-            <p>{{email}}</p>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/perfil">
-          <mat-icon>account_circle</mat-icon>
-          <span>Meu Perfil</span>
-        </button>
-        <button mat-menu-item routerLink="/configuracoes">
-          <mat-icon>settings</mat-icon>
-          <span>Configurações</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          <span>Sair</span>
-        </button>
-      </mat-menu>
 
       <!-- Dashboard Content -->
       <main class="luxury-dashboard">
-        <!-- Stats Cards with Glass Morphism -->
         <div class="luxury-stats-grid">
           <div class="luxury-stat-card">
             <div class="stat-icon">
               <mat-icon>campaign</mat-icon>
             </div>
             <div class="stat-info">
-              <h3>12</h3>
+              <h3>{{ currentOng.campaigns }}</h3>
               <p>Campanhas Ativas</p>
             </div>
             <div class="stat-trend positive">
@@ -149,13 +148,13 @@
               <span>+5%</span>
             </div>
           </div>
-          
+
           <div class="luxury-stat-card">
             <div class="stat-icon">
               <mat-icon>volunteer_activism</mat-icon>
             </div>
             <div class="stat-info">
-              <h3>R$ 34.250</h3>
+              <h3>R$ {{ currentOng.donations }}</h3>
               <p>Doações Recebidas</p>
             </div>
             <div class="stat-trend positive">
@@ -163,13 +162,13 @@
               <span>+22%</span>
             </div>
           </div>
-          
+
           <div class="luxury-stat-card">
             <div class="stat-icon">
               <mat-icon>groups</mat-icon>
             </div>
             <div class="stat-info">
-              <h3>48</h3>
+              <h3>{{ currentOng.volunteers }}</h3>
               <p>Novos Doadores</p>
             </div>
             <div class="stat-trend negative">
@@ -179,27 +178,24 @@
           </div>
         </div>
 
-        <!-- Main Content Area -->
+        <!-- Content Grid -->
         <div class="luxury-content-grid">
-          <!-- Donation Chart -->
           <div class="luxury-chart-card">
             <div class="card-header">
               <h3>Arrecadação Mensal</h3>
               <div class="time-filter">
-                <button mat-button>Mês</button>
+                <button mat-button class="active">Mês</button>
                 <button mat-button>Trimestre</button>
                 <button mat-button>Ano</button>
               </div>
             </div>
             <div class="chart-container">
-              <!-- Placeholder for chart -->
               <div class="chart-placeholder">
-                <img src="assets/images/chart-placeholder.svg" alt="Gráfico de doações">
+                <img src="assets/images/chart-placeholder.svg" alt="Gráfico de doações" />
               </div>
             </div>
           </div>
-          
-          <!-- Recent Activities -->
+
           <div class="luxury-activities-card">
             <div class="card-header">
               <h3>Atividades Recentes</h3>
@@ -208,42 +204,44 @@
               </button>
             </div>
             <div class="activities-list">
-              <div class="activity-item">
+              <div class="activity-item" *ngFor="let activity of recentActivities">
                 <div class="activity-avatar">
-                  <img src="assets/images/user1.jpg" alt="Usuário">
+                  <img *ngIf="activity.avatar" [src]="activity.avatar" alt="Usuário" />
+                  <div *ngIf="!activity.avatar" class="initials-avatar">{{ activity.initials }}</div>
                 </div>
                 <div class="activity-details">
-                  <p><strong>Maria Silva</strong> doou R$ 200 para <strong>Campanha A</strong></p>
-                  <span class="activity-time">2 horas atrás</span>
-                </div>
-              </div>
-              
-              <div class="activity-item">
-                <div class="activity-avatar">
-                  <img src="assets/images/user2.jpg" alt="Usuário">
-                </div>
-                <div class="activity-details">
-                  <p><strong>João Oliveira</strong> se voluntariou para <strong>Evento B</strong></p>
-                  <span class="activity-time">Ontem, 15:30</span>
-                </div>
-              </div>
-              
-              <div class="activity-item">
-                <div class="activity-avatar">
-                  <div class="initials-avatar">NG</div>
-                </div>
-                <div class="activity-details">
-                  <p>Nova campanha publicada: <strong>Ajuda Animal</strong></p>
-                  <span class="activity-time">5 de Out, 2023</span>
+                  <p>
+                    <strong>{{ activity.user || activity.entity }}</strong> {{ activity.action }}
+                  </p>
+                  <span class="activity-time">{{ activity.time }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Additional Content -->
+        <div class="luxury-features-grid">
+          <div class="luxury-feature-card">
+            <div class="feature-icon">
+              <mat-icon>star</mat-icon>
+            </div>
+            <h4>Recursos Premium</h4>
+            <p>Aproveite todos os benefícios exclusivos da sua conta ONG+ Premium</p>
+          </div>
+
+          <div class="luxury-feature-card">
+            <div class="feature-icon">
+              <mat-icon>support_agent</mat-icon>
+            </div>
+            <h4>Suporte Prioritário</h4>
+            <p>Atendimento dedicado para resolver suas dúvidas rapidamente</p>
+          </div>
+        </div>
       </main>
 
-      <!-- Luxury Footer -->
-      <app-footer></app-footer>
+      <!-- Footer -->
+    <app-footer></app-footer>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

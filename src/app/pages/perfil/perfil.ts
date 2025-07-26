@@ -1,6 +1,7 @@
 // perfil-page.component.ts
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DashboardDoador } from "../dashboard-doador/dashboard-doador";
 
 interface User {
   id: string;
@@ -18,7 +19,7 @@ interface User {
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DashboardDoador],
   templateUrl: './perfil.html',
   styleUrls: ['./perfil.css']
 })
