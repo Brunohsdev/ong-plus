@@ -78,44 +78,68 @@ export class Home implements OnInit {
       avatar: 'carlos.jpg'
     }
   ];
+  slides = [
+  {
+    imagem: '/banner1.jpg',
+    titulo: 'Conectando solidariedade',
+    descricao: 'ONG+ aproxima quem quer ajudar de quem precisa de ajuda.',
+    botaoTexto: 'Cadastre sua ONG',
+    link: '/cadastrar'
+  },
+  {
+    imagem: '/banner2.jpg',
+    titulo: 'Seja um doador transformador',
+    descricao: 'Com poucos cliques você apoia causas reais.',
+    botaoTexto: 'Ver campanhas',
+    link: '/explorar'
+  },
+  {
+    imagem: '/banner3.jpg',
+    titulo: 'Junte-se ao movimento',
+    descricao: 'Faça parte você também!',
+    botaoTexto: 'Saiba mais',
+    link: '/cadastrar'
+  }
+];
+
   getBadgeColor(categoria: string): string {
     // Primeiro converte para minúsculas para comparação
     const categoriaLower = categoria.toLowerCase();
-    
+
     switch (categoriaLower) {
       case 'saúde':        // #4E9F3D → Verde (success)
         return 'success';
-      
+
       case 'educação':     // #1E5128 → Verde escuro (não tem exato, usar success)
         return 'success';
-      
+
       case 'meio ambiente': // #3E7C17 → Verde (success)
         return 'success';
-      
+
       case 'tecnologia':    // #191A19 → Quase preto (dark)
         return 'dark';
-      
+
       case 'animais':       // #D8E9A8 → Verde claro (não tem exato, usar success com opacidade)
         return 'success';    // Ou criar uma classe customizada
-      
+
       case 'alimentos':     // #FF9A76 → Laranja (warning)
         return 'warning';
-      
+
       case 'roupas':        // #6A8CAF → Azul (info)
         return 'info';
-      
+
       case 'dinheiro':      // #A7D7C5 → Verde água (não tem exato, info)
         return 'info';
-      
+
       case 'sangue':        // #F47C7C → Vermelho (danger)
         return 'danger';
-      
+
       case 'brinquedos':    // #86C166 → Verde (success)
         return 'success';
-      
+
       case 'outros':        // #C4A7CB → Lilás (não tem exato, secondary)
         return 'secondary';
-      
+
       default:
         return 'secondary';
     }
