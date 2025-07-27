@@ -1,6 +1,13 @@
-// campaigns.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+
+import { CampaignService } from '../../services/campanha';
+import { ModelCampanha } from '../../models/campanha.models';
+import { NewCampaignDialogComponent } from '../../components/new-campaign-dialog/new-campaign-dialog';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog';
+// campaigns.component.ts
+
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -19,11 +26,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 import { MatTableDataSource } from '@angular/material/table';
-// import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { CampaignService } from '../../services/campanha';
-import { ModelCampanha } from '../../models/campanha.models';
-import { NewCampaignDialogComponent } from '../../components/new-campaign-dialog/new-campaign-dialog';
-import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog';
+
 import { Footer } from '../../components/footer/footer';
 import { Header } from '../../components/header/header';
 
@@ -52,45 +55,79 @@ import { Header } from '../../components/header/header';
   templateUrl: './campanhas.html',
   styleUrls: ['./campanhas.css']
 })
+
 export class Campanhas implements OnInit {
-  displayedColumns: string[] = ['image', 'title', 'category', 'goal', 'progress', 'status', 'actions'];
-  dataSource = new MatTableDataSource<ModelCampanha>();
+  campaigns: ModelCampanha[] = [];
+  filteredCampaigns: ModelCampanha[] = [];
   loading = true;
+  searchTerm = '';
+  selectedCategory = '';
+  selectedStatus = '';
+  categories = ['alimentos', 'roupas', 'dinheiro', 'sangue', 'brinquedos', 'outros'];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private campaignService: CampaignService,
     private dialog: MatDialog
   ) {}
 
-  categories: string[] = ['Educação', 'Saúde', 'Animais']; // Exemplo
-
-applyFilter(event: any) {
-  const value = (event.target as HTMLInputElement).value;
-  // sua lógica de filtro aqui
-}
-
-filterByCategory(value: string) {
-  // lógica de filtro por categoria
-}
-
-filterByStatus(value: string) {
-  // lógica de filtro por status
-}
   ngOnInit(): void {
     this.loadCampaigns();
   }
 
+  getCategoryName(category: string): string {
+  const categoryNames: {[key: string]: string} = {
+    'alimentos': 'Alimentos',
+    'roupas': 'Roupas',
+    'dinheiro': 'Dinheiro',
+    'sangue': 'Doação de Sangue',
+    'brinquedos': 'Brinquedos',
+    'outros': 'Outros'
+  };
+  return categoryNames[category] || category;
+}
+
+getStatusName(status: string): string {
+  const statusNames: {[key: string]: string} = {
+    'ativa': 'Ativa',
+    'encerrada': 'Encerrada',
+    'suspensa': 'Suspensa'
+  };
+  return statusNames[status] || status;
+}
   loadCampaigns(): void {
     this.loading = true;
     this.campaignService.getCampaigns().subscribe({
       next: (campaigns) => {
-        this.dataSource.data = campaigns;
+        this.campaigns = campaigns;
+        this.filteredCampaigns = [...campaigns];
         this.loading = false;
       },
       error: () => {
         this.loading = false;
       }
     });
+  }
+
+  applyFilters(): void {
+    this.filteredCampaigns = this.campaigns.filter(campaign => {
+      const matchesSearch = !this.searchTerm ||
+        campaign.titulo.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        campaign.descricao.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+      const matchesCategory = !this.selectedCategory ||
+        campaign.categoria === this.selectedCategory;
+
+      const matchesStatus = !this.selectedStatus ||
+        campaign.status === this.selectedStatus;
+
+      return matchesSearch && matchesCategory && matchesStatus;
+    });
+
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
   }
 
   openNewCampaignDialog(): void {
@@ -127,22 +164,23 @@ filterByStatus(value: string) {
         title: 'Confirmar Exclusão',
         message: `Tem certeza que deseja excluir a campanha "${campaign.titulo}"?`,
         confirmText: 'Excluir',
-        cancelText: 'Cancelar'
+        cancelText: 'Cancelar',
+        isDestructive: true
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.loading = true;
         this.campaignService.deleteCampaign(campaign._id).subscribe({
           next: () => {
             this.loadCampaigns();
+          },
+          error: () => {
+            this.loading = false;
           }
         });
       }
     });
-  }
-
-  getProgress(campaign: ModelCampanha): number {
-    return (campaign.meta / campaign.arrecadado) * 100;
   }
 }

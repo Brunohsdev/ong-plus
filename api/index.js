@@ -90,14 +90,28 @@ app.delete("/api/campanhas/:id", (req, res) => {
 
 
 campanhas = [
-    {
-      id: 1,
-      titulo: 'Doe sangue, salve vidas',
-      descricao: 'Campanha de doação de sangue para hospitais da região.',
-      ong: 'Vida+, Saúde',
-      categoria: 'saúde',
-      imagem: 'http://localhost:3000/imagens/sangue.jpg'
+   {
+    _id: uuidv4(),
+    titulo: 'Doe sangue, salve vidas',
+    descricao: 'Campanha de doação de sangue para hospitais da região.',
+    ong: {
+      _id: uuidv4(),
+      nome: 'Vida+',
+      logo: 'http://localhost:3000/imagens/sangue.jpg'
     },
+    categoria: 'sangue',
+    meta: 10000,
+    arrecadado: 6500,
+    dataInicio: new Date('2023-01-01'),
+    dataFim: new Date('2023-12-31'),
+    status: 'ativa',
+    imagem: ['http://localhost:3000/imagens/sangue.jpg'],
+    local: {
+      endereco: 'Rua das Clínicas, 123',
+      cidade: 'São Paulo',
+      estado: 'SP'
+    }
+  },
     {
       id: 2,
       titulo: 'Educação para Todos',
@@ -158,12 +172,22 @@ app.get("/api/donations", (req, res) => {
   res.json(doacoes);
 });
 
-app.post("/api/donations", (req, res) => {
-  const nova = {
+app.post("/api/campanhas", (req, res) => {
+  const novaCampanha = {
     _id: uuidv4(),
-    dataDoacao: new Date(),
-    ...req.body
+    arrecadado: 0,
+    avaliacaoCount: 0,
+    avaliacaoMedia: 0,
+    status: "ativa",
+    imagem: [],
+    ...req.body,
+    dataInicio: new Date(req.body.dataInicio),
+    dataFim: new Date(req.body.dataFim)
   };
+
+  campanhas.push(novaCampanha);
+  res.status(201).json(novaCampanha);
+
   doacoes.push(nova);
   // Atualizar valor arrecadado
   const campanha = campanhas.find(c => c._id === nova.campanha._id);
