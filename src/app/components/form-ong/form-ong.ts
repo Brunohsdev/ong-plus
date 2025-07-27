@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { RouterLink, Router } from '@angular/router';
 
@@ -39,7 +39,11 @@ export class FormOng {
     'Direitos Humanos'
   ];
 
-  cadastrarOng() {
+  cadastrarOng(form :NgForm) {
+      if (form.invalid) {
+    Object.values(form.controls).forEach(control => control.markAsTouched());
+    return;
+      }
   this.cnpjValido = this.validarCNPJ(this.ong.cnpj);
   this.senhaValida = this.validarSenha(this.ong.senha);
 
@@ -69,7 +73,7 @@ export class FormOng {
       console.error('Erro ao cadastrar ONG:', err);
       alert('Erro ao registrar a ONG. Tente novamente mais tarde.');
     });
-    
+
 
 }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { RouterLink, Router } from '@angular/router';
 import { RegisterService } from '../../services/register'; // ajuste o caminho conforme sua estrutura
@@ -43,7 +43,11 @@ export class FormDoador {
     else this.doador.interesses.push(interesse);
   }
 
-  cadastrarDoador() {
+  cadastrarDoador(form: NgForm) {
+     if (form.invalid) {
+    Object.values(form.controls).forEach(control => control.markAsTouched());
+    return;
+  }
   this.cpfValido = this.validarCPF(this.doador.cpf);
   this.idadeValida = this.validarIdade(this.doador.nascimento);
   this.senhaValida = this.validarSenha(this.doador.senha);

@@ -1,4 +1,4 @@
-<form class="ong-form" #formRef="ngForm" (ngSubmit)="cadastrarOng()">
+<form class="ong-form" #formRef="ngForm" (ngSubmit)="cadastrarOng(formRef)">
   <div class="form-grid">
     <!-- Nome da ONG -->
     <div class="form-group">
@@ -17,7 +17,7 @@
       <div *ngIf="nome.invalid && nome.touched" class="error-msg">Nome da ONG é obrigatório.</div>
     </div>
 
- 
+
    <!-- CNPJ -->
 <!-- CNPJ -->
 <div class="form-group">
@@ -25,20 +25,22 @@
   <div class="input-with-icon">
     <i class="bi bi-file-text"></i>
     <input
-    id="cnpj"
-    type="text"
-    name="cnpj"
-    [ngModel]="ong.cnpj"
-    (ngModelChange)="onCnpjChange($event)"
-    required
-    mask="00.000.000/0000-00"
-    [class.is-invalid]="!cnpjValido && ong.cnpj.length > 0"
-  />
-  
-
+      id="cnpj"
+      type="text"
+      name="cnpj"
+      required
+      [(ngModel)]="ong.cnpj"
+      #cnpj="ngModel"
+      (ngModelChange)="onCnpjChange($event)"
+      mask="00.000.000/0000-00"
+      [class.is-invalid]="(cnpj.invalid && cnpj.touched) || (!cnpjValido && ong.cnpj.length > 0)"
+    />
   </div>
+
+  <div *ngIf="cnpj.invalid && cnpj.touched" class="error-msg">CNPJ é obrigatório.</div>
   <div *ngIf="!cnpjValido && ong.cnpj.length > 0" class="error-msg">CNPJ inválido.</div>
 </div>
+
 
     <!-- E‑mail -->
     <div class="form-group">
@@ -159,7 +161,7 @@
     </div>
   </div>
 
-  <button type="submit" class="submit-button" [disabled]="!formRef.valid">
+  <button type="submit" class="submit-button">
     <i class="bi bi-check-circle"></i> Cadastrar como ONG
   </button>
 </form>
