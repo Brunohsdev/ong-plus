@@ -20,13 +20,14 @@ export class CampaignService {
     return this.http.get<ModelCampanha>(`${this.baseUrl}/${id}`);
   }
 
-  createCampaign(campaign: FormData): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, campaign);
-  }
+ createCampaign(campaign: any): Observable<any> {
+  return this.http.post(this.baseUrl, campaign);
+}
 
-  updateCampaign(id: string, campaign: FormData): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, campaign);
-  }
+updateCampaign(id: string, campaign: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/${id}`, campaign);
+}
+
 
   deleteCampaign(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);

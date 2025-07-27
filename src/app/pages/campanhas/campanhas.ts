@@ -4,8 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import { CampaignService } from '../../services/campanha';
 import { ModelCampanha } from '../../models/campanha.models';
-import { NewCampaignDialogComponent } from '../../components/new-campaign-dialog/new-campaign-dialog';
-import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog';
+import { NewCampaignDialog } from '../../components/new-campaign-dialog/new-campaign-dialog';
+import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
 // campaigns.component.ts
 
 import { CommonModule } from '@angular/common';
@@ -63,7 +63,8 @@ export class Campanhas implements OnInit {
   searchTerm = '';
   selectedCategory = '';
   selectedStatus = '';
-  categories = ['alimentos', 'roupas', 'dinheiro', 'sangue', 'brinquedos', 'outros'];
+  categories = ['saúde', 'educação', 'meio ambiente', 'tecnologia', 'animais',
+    'alimentos', 'roupas', 'dinheiro', 'sangue', 'brinquedos', 'outros'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -78,12 +79,17 @@ export class Campanhas implements OnInit {
 
   getCategoryName(category: string): string {
   const categoryNames: {[key: string]: string} = {
-    'alimentos': 'Alimentos',
-    'roupas': 'Roupas',
-    'dinheiro': 'Dinheiro',
-    'sangue': 'Doação de Sangue',
-    'brinquedos': 'Brinquedos',
-    'outros': 'Outros'
+   'saúde':'saúde',
+   'educação':'educação',
+   'meio ambiente':'meio ambiente',
+   'tecnologia':'tecnologia',
+   'animais':'animais',
+   'alimentos':'alimentos',
+   'roupas':'roupas',
+   'dinheiro':'dinheiro',
+   'sangue':'sangue',
+   'brinquedos':'brinquedos',
+    'outros':'outros'
   };
   return categoryNames[category] || category;
 }
@@ -131,9 +137,10 @@ getStatusName(status: string): string {
   }
 
   openNewCampaignDialog(): void {
-    const dialogRef = this.dialog.open(NewCampaignDialogComponent, {
+    const dialogRef = this.dialog.open(NewCampaignDialog, {
       width: '800px',
-      disableClose: true
+      disableClose: true,
+      data: { campaign: null }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -144,7 +151,7 @@ getStatusName(status: string): string {
   }
 
   editCampaign(campaign: ModelCampanha): void {
-    const dialogRef = this.dialog.open(NewCampaignDialogComponent, {
+    const dialogRef = this.dialog.open(NewCampaignDialog, {
       width: '800px',
       disableClose: true,
       data: { campaign }
@@ -158,7 +165,7 @@ getStatusName(status: string): string {
   }
 
   deleteCampaign(campaign: ModelCampanha): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmDialog, {
       width: '500px',
       data: {
         title: 'Confirmar Exclusão',

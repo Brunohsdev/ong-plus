@@ -21,6 +21,8 @@ import { PrivacyPoliticy } from './pages/privacy-politicy/privacy-politicy';
 import { Perfil } from './pages/perfil/perfil';
 import { CampanhasCards } from './components/cards/cards';
 import { Doacao } from './pages/doacao/doacao';
+import { NewCampaignDialog} from './components/new-campaign-dialog/new-campaign-dialog';
+import { ConfirmDialog } from './components/confirm-dialog/confirm-dialog';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,20 +42,8 @@ export const routes: Routes = [
   {path: 'policy-privacy', component: PrivacyPoliticy},
   {path: 'cards', component: CampanhasCards},
   {path:'doacao', component: Doacao},
-  // Dashboards com proteção de rota
-  // {
-  //   path: 'dashboard-ong',
-  //   component: DashboardOng,
-  //   canActivate: [authGuard, roleGuard],
-  //   data: { role: 'ong' }
-  // },
-  // {
-  //   path: 'dashboard-doador',
-  //   component: DashboardDoador,
-  //   canActivate: [authGuard, roleGuard],
-  //   data: { role: 'doador' }
-  // },
+  {path: 'new-campaign-dialog', component: NewCampaignDialog},
 
-  // Rota coringa
+{path: 'confirm-dialog', component: ConfirmDialog},  // Rota coringa
   { path: '**', redirectTo: 'home' }
 ];

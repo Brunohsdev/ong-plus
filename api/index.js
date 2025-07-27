@@ -63,17 +63,31 @@ app.get("/api/campanhas/:id", (req, res) => {
 });
 
 app.post("/api/campanhas", (req, res) => {
-  const nova = {
+  const novaCampanha = {
     _id: uuidv4(),
+    titulo: req.body.titulo,
+    descricao: req.body.descricao,
+    categoria: req.body.categoria,
+    meta: parseFloat(req.body.meta),
     arrecadado: 0,
     avaliacaoCount: 0,
     avaliacaoMedia: 0,
     status: "ativa",
-    ...req.body
+    imagem: [], // Ou gere a imagem com base em categoria se quiser
+    dataInicio: new Date(),
+    dataFim: new Date(req.body.dataFim),
+    local: req.body.local,
+    ong: {
+      _id: req.body.ong?._id || uuidv4(),
+      nome: req.body.ong?.nome || 'ONG Anônima',
+      logo: req.body.ong?.logo || ''
+    }
   };
-  campanhas.push(nova);
-  res.status(201).json(nova);
+
+  campanhas.push(novaCampanha);
+  res.status(201).json(novaCampanha);
 });
+
 
 app.put("/api/campanhas/:id", (req, res) => {
   const index = campanhas.findIndex(c => c._id === req.params.id);
@@ -172,28 +186,8 @@ app.get("/api/donations", (req, res) => {
   res.json(doacoes);
 });
 
-app.post("/api/campanhas", (req, res) => {
-  const novaCampanha = {
-    _id: uuidv4(),
-    arrecadado: 0,
-    avaliacaoCount: 0,
-    avaliacaoMedia: 0,
-    status: "ativa",
-    imagem: [],
-    ...req.body,
-    dataInicio: new Date(req.body.dataInicio),
-    dataFim: new Date(req.body.dataFim)
-  };
 
-  campanhas.push(novaCampanha);
-  res.status(201).json(novaCampanha);
 
-  doacoes.push(nova);
-  // Atualizar valor arrecadado
-  const campanha = campanhas.find(c => c._id === nova.campanha._id);
-  if (campanha) campanha.arrecadado += nova.valor;
-  res.status(201).json(nova);
-});
 
 // ========================
 // INICIAR SERVIDOR
