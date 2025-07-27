@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { RouterModule } from '@angular/router';
-import { CommonModule, CurrencyPipe, NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { CampaignService } from '../../services/campanha';
 import { ModelCampanha } from '../../models/campanha.models';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, Footer, RouterModule, NgClass, CurrencyPipe, CommonModule],
+  imports: [Header, Footer, RouterModule, NgClass, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
