@@ -5,9 +5,6 @@
     <div class="cover-photo">
       <div class="profile-avatar">
         <img [src]="user.fotoPerfil || 'assets/images/default-avatar.png'" alt="Foto de perfil">
-        <button mat-mini-fab class="edit-photo-btn" *ngIf="isOwnProfile">
-          <mat-icon>edit</mat-icon>
-        </button>
       </div>
     </div>
 
@@ -17,27 +14,22 @@
         {{ user.tipo === 'ong' ? 'ONG' : 'Doador' }}
       </div>
 
-    <div class="profile-meta">
-  <span *ngIf="user.dataCriacao">
-    <mat-icon>event</mat-icon> Membro desde {{ formatDate(user.dataCriacao) }}
-  </span>
+      <div class="profile-meta">
+        <span>
+          <mat-icon>event</mat-icon> Membro desde {{ formatDate(user.dataCriacao) }}
+        </span>
+        <span *ngIf="user.endereco">
+          <mat-icon>location_on</mat-icon>
+          {{ user.endereco.cidade }}, {{ user.endereco.estado }}
+        </span>
+      </div>
 
-  <!-- Usando a abordagem 1 (recomendada) -->
-  <span *ngIf="user.endereco as endereco">
-    <mat-icon>location_on</mat-icon>
-    {{ endereco.cidade }}<span *ngIf="endereco.estado">, {{ endereco.estado }}</span>
-  </span>
-</div>
-
-      <div class="social-links" *ngIf="user.tipo === 'ong' && isOng(user) && user.redesSociais">
+      <div class="social-links" *ngIf="isOng(user) && user.redesSociais">
         <a *ngIf="user.redesSociais.facebook" [href]="user.redesSociais.facebook" target="_blank">
           <mat-icon>thumb_up</mat-icon>
         </a>
         <a *ngIf="user.redesSociais.instagram" [href]="user.redesSociais.instagram" target="_blank">
           <mat-icon>photo_camera</mat-icon>
-        </a>
-        <a *ngIf="user.redesSociais.twitter" [href]="user.redesSociais.twitter" target="_blank">
-          <mat-icon>chat</mat-icon>
         </a>
       </div>
     </div>
@@ -45,11 +37,10 @@
 
   <div class="profile-content">
     <div class="main-info">
-      <!-- Informações Básicas -->
       <mat-card class="info-card">
         <mat-card-header>
           <mat-card-title>
-            <mat-icon>info</mat-icon> Informações Básicas
+            <mat-icon>info</mat-icon> Informações
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -64,20 +55,19 @@
           <div class="info-item" *ngIf="user.endereco">
             <span class="info-label">Endereço:</span>
             <span>
-              {{ user.endereco.rua }}, {{ user.endereco.numero }}<br>
-              {{ user.endereco.cidade }} - {{ user.endereco.estado }}<br>
-              CEP: {{ formatCEP(user.endereco.cep) }}
+              {{ user.endereco.rua }}, {{ user.endereco.numero }} -
+              {{ user.endereco.cidade }}/{{ user.endereco.estado }}
             </span>
           </div>
         </mat-card-content>
       </mat-card>
 
-      <!-- Seção específica para ONGs -->
-      <ng-container *ngIf="user.tipo === 'ong' && isOng(user)">
+      <!-- Seção ONG (simplificada) -->
+      <ng-container *ngIf="isOng(user)">
         <mat-card class="info-card">
           <mat-card-header>
             <mat-card-title>
-              <mat-icon>business</mat-icon> Sobre a ONG
+              <mat-icon>business</mat-icon> Sobre
             </mat-card-title>
           </mat-card-header>
           <mat-card-content>
@@ -85,82 +75,22 @@
               <span class="info-label">CNPJ:</span>
               <span>{{ formatCNPJ(user.cnpj) }}</span>
             </div>
-            <div class="info-item" *ngIf="user.site">
-              <span class="info-label">Site:</span>
-              <a [href]="user.site" target="_blank">{{ user.site }}</a>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Descrição:</span>
-              <p class="description">{{ user.descricao }}</p>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="info-card" *ngIf="user.areasAtuacao?.length">
-          <mat-card-header>
-            <mat-card-title>
-              <mat-icon>category</mat-icon> Áreas de Atuação
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="chips-container">
-              <mat-chip *ngFor="let area of user.areasAtuacao" class="area-chip">
-                {{ area }}
-              </mat-chip>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="info-card" *ngIf="user.selos?.length">
-          <mat-card-header>
-            <mat-card-title>
-              <mat-icon>verified</mat-icon> Selos e Certificações
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="badges-container">
-              <div class="badge" *ngFor="let selo of user.selos">
-                <mat-icon>verified</mat-icon>
-                <div>
-                  <strong>{{ selo.tipo }}</strong>
-                  <small>Conquistado em {{ formatDate(selo.dataConquista) }}</small>
-                </div>
-              </div>
-            </div>
+            <p class="description">{{ user.descricao }}</p>
           </mat-card-content>
         </mat-card>
       </ng-container>
     </div>
 
     <div class="side-section">
-      <mat-card class="action-card" *ngIf="isOwnProfile">
-        <mat-card-header>
-          <mat-card-title>Ações</mat-card-title>
-        </mat-card-header>
+      <mat-card *ngIf="isOwnProfile">
         <mat-card-content>
           <button mat-raised-button color="primary" class="full-width-btn">
-            <mat-icon>edit</mat-icon> Editar Perfil
-          </button>
-          <button mat-stroked-button color="primary" class="full-width-btn">
-            <mat-icon>settings</mat-icon> Configurações
-          </button>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="contact-card" *ngIf="!isOwnProfile">
-        <mat-card-header>
-          <mat-card-title>Contato</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <button mat-raised-button color="primary" class="full-width-btn">
-            <mat-icon>email</mat-icon> Enviar Mensagem
-          </button>
-          <button mat-stroked-button color="primary" class="full-width-btn" *ngIf="user.telefone">
-            <mat-icon>phone</mat-icon> Ligar
+            <mat-icon>edit</mat-icon> Editar
           </button>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
 </div>
+
 <app-footer></app-footer>

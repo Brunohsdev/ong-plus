@@ -13,10 +13,6 @@ import { Termos } from './pages/termos-de-uso/termos-de-uso';
 import { DashboardOng } from './pages/dashboard-ong/dashboard-ong';
 import { DashboardDoador } from './pages/dashboard-doador/dashboard-doador';
 import { Campanhas } from './pages/campanhas/campanhas';
-
-// Guards
-import { authGuard } from './guards/auth-guard';
-import { roleGuard } from './guards/role.guard-guard';
 import { PrivacyPoliticy } from './pages/privacy-politicy/privacy-politicy';
 import { Perfil } from './pages/perfil/perfil';
 import { CampanhasCards } from './components/cards/cards';

@@ -170,7 +170,7 @@
     </div>
   </div>
 
-  <button type="submit" class="submit-button" >
+  <button type="submit" class="submit-button" [disabled]="!formRef.valid">
     <i class="bi bi-check-circle"></i> Cadastrar como Doador
   </button>
 </form>

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth';
@@ -29,27 +29,30 @@ export class Login {
   email = '';
   senha = '';
   erro = '';
-  mostrarSenha = false;
   hidePassword = false;
+  formSubmetido = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  login(): void {
+  login(form: NgForm): void {
+    this.formSubmetido = true;
+
+    if (form.invalid) {
+      return;
+    }
+
     this.authService.login({ email: this.email, senha: this.senha }).subscribe({
       next: (res) => {
         const user = res.user;
         const token = res.token;
 
-        // ✅ Salva os dados no localStorage
         localStorage.setItem('token', token || '');
         localStorage.setItem('usuarioNome', user?.nome || 'Usuário');
-        localStorage.setItem('avatarUrl', user?.fotoPerfil || ''); // Ajustado para 'fotoPerfil'
+        localStorage.setItem('avatarUrl', user?.fotoPerfil || '');
         localStorage.setItem('tipoUsuario', user?.tipo || '');
 
-        // ✅ Dispara evento para atualizar o header
         window.dispatchEvent(new Event("storage"));
 
-        // ✅ Redireciona conforme o tipo do usuário
         if (user?.tipo === 'doador') {
           this.router.navigate(['/dashboard-doador']);
         } else if (user?.tipo === 'ong') {

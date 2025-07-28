@@ -57,14 +57,14 @@
 
           <div class="d-flex justify-content-center">
             <div class="card text-white shadow-sm border-0" style="max-width: 900px; width: 100%; position: relative;">
+              <a *ngIf="slide.link" [routerLink]="slide.link" >
               <img [src]="slide.imagem" class="card-img" [alt]="slide.titulo">
               <div class="card-img-overlay d-flex flex-column justify-content-center text-center bg-dark bg-opacity-50">
                 <h3 class="card-title fw-bold">{{ slide.titulo }}</h3>
                 <p class="card-text">{{ slide.descricao }}</p>
-                <a *ngIf="slide.link" [routerLink]="slide.link" class="btn text-white btn-sm mt-2">
                   {{ slide.botaoTexto }}
-                </a>
-              </div>
+                </div>
+              </a>
             </div>
           </div>
 

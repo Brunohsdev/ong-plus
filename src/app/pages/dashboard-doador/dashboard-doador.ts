@@ -46,10 +46,7 @@ import { Perfil } from "../perfil/perfil";
     MatBadgeModule,
     Header,
     Footer
-    // DonationDialogComponent,
-    // CampaignCardComponent
-    ,
-    Perfil
+   
 ],
   templateUrl: './dashboard-doador.html',
   styleUrls: ['./dashboard-doador.css']
