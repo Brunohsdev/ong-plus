@@ -1,58 +1,102 @@
-import { Component, OnInit } from '@angular/core';
-import { Header } from '../../components/header/header';
-import { Footer } from '../../components/footer/footer';
+import { Component, OnInit, HostListener, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CommonModule, NgClass } from '@angular/common';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+  query,
+  stagger,
+  keyframes
+} from '@angular/animations';
 import { CampaignService } from '../../services/campanha';
 import { ModelCampanha } from '../../models/campanha.models';
 
+import { Footer } from '../../components/footer/footer';
+import { Header } from '../../components/header/header';
+
 @Component({
   selector: 'app-home',
-  imports: [Header, Footer, RouterModule, NgClass, CommonModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, Header, Footer],
   templateUrl: './home.html',
-  styleUrl: './home.css'
+  styleUrls: ['./home.css'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('600ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ]),
+    trigger('stagger', [
+      transition(':enter', [
+        query(':enter', [
+          style({ opacity: 0, transform: 'translateY(30px)' }),
+          stagger('100ms', [
+            animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+          ])
+        ], { optional: true })
+      ])
+    ]),
+    trigger('typingAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('0.5s ease-out', style({ opacity: 1 })),
+        animate('3s ease-in-out', keyframes([
+          style({ transform: 'translateY(0)' }),
+          style({ transform: 'translateY(-5px)' }),
+          style({ transform: 'translateY(0)' })
+        ]))
+      ])
+    ]),
+
+    trigger('ctaAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.9)' }),
+        animate('0.8s 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+          style({ opacity: 1, transform: 'scale(1)' }))
+      ])
+    ])
+  ]
 })
 export class Home implements OnInit {
+  private campaignService = inject(CampaignService);
+
   featuredCampaigns: ModelCampanha[] = [];
-   groupedCampaigns: ModelCampanha[][] = [];
+  activeTestimonial = 0;
+  currentSlide = 0;
+  isScrolled = false;
 
-  constructor(private campaignService: CampaignService) {}
+  // Textos animados para a hero section
+  typedTexts = [
+    'boas intenções em ações reais',
+    'solidariedade em resultados',
+    'compaixão em mudança'
+  ];
+  currentTypedIndex = 0;
+  currentText = '';
+  isDeleting = false;
+  typingSpeed = 100;
+  deletingSpeed = 50;
+  pauseBetween = 2000;
 
-  ngOnInit() {
-    this.campaignService.getCampaigns().subscribe({
-
-      next: (data) => {
-        const shuffled = [...data].sort(() => 0.5 - Math.random());
-        console.log("campanhas recebidas", data)
-        this.featuredCampaigns = shuffled.slice(0, 3);
-       this.groupedCampaigns = this.groupArray(this.featuredCampaigns, 3);
-      },
-        error: (err) => console.error('Erro ao buscar campanhas:', err)
-      });
-  }
-  groupArray(arr: any[], size: number) {
-    const newArr = [];
-    for (let i = 0; i < arr.length; i += size) {
-      newArr.push(arr.slice(i, i + size));
-    }
-    return newArr;
-  }
   howItWorksSteps = [
     {
       title: 'Explore',
-      description: 'Encontre campanhas e ONGs com causas que combinam com seus valores e interesses.',
+      description: 'Encontre causas que combinam com você',
       icon: 'bi-search',
       color: 'primary'
     },
     {
       title: 'Contribua',
-      description: 'Doe recursos, tempo ou habilidades de forma segura e transparente.',
+      description: 'De várias formas diferentes',
       icon: 'bi-heart',
       color: 'danger'
     },
     {
       title: 'Acompanhe',
-      description: 'Receba atualizações sobre o impacto real da sua contribuição.',
+      description: 'Veja o impacto da sua ajuda',
       icon: 'bi-graph-up',
       color: 'success'
     }
@@ -60,25 +104,25 @@ export class Home implements OnInit {
 
   testimonials = [
     {
-      text: 'A ONG+ me conectou com um projeto animal incrível! Hoje sou voluntária com orgulho e vejo a diferença que fazemos.',
-      author: 'Juliana Santos',
+      text: 'ONG+ mudou a realidade da nossa comunidade. Com as doações, construímos um centro comunitário que atende 200 crianças diariamente.',
+      author: 'Carlos Silva',
+      role: 'Líder Comunitário',
+      avatar: '/carlos.jpg'
+    },
+    {
+      text: 'Como voluntária, encontrei propósito e uma rede de pessoas incríveis trabalhando por um mundo melhor.',
+      author: 'Ana Paula',
       role: 'Voluntária',
-      avatar: 'juliana.jpg'
-    },
-    {
-      text: 'Conseguimos mais de 200 doações graças à visibilidade que a plataforma nos proporcionou. Essencial para ONGs pequenas!',
-      author: 'Instituto Mãos que Ajudam',
-      role: 'ONG Parceira',
-      avatar: 'maoshelp.jpg'
-    },
-    {
-      text: 'Plataforma simples, segura e com causas que realmente importam. Consigo doar com apenas alguns cliques.',
-      author: 'Carlos Mendes',
-      role: 'Doador',
-      avatar: 'carlos.jpg'
+      avatar: '/juliana.jpg'
     }
   ];
-  slides = [
+
+  impactStats = [
+    { value: '1.2M+', label: 'Pessoas impactadas', icon: 'bi-people-fill' },
+    { value: 'R$ 3.5M', label: 'Arrecadados', icon: 'bi-currency-dollar' },
+    { value: '24.5k', label: 'Voluntários', icon: 'bi-heart-fill' }
+  ];
+    slides = [
   {
     imagem: '/banner1.jpg',
     titulo: 'Conectando solidariedade',
@@ -101,47 +145,70 @@ export class Home implements OnInit {
     link: '/cadastrar'
   }
 ];
+  ngOnInit() {
+    this.loadCampaigns();
+    this.startTestimonialRotation();
+    this.initTypingAnimation();
+  }
 
-  getBadgeColor(categoria: string): string {
-    // Primeiro converte para minúsculas para comparação
-    const categoriaLower = categoria.toLowerCase();
+  loadCampaigns() {
+    this.campaignService.getCampaigns().subscribe({
+      next: (data) => {
+        this.featuredCampaigns = data.slice(0, 3);
+      },
+      error: (err) => console.error('Erro ao buscar campanhas:', err)
+    });
+  }
 
-    switch (categoriaLower) {
-      case 'saúde':        // #4E9F3D → Verde (success)
-        return 'success';
+  startTestimonialRotation() {
+    setInterval(() => {
+      this.activeTestimonial = (this.activeTestimonial + 1) % this.testimonials.length;
+    }, 5000);
+  }
 
-      case 'educação':     // #1E5128 → Verde escuro (não tem exato, usar success)
-        return 'success';
+  initTypingAnimation() {
+    const type = () => {
+      const fullText = this.typedTexts[this.currentTypedIndex];
 
-      case 'meio ambiente': // #3E7C17 → Verde (success)
-        return 'success';
+      if (this.isDeleting) {
+        this.currentText = fullText.substring(0, this.currentText.length - 1);
+      } else {
+        this.currentText = fullText.substring(0, this.currentText.length + 1);
+      }
 
-      case 'tecnologia':    // #191A19 → Quase preto (dark)
-        return 'dark';
+      let typeSpeed = this.isDeleting ? this.deletingSpeed : this.typingSpeed;
 
-      case 'animais':       // #D8E9A8 → Verde claro (não tem exato, usar success com opacidade)
-        return 'success';    // Ou criar uma classe customizada
+      if (!this.isDeleting && this.currentText === fullText) {
+        typeSpeed = this.pauseBetween;
+        this.isDeleting = true;
+      } else if (this.isDeleting && this.currentText === '') {
+        this.isDeleting = false;
+        this.currentTypedIndex = (this.currentTypedIndex + 1) % this.typedTexts.length;
+      }
 
-      case 'alimentos':     // #FF9A76 → Laranja (warning)
-        return 'warning';
+      setTimeout(type, typeSpeed);
+    };
 
-      case 'roupas':        // #6A8CAF → Azul (info)
-        return 'info';
+    setTimeout(type, this.typingSpeed);
+  }
 
-      case 'dinheiro':      // #A7D7C5 → Verde água (não tem exato, info)
-        return 'info';
+  nextSlide() {
+    this.currentSlide = (this.currentSlide + 1) % this.featuredCampaigns.length;
+  }
 
-      case 'sangue':        // #F47C7C → Vermelho (danger)
-        return 'danger';
+  prevSlide() {
+    this.currentSlide = (this.currentSlide - 1 + this.featuredCampaigns.length) % this.featuredCampaigns.length;
+  }
 
-      case 'brinquedos':    // #86C166 → Verde (success)
-        return 'success';
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 100;
+  }
 
-      case 'outros':        // #C4A7CB → Lilás (não tem exato, secondary)
-        return 'secondary';
-
-      default:
-        return 'secondary';
+  scrollTo(section: string) {
+    const element = document.getElementById(section);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }

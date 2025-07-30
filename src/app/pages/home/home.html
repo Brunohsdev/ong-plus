@@ -6,44 +6,31 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-6">
-          <h1 class="display-4 fw-bold mb-4">Transforme boas intenções em ações reais</h1>
+          <h1 class="display-4 fw-bold mb-4">
+            Transforme <br>
+            <span class="typed-text" @typingAnimation>{{currentText}}</span>
+          </h1>
           <p class="lead mb-4">ONG+ conecta você a causas que realmente importam, de forma simples e transparente.</p>
+
           <div class="d-flex gap-3">
-            <a routerLink="/explorar" class="btn btn-primary btn-lg px-4">
-              <i class="bi bi-heart-fill me-2"></i>Quero ajudar
+            <a routerLink="/explorar" class="btn btn-primary btn-lg px-4 btn-pulse">
+              <i class="bi bi-heart-fill me-2"></i> Quero ajudar
             </a>
             <a routerLink="/cadastrar" class="btn btn-outline-light btn-lg px-4">
-              <i class="bi bi-building me-2"></i>Cadastrar ONG
+              <i class="bi bi-building me-2"></i> Cadastrar ONG
             </a>
           </div>
         </div>
         <div class="col-lg-6">
-          <img src="pra-pagina-home.jpg" alt="Pessoas se ajudando" class="img-fluid" />
+          <div class="hero-image-container">
+            <img src="/pra-pagina-home.jpg" alt="Pessoas se ajudando" class="img-fluid floating" />
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section class="about-section py-5">
-    <div class="container">
-      <div class="row justify-content-center text-center">
-        <div class="col-lg-8">
-          <h2 class="fw-bold mb-4">Nossa Missão</h2>
-          <p class="lead text-muted">
-            ONG+ é a ponte digital entre quem quer ajudar e quem precisa de ajuda. Facilitamos a conexão entre doadores, voluntários e organizações que transformam vidas diariamente.
-          </p>
-          <a routerLink="/quem-somos" class="btn btn-outline-secondary mt-3">
-            <i class="bi bi-info-circle me-2"></i>Conheça nossa história
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Featured Campaigns -->
-<section class="campaigns-section py-5 bg-light">
+  <section class="campaigns-section py-5 bg-light">
   <div class="container">
     <h2 class="fw-bold mb-4 text-center">ONG+ em Destaque</h2>
 
@@ -57,11 +44,11 @@
 
           <div class="d-flex justify-content-center">
             <div class="card text-white shadow-sm border-0" style="max-width: 900px; width: 100%; position: relative;">
-              <a *ngIf="slide.link" [routerLink]="slide.link" >
+              <a *ngIf="slide.link" [routerLink]="slide.link" class="text-white" >
               <img [src]="slide.imagem" class="card-img" [alt]="slide.titulo">
               <div class="card-img-overlay d-flex flex-column justify-content-center text-center bg-dark bg-opacity-50">
-                <h3 class="card-title fw-bold">{{ slide.titulo }}</h3>
-                <p class="card-text">{{ slide.descricao }}</p>
+                <h3 class="card-title fw-bold text-white">{{ slide.titulo }}</h3>
+                <p class="card-text text-white">{{ slide.descricao }}</p>
                   {{ slide.botaoTexto }}
                 </div>
               </a>
@@ -85,11 +72,6 @@
     </div>
   </div>
 </section>
-
-
-
-
-  <!-- How It Works -->
   <section class="how-it-works py-5" *ngIf="howItWorksSteps?.length">
     <div class="container">
       <div class="text-center mb-5">
@@ -110,37 +92,62 @@
       </div>
     </div>
   </section>
-  <!-- testemunhas Section -->
-<section class="testimonials-section py-5 bg-light">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold">O que dizem sobre nós</h2>
-      <p class="text-muted">Depoimentos de quem já faz parte da mudança</p>
-    </div>
 
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4" *ngFor="let testimonial of testimonials">
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body">
-            <p class="card-text fst-italic">“{{ testimonial.text }}”</p>
-          </div>
-          <div class="card-footer d-flex align-items-center bg-white border-0">
-            <img [src]="testimonial.avatar" alt="{{ testimonial.author }}" class="rounded-circle me-3" width="50" height="50">
-            <div>
-              <h6 class="mb-0 fw-bold">{{ testimonial.author }}</h6>
-              <small class="text-muted">{{ testimonial.role }}</small>
+  <!-- Depoimentos -->
+  <section class="testimonials-section py-5 bg-light">
+    <div class="container">
+      <div class="section-header text-center mb-5">
+        <h2 class="fw-bold">O que dizem sobre nós</h2>
+        <p class="text-muted">Depoimentos de quem já faz parte da mudança</p>
+      </div>
+
+      <div class="testimonial-container">
+        <div class="testimonial-item" *ngFor="let testimonial of testimonials; let i = index"
+             [class.active]="i === activeTestimonial">
+          <div class="testimonial-content">
+            <p class="testimonial-text">"{{testimonial.text}}"</p>
+            <div class="testimonial-author">
+              <img [src]="testimonial.avatar" [alt]="testimonial.author" />
+              <div>
+                <h5>{{testimonial.author}}</h5>
+                <small>{{testimonial.role}}</small>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="text-center mt-4">
+        <div class="testimonial-dots">
+          <span *ngFor="let item of testimonials; let i = index"
+                [class.active]="i === activeTestimonial"
+                (click)="activeTestimonial = i"></span>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
-
-
-  <!-- CTA Section -->
-  <section class="cta-section py-5 bg-primary text-white">
+  </section>
+    <!-- About Section -->
+  <section class="about-section py-5">
     <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-8">
+          <h2 class="fw-bold mb-4">Nossa Missão</h2>
+          <p class="lead text-muted">
+            ONG+ é a ponte digital entre quem quer ajudar e quem precisa de ajuda. Facilitamos a conexão entre doadores, voluntários e organizações que transformam vidas diariamente.
+          </p>
+          <a routerLink="/quem-somos" class="btn btn-outline-secondary mt-3">
+            <i class="bi bi-info-circle me-2"></i>Conheça nossa história
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+
+  <section class="cta-section py-5 text-white" @ctaAnimation>
+    <div class="cta-background"></div>
+    <div class="container position-relative">
       <div class="row align-items-center">
         <div class="col-lg-8 mb-4 mb-lg-0">
           <h2 class="fw-bold mb-3">Pronto para fazer a diferença?</h2>
@@ -148,10 +155,10 @@
         </div>
         <div class="col-lg-4 text-lg-end">
           <a routerLink="/explorar" class="btn btn-light btn-lg px-4 me-2">
-            <i class="bi bi-search me-2"></i>Explorar
+            <i class="bi bi-search me-2"></i> Explorar
           </a>
           <a routerLink="/cadastrar" class="btn btn-outline-light btn-lg px-4">
-            <i class="bi bi-building me-2"></i>Cadastrar
+            <i class="bi bi-building me-2"></i> Cadastrar
           </a>
         </div>
       </div>
