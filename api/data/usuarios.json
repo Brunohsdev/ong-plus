@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "248ee1c8-2c46-4e16-97b8-0111c0e2951c",
+    "nome": "bruno henrique",
+    "cpf": "07737286519",
+    "email": "bruno.h.santos@7ba.estudante.senai.br",
+    "senha": "0123456789B",
+    "telefone": "71985210285",
+    "nascimento": "2007-05-31",
+    "genero": "Masculino",
+    "interesses": [],
+    "receberNewsletter": false,
+    "aceitouTermos": true,
+    "tipo": "doador",
+    "dataCriacao": "2025-07-31T21:04:46.483Z"
+  }
+]

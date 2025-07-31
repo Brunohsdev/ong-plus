@@ -1,30 +1,40 @@
-
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 const PORT = 3000;
+const DATA_DIR = path.join(__dirname, "data");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// ========================
-// DADOS EM MEMÓRIA
-// ========================
+// Funções utilitárias para lidar com arquivos
+function lerArquivo(nomeArquivo) {
+  const caminho = path.join(DATA_DIR, nomeArquivo);
+  if (!fs.existsSync(caminho)) return [];
+  return JSON.parse(fs.readFileSync(caminho, "utf-8"));
+}
 
-let usuarios = [];
-let campanhas = [];
-let doacoes = [];
+function salvarArquivo(nomeArquivo, dados) {
+  const caminho = path.join(DATA_DIR, nomeArquivo);
+  fs.writeFileSync(caminho, JSON.stringify(dados, null, 2), "utf-8");
+}
+
+// Carrega os dados salvos
+let usuarios = lerArquivo("usuarios.json");
+let campanhas = lerArquivo("campanhas.json");
+let doacoes = lerArquivo("doacoes.json");
 
 // ========================
 // ROTAS DE AUTENTICAÇÃO
 // ========================
-
 app.post("/register", (req, res) => {
   const { email } = req.body;
+
   if (usuarios.find(u => u.email === email)) {
     return res.status(409).json({ message: "Usuário já existe" });
   }
@@ -36,11 +46,13 @@ app.post("/register", (req, res) => {
   };
 
   usuarios.push(novoUsuario);
+  salvarArquivo("usuarios.json", usuarios);
+
   res.status(201).json({ user: novoUsuario, token: "fake-token" });
 });
 
 app.post("/login", (req, res) => {
-  const { email, senha } = req.body; // mudar para 'senha'
+  const { email, senha } = req.body;
   const usuario = usuarios.find(u => u.email === email && u.senha === senha);
   if (!usuario) {
     return res.status(401).json({ message: "Credenciais inválidas" });
@@ -51,7 +63,6 @@ app.post("/login", (req, res) => {
 // ========================
 // ROTAS DE CAMPANHAS
 // ========================
-
 app.get("/api/campanhas", (req, res) => {
   res.json(campanhas);
 });
@@ -73,7 +84,7 @@ app.post("/api/campanhas", (req, res) => {
     avaliacaoCount: 0,
     avaliacaoMedia: 0,
     status: "ativa",
-    imagem: [], // Ou gere a imagem com base em categoria se quiser
+    imagem: [],
     dataInicio: new Date(),
     dataFim: new Date(req.body.dataFim),
     local: req.body.local,
@@ -85,114 +96,34 @@ app.post("/api/campanhas", (req, res) => {
   };
 
   campanhas.push(novaCampanha);
+  salvarArquivo("campanhas.json", campanhas);
   res.status(201).json(novaCampanha);
 });
-
 
 app.put("/api/campanhas/:id", (req, res) => {
   const index = campanhas.findIndex(c => c._id === req.params.id);
   if (index === -1) return res.status(404).json({ message: "Campanha não encontrada" });
   campanhas[index] = { ...campanhas[index], ...req.body };
+  salvarArquivo("campanhas.json", campanhas);
   res.json(campanhas[index]);
 });
 
 app.delete("/api/campanhas/:id", (req, res) => {
   campanhas = campanhas.filter(c => c._id !== req.params.id);
+  salvarArquivo("campanhas.json", campanhas);
   res.status(204).send();
 });
 
-
-
-campanhas = [
-   {
-    _id: uuidv4(),
-    titulo: 'Doe sangue, salve vidas',
-    descricao: 'Campanha de doação de sangue para hospitais da região.',
-    ong: {
-      _id: uuidv4(),
-      nome: 'Vida+',
-      logo: 'http://localhost:3000/imagens/sangue.jpg'
-    },
-    categoria: 'sangue',
-    meta: 10000,
-    arrecadado: 6500,
-    dataInicio: new Date('2023-01-01'),
-    dataFim: new Date('2023-12-31'),
-    status: 'ativa',
-    imagem: ['http://localhost:3000/imagens/sangue.jpg'],
-    local: {
-      endereco: 'Rua das Clínicas, 123',
-      cidade: 'São Paulo',
-      estado: 'SP'
-    }
-  },
-    {
-      id: 2,
-      titulo: 'Educação para Todos',
-      descricao: 'Ajude a fornecer material escolar para crianças carentes.',
-      ong: 'Educar ONG',
-      categoria: 'educação',
-      imagem: 'http://localhost:3000/imagens/educacao.jpg'
-    },
-    {
-      id: 3,
-      titulo: 'Reflorestamento do Cerrado',
-      descricao: 'Participe do plantio de árvores no cerrado.',
-      ong: 'Verde Novo',
-      categoria: 'meio ambiente',
-      imagem: 'http://localhost:3000/imagens/cerrado.jpg'
-    },
-    {
-      id: 4,
-      titulo: 'Acolhimento animal',
-      descricao: 'Ajude na vacinação e resgate de animais de rua.',
-      ong: 'Pet Feliz',
-      categoria: 'animais',
-      imagem: 'http://localhost:3000/imagens/rescue-pets.jpg'
-    },
-    {
-      id: 5,
-      titulo: 'Tecnologia para inclusão',
-      descricao: 'Leve cursos de informática para jovens em vulnerabilidade.',
-      ong: 'IncluirTech',
-      categoria: 'tecnologia',
-      imagem: 'http://localhost:3000/imagens/inclusao.jpg'
-    },
-    {
-      id: 6,
-      titulo: 'Apoio à saúde mental',
-      descricao: 'Grupo de apoio gratuito com psicólogos voluntários.',
-      ong: 'Mente em Paz',
-      categoria: 'saúde',
-      imagem: 'http://localhost:3000/imagens/saude-mental.jpg'
-    }
-  ];
-
-
-
-
-
-
-
-
-
-
-
 // ========================
-// ROTAS DE DOAÇÕES
+// ROTAS DE DOAÇÕES (futuro)
 // ========================
-
 app.get("/api/donations", (req, res) => {
   res.json(doacoes);
 });
 
-
-
-
 // ========================
 // INICIAR SERVIDOR
 // ========================
-
 app.listen(PORT, () => {
-  console.log(`API rodando em http://localhost:${PORT}/api`);
+  console.log(`✅ API rodando em http://localhost:${PORT}/`);
 });
