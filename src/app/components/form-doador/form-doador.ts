@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { RouterLink, Router } from '@angular/router';
-import { RegisterService } from '../../services/register';
+import { RegisterService } from '../../services/register.service';
 
 @Component({
   selector: 'app-form-doador',

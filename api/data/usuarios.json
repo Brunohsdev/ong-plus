@@ -13,5 +13,20 @@
     "aceitouTermos": true,
     "tipo": "doador",
     "dataCriacao": "2025-07-31T21:04:46.483Z"
+  },
+  {
+    "_id": "1e515e6a-d1b8-4eb5-85a7-c60ce6826f43",
+    "nome": "cadastre-se pets",
+    "cnpj": "33000167000101",
+    "email": "bhas795001@gmail.com",
+    "senha": "0123456789B",
+    "telefone": "71985210285",
+    "areaAtuacao": "Animais",
+    "endereco": "",
+    "site": "",
+    "descricao": "",
+    "aceitouTermos": true,
+    "tipo": "ong",
+    "dataCriacao": "2025-08-01T00:19:51.408Z"
   }
 ]

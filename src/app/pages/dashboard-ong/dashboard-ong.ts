@@ -22,7 +22,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // Breakpoint Observer
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Footer } from '../../components/footer/footer';
-
+import { OngDashboardService } from '../../services/ongdashboard.service';
 
 @Component({
   selector: 'dashboard-ong',
@@ -44,29 +44,23 @@ import { Footer } from '../../components/footer/footer';
     MatTooltipModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    Footer,
-
+    Footer
   ],
   templateUrl: './dashboard-ong.html',
   styleUrls: ['./dashboard-ong.css']
 })
 export class DashboardOng implements OnInit, OnDestroy {
-
-  // Dados carregados dinamicamente
   usuarioNome = '';
   email = '';
   avatarUrl = '';
 
-
-
   currentOng: any = {
-   
     verified: true,
     mission: 'Transformando vidas desde 2010',
     monthlyGoal: 75,
-    campaigns: 12,
-    donations: 34250,
-    volunteers: 48
+    campaigns: 0,
+    donations: 0,
+    volunteers: 0
   };
 
   isHandset = false;
@@ -81,14 +75,15 @@ export class DashboardOng implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private ongDashboardService: OngDashboardService
   ) {}
 
   ngOnInit(): void {
     this.carregarDadosDoLocalStorage();
+    this.carregarDadosDaApi();
     this.setupResponsiveLayout();
     this.setupRouterEvents();
-    this.simulateDataLoading();
   }
 
   ngOnDestroy(): void {
@@ -97,8 +92,28 @@ export class DashboardOng implements OnInit, OnDestroy {
 
   private carregarDadosDoLocalStorage(): void {
     this.usuarioNome = localStorage.getItem('usuarioNome') || 'Minha ONG';
-    this.email = localStorage.getItem('email') || 'admin@ong.org';
+    this.email = localStorage.getItem('email') || '';
     this.avatarUrl = localStorage.getItem('avatarUrl') || '/ong-exemplo.svg';
+  }
+
+  private carregarDadosDaApi(): void {
+    if (!this.email) return;
+
+    this.ongDashboardService.getDashboardData(this.email).subscribe({
+      next: (data) => {
+        this.currentOng = {
+          verified: true,
+          mission: data.mission || 'Impactando vidas com solidariedade',
+          monthlyGoal: data.monthlyGoal || 75,
+          campaigns: data.campaigns || 0,
+          donations: data.donations || 0,
+          volunteers: data.volunteers || 0
+        };
+      },
+      error: (err) => {
+        console.error('Erro ao buscar dados do dashboard:', err);
+      }
+    });
   }
 
   toggleSidenav(): void {
@@ -113,7 +128,6 @@ export class DashboardOng implements OnInit, OnDestroy {
 
   logout(): void {
     this.loading = true;
-
     setTimeout(() => {
       localStorage.clear();
       this.router.navigate(['/h']);
@@ -154,13 +168,6 @@ export class DashboardOng implements OnInit, OnDestroy {
     this.pageTitle = routeTitles[this.router.url] || 'Painel da ONG';
   }
 
-  private simulateDataLoading(): void {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 1500);
-  }
-
   getDonationTrend() {
     return { icon: 'trending_up', value: '+22%', positive: true };
   }
@@ -172,25 +179,25 @@ export class DashboardOng implements OnInit, OnDestroy {
   getCampaignTrend() {
     return { icon: 'trending_up', value: '+5%', positive: true };
   }
-  recentActivities = [
-  {
-    user: 'Maria Silva',
-    action: 'doou R$ 200 para Campanha A',
-    time: '2 horas atrás',
-    avatar: 'logo-ong-white.svg'
-  },
-  {
-    user: 'João Oliveira',
-    action: 'se voluntariou para Evento B',
-    time: 'Ontem, 15:30',
-    avatar: 'logo-ong-white.svg'
-  },
-  {
-    entity: 'ONG',
-    action: 'publicou nova campanha: Ajuda Animal',
-    time: '5 de Out, 2023',
-    initials: 'NG'
-  }
-];
 
+  recentActivities = [
+    {
+      user: 'Maria Silva',
+      action: 'doou R$ 200 para Campanha A',
+      time: '2 horas atrás',
+      avatar: 'logo-ong-white.svg'
+    },
+    {
+      user: 'João Oliveira',
+      action: 'se voluntariou para Evento B',
+      time: 'Ontem, 15:30',
+      avatar: 'logo-ong-white.svg'
+    },
+    {
+      entity: 'ONG',
+      action: 'publicou nova campanha: Ajuda Animal',
+      time: '5 de Out, 2023',
+      initials: 'NG'
+    }
+  ];
 }

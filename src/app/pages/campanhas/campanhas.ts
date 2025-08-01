@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 
-import { CampaignService } from '../../services/campanha';
+import { CampaignService } from '../../services/campanha.service';
 import { ModelCampanha } from '../../models/campanha.models';
 import { NewCampaignDialog } from '../../components/new-campaign-dialog/new-campaign-dialog';
 import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';

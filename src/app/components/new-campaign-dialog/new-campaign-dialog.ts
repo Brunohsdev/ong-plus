@@ -9,7 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 
 import { ModelCampanha } from '../../models/campanha.models';
-import { CampaignService } from '../../services/campanha';
+import { CampaignService } from '../../services/campanha.service';
 
 
 @Component({
@@ -45,11 +45,11 @@ export class NewCampaignDialog {
       descricao: ['', [Validators.required, Validators.maxLength(500)]],
       categoria: ['', Validators.required],
       meta: ['', [Validators.required, Validators.min(1)]],
-      dataFim: ['', Validators.required],
+      dataFim: [''],
       local: this.fb.group({
-        endereco: ['', Validators.required],
-        cidade: ['', Validators.required],
-        estado: ['', Validators.required]
+        endereco: [''],
+        cidade: [''],
+        estado: ['']
       }),
       fotos: ['']
     });
@@ -87,38 +87,29 @@ export class NewCampaignDialog {
     });
   }
 
-  onSubmit(): void {
-    if (this.campaignForm.invalid) {
-      this.markAllFieldsTouched(this.campaignForm); // 👈 Força exibir os erros
-      return;
-    }
-
-    const formData = new FormData();
-
-    Object.keys(this.campaignForm.value).forEach(key => {
-      if (key === 'local') {
-        formData.append(key, JSON.stringify(this.campaignForm.value[key]));
-      } else if (key === 'fotos' && this.campaignForm.value[key]) {
-        formData.append('fotos', this.campaignForm.value[key]);
-      } else {
-        formData.append(key, this.campaignForm.value[key]);
-      }
-    });
-
-    const operation = this.data?.campaign
-      ? this.campaignService.updateCampaign(this.data.campaign._id, formData)
-      : this.campaignService.createCampaign(formData);
-
-    operation.subscribe({
-      next: (campaign) => {
-        this.dialogRef.close(campaign);
-      },
-      error: (err) => {
-        console.error('Erro ao salvar campanha:', err);
-        this.dialogRef.close();
-      }
-    });
+ onSubmit(): void {
+  if (this.campaignForm.invalid) {
+    this.markAllFieldsTouched(this.campaignForm);
+    return;
   }
+
+  const body = this.campaignForm.value;
+
+  const operation = this.data?.campaign
+    ? this.campaignService.updateCampaign(this.data.campaign._id, body)
+    : this.campaignService.createCampaign(body);
+
+  operation.subscribe({
+    next: (campaign) => {
+      this.dialogRef.close(campaign);
+    },
+    error: (err) => {
+      console.error('Erro ao salvar campanha:', err);
+      this.dialogRef.close();
+    }
+  });
+}
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;

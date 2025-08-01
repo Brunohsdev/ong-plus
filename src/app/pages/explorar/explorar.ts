@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 import { Header } from "../../components/header/header";
 import { Footer } from "../../components/footer/footer";
-import { CampaignService } from '../../services/campanha';
+import { CampaignService } from '../../services/campanha.service';
 import { ModelCampanha } from '../../models/campanha.models';
 import { CampanhasCards } from '../../components/cards/cards';
 import { Doacao } from '../doacao/doacao';
@@ -15,10 +15,10 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-explore',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    RouterModule, 
-    Header, 
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    Header,
     Footer,
     CampanhasCards,
     Doacao,
@@ -30,20 +30,20 @@ import { ActivatedRoute } from '@angular/router';
 export class Explorar {
   constructor(
     private route: ActivatedRoute,
-    private campaignService: CampaignService  
+    private campaignService: CampaignService
   ) {}
-  
+
   showFilters = false;
   selectedTag = '';
   sortOption = 'recent';
   selectedLocation = '';
   searchTerm: string = '';
-  
+
   featuredCampaigns: ModelCampanha[] = [];
   showDonationModal: boolean = false;
   selectedCampaign: ModelCampanha | null = null;
 
- 
+
 
   ngOnInit() {
     this.loadCampaigns();
@@ -54,7 +54,7 @@ export class Explorar {
       }
     });
   }
-  
+
   openCampaignModalById(id: string) {
     const found = this.featuredCampaigns.find(c => c._id === id);
     if (found) {
@@ -63,7 +63,7 @@ export class Explorar {
       document.body.style.overflow = 'hidden';
     }
   }
-  
+
   loadCampaigns(): void {
     this.campaignService.getCampaigns().subscribe({
       next: (data) => {
@@ -82,7 +82,7 @@ export class Explorar {
   selectedCategories: string[] = [];
 
   locations = [
-    'São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 
+    'São Paulo', 'Rio de Janeiro', 'Belo Horizonte',
     'Brasília', 'Bahia', 'Porto Alegre', 'Todas regiões'
   ];
 

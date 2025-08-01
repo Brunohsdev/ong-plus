@@ -14,7 +14,9 @@
     "dataInicio": "2023-01-01T00:00:00.000Z",
     "dataFim": "2023-12-31T00:00:00.000Z",
     "status": "ativa",
-    "imagem": ["http://localhost:3000/imagens/sangue.jpg"],
+    "imagem": [
+      "http://localhost:3000/imagens/sangue.jpg"
+    ],
     "local": {
       "endereco": "Rua das Clínicas, 123",
       "cidade": "São Paulo",
@@ -31,7 +33,17 @@
       "logo": "http://localhost:3000/imagens/educacao.jpg"
     },
     "categoria": "educação",
-    "imagem": ["http://localhost:3000/imagens/educacao.jpg"]
+    "imagem": [
+      "http://localhost:3000/imagens/educacao.jpg"
+    ],
+    "meta": 100000,
+    "dataFim": "",
+    "local": {
+      "endereco": "",
+      "cidade": "",
+      "estado": ""
+    },
+    "fotos": ""
   },
   {
     "_id": "3",
@@ -43,7 +55,17 @@
       "logo": "http://localhost:3000/imagens/cerrado.jpg"
     },
     "categoria": "meio ambiente",
-    "imagem": ["http://localhost:3000/imagens/cerrado.jpg"]
+    "imagem": [
+      "http://localhost:3000/imagens/cerrado.jpg"
+    ],
+    "meta": 10000,
+    "dataFim": "",
+    "local": {
+      "endereco": "",
+      "cidade": "",
+      "estado": ""
+    },
+    "fotos": ""
   },
   {
     "_id": "4",
@@ -55,7 +77,17 @@
       "logo": "http://localhost:3000/imagens/rescue-pets.jpg"
     },
     "categoria": "animais",
-    "imagem": ["http://localhost:3000/imagens/rescue-pets.jpg"]
+    "imagem": [
+      "http://localhost:3000/imagens/rescue-pets.jpg"
+    ],
+    "meta": 100000,
+    "dataFim": "",
+    "local": {
+      "endereco": "",
+      "cidade": "",
+      "estado": ""
+    },
+    "fotos": ""
   },
   {
     "_id": "5",
@@ -67,7 +99,17 @@
       "logo": "http://localhost:3000/imagens/inclusao.jpg"
     },
     "categoria": "tecnologia",
-    "imagem": ["http://localhost:3000/imagens/inclusao.jpg"]
+    "imagem": [
+      "http://localhost:3000/imagens/inclusao.jpg"
+    ],
+    "meta": 500,
+    "dataFim": "",
+    "local": {
+      "endereco": "",
+      "cidade": "",
+      "estado": ""
+    },
+    "fotos": ""
   },
   {
     "_id": "6",
@@ -79,6 +121,16 @@
       "logo": "http://localhost:3000/imagens/saude-mental.jpg"
     },
     "categoria": "saúde",
-    "imagem": ["http://localhost:3000/imagens/saude-mental.jpg"]
+    "imagem": [
+      "http://localhost:3000/imagens/saude-mental.jpg"
+    ],
+    "meta": 750,
+    "dataFim": "",
+    "local": {
+      "endereco": "",
+      "cidade": "",
+      "estado": ""
+    },
+    "fotos": ""
   }
 ]

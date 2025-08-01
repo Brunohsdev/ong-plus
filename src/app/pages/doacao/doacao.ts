@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DonationService } from '../../services/donation-service';
+import { DonationService } from '../../services/donation.service';
 import { Donation } from '../../models/donation.model';
 import { Router } from '@angular/router';
 

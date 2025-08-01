@@ -10,7 +10,7 @@ import {
   stagger,
   keyframes
 } from '@angular/animations';
-import { CampaignService } from '../../services/campanha';
+import { CampaignService } from '../../services/campanha.service';
 import { ModelCampanha } from '../../models/campanha.models';
 
 import { Footer } from '../../components/footer/footer';
