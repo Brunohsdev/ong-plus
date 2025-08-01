@@ -7,21 +7,31 @@ import { User, OngUser } from '../models/user.model';
   providedIn: 'root'
 })
 export class ProfileService {
-  private apiUrl = 'http://localhost:3000/api'; // Ajuste para sua API
+  private apiUrl = 'http://localhost:3000'; // corrigido
 
   constructor(private http: HttpClient) {}
 
   getUserProfile(userId: string): Observable<User | OngUser> {
-    return this.http.get<User | OngUser>(`${this.apiUrl}/users/${userId}`);
+    return this.http.get<User | OngUser>(`${this.apiUrl}/usuarios/${userId}`);
   }
 
   updateUserProfile(userId: string, userData: Partial<User | OngUser>): Observable<User | OngUser> {
-    return this.http.put<User | OngUser>(`${this.apiUrl}/users/${userId}`, userData);
-  }
+  // Transforma os dados para o formato esperado pela API
+  const payload = {
+    ...userData,
+    ...(userData.endereco && { endereco: userData.endereco }),
+    ...(userData.tipo === 'ong' && {
+      redesSociais: (userData as OngUser).redesSociais,
+      areasAtuacao: (userData as OngUser).areasAtuacao
+    })
+  };
+
+  return this.http.put<User | OngUser>(`${this.apiUrl}/usuarios/${userId}`, payload);
+}
 
   uploadProfilePhoto(userId: string, photo: File): Observable<{url: string}> {
     const formData = new FormData();
     formData.append('photo', photo);
-    return this.http.post<{url: string}>(`${this.apiUrl}/users/${userId}/photo`, formData);
+    return this.http.post<{url: string}>(`${this.apiUrl}/usuarios/${userId}/photo`, formData);
   }
 }

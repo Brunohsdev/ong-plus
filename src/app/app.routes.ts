@@ -19,6 +19,7 @@ import { CampanhasCards } from './components/cards/cards';
 import { Doacao } from './pages/doacao/doacao';
 import { NewCampaignDialog} from './components/new-campaign-dialog/new-campaign-dialog';
 import { ConfirmDialog } from './components/confirm-dialog/confirm-dialog';
+import { EditProfile } from './components/editperfil/editperfil';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -32,14 +33,14 @@ export const routes: Routes = [
   { path: 'explorar', component: Explorar },
   { path: 'termos-de-uso', component: Termos },
   { path: 'campanhas', component: Campanhas },
-  {path: 'perfil', component: Perfil},
-  {path: 'dashboard-doador', component: DashboardDoador},
-  {path: 'dashboard-ong', component: DashboardOng},
-  {path: 'policy-privacy', component: PrivacyPoliticy},
-  {path: 'cards', component: CampanhasCards},
-  {path:'doacao', component: Doacao},
-  {path: 'new-campaign-dialog', component: NewCampaignDialog},
-
-{path: 'confirm-dialog', component: ConfirmDialog},  // Rota coringa
+  { path: 'perfil', component: Perfil},
+  { path: 'dashboard-doador', component: DashboardDoador},
+  { path: 'dashboard-ong', component: DashboardOng},
+  { path: 'policy-privacy', component: PrivacyPoliticy},
+  { path: 'cards', component: CampanhasCards},
+  { path:'doacao', component: Doacao},
+  { path: 'new-campaign-dialog', component: NewCampaignDialog},
+  { path: 'edit-perfil', component: EditProfile},
+  { path: 'confirm-dialog', component: ConfirmDialog},  // Rota coringa
   { path: '**', redirectTo: 'home' }
 ];

@@ -12,7 +12,8 @@
     "receberNewsletter": false,
     "aceitouTermos": true,
     "tipo": "doador",
-    "dataCriacao": "2025-07-31T21:04:46.483Z"
+    "dataCriacao": "2025-07-31T21:04:46.483Z",
+    "ativo": false
   },
   {
     "_id": "1e515e6a-d1b8-4eb5-85a7-c60ce6826f43",

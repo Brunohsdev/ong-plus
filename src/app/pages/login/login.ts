@@ -45,7 +45,7 @@ export class Login {
       next: (res) => {
         const user = res.user;
         const token = res.token;
-
+        localStorage.setItem('userId', user._id);
         localStorage.setItem('token', token || '');
         localStorage.setItem('usuarioNome', user?.nome || 'Usuário');
         localStorage.setItem('avatarUrl', user?.fotoPerfil || '');

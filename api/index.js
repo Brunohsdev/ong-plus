@@ -60,6 +60,31 @@ app.post("/login", (req, res) => {
   res.status(200).json({ user: usuario, token: "fake-token" });
 });
 
+// ===================
+// ROTAS DE USUARIOS
+// ===================
+// ========================
+// ROTAS DE USUÁRIOS
+// ========================
+app.get("/usuarios/:id", (req, res) => {
+  const usuario = usuarios.find(u => u._id === req.params.id);
+  if (!usuario) {
+    return res.status(404).json({ message: "Usuário não encontrado" });
+  }
+  res.json(usuario);
+});
+
+app.put("/usuarios/:id", (req, res) => {
+  const index = usuarios.findIndex(u => u._id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ message: "Usuário não encontrado" });
+  }
+  usuarios[index] = { ...usuarios[index], ...req.body };
+  salvarArquivo("usuarios.json", usuarios);
+  res.json(usuarios[index]);
+});
+
+
 // ========================
 // ROTAS DE CAMPANHAS
 // ========================
