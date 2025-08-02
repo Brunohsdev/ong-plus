@@ -60,7 +60,7 @@ export class FormDoador {
         localStorage.setItem('avatarUrl', res.user?.fotoPerfil || '');
         localStorage.setItem('tipoUsuario', res.user?.tipo || '');
         window.dispatchEvent(new Event("storage"));
-        this.router.navigate(['/dashboard-doador']);
+        this.router.navigate(['/perfil']);
       },
       error: (err) => {
         alert('Erro ao registrar: ' + (err?.error?.message || 'tente novamente mais tarde'));

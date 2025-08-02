@@ -181,23 +181,23 @@ export class DashboardOng implements OnInit, OnDestroy {
   }
 
   recentActivities = [
-    {
-      user: 'Maria Silva',
-      action: 'doou R$ 200 para Campanha A',
-      time: '2 horas atrás',
-      avatar: 'logo-ong-white.svg'
-    },
-    {
-      user: 'João Oliveira',
-      action: 'se voluntariou para Evento B',
-      time: 'Ontem, 15:30',
-      avatar: 'logo-ong-white.svg'
-    },
-    {
-      entity: 'ONG',
-      action: 'publicou nova campanha: Ajuda Animal',
-      time: '5 de Out, 2023',
-      initials: 'NG'
-    }
+    // {
+    //   user: 'Maria Silva',
+    //   action: 'doou R$ 200 para Campanha A',
+    //   time: '2 horas atrás',
+    //   avatar: 'logo-ong-white.svg'
+    // },
+    // {
+    //   user: 'João Oliveira',
+    //   action: 'se voluntariou para Evento B',
+    //   time: 'Ontem, 15:30',
+    //   avatar: 'logo-ong-white.svg'
+    // },
+    // {
+    //   entity: 'ONG',
+    //   action: 'publicou nova campanha: Ajuda Animal',
+    //   time: '5 de Out, 2023',
+    //   initials: 'NG'
+    // }
   ];
 }

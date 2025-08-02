@@ -20,7 +20,7 @@
               <i class="bi bi-search me-1"></i> Explorar
             </a>
           </li>
-          <li class="nav-item dropdown" *ngIf="logado">
+          <!-- <li class="nav-item dropdown" *ngIf="logado">
             <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" *ngIf="logado && tipoUsuario !== 'ong'">
               <i class="bi bi-heart me-1"></i> Minhas Causas
             </a>
@@ -30,7 +30,7 @@
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" routerLink="/historico">Histórico</a></li>
             </ul>
-          </li>
+          </li> -->
           <li class="nav-item" *ngIf="logado && tipoUsuario === 'ong'">
             <a class="nav-link" routerLink="/dashboard-ong" routerLinkActive="active">
               <i class="bi bi-graph-up me-1"></i> Dashboard

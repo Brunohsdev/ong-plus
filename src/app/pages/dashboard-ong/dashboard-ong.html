@@ -143,10 +143,10 @@
               <h3>{{ currentOng.campaigns }}</h3>
               <p>Campanhas Ativas</p>
             </div>
-            <div class="stat-trend positive">
+            <!-- <div class="stat-trend positive">
               <mat-icon>trending_up</mat-icon>
               <span>+5%</span>
-            </div>
+            </div> -->
           </div>
 
           <div class="luxury-stat-card">
@@ -157,10 +157,10 @@
               <h3>R$ {{ currentOng.donations }}</h3>
               <p>Doações Recebidas</p>
             </div>
-            <div class="stat-trend positive">
+            <!-- <div class="stat-trend positive">
               <mat-icon>trending_up</mat-icon>
               <span>+22%</span>
-            </div>
+            </div> -->
           </div>
 
           <div class="luxury-stat-card">
@@ -171,10 +171,10 @@
               <h3>{{ currentOng.volunteers }}</h3>
               <p>Novos Doadores</p>
             </div>
-            <div class="stat-trend negative">
+            <!-- <div class="stat-trend negative">
               <mat-icon>trending_down</mat-icon>
               <span>-3%</span>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -191,7 +191,8 @@
             </div>
             <div class="chart-container">
               <div class="chart-placeholder">
-                <img src="/grafico.jpg"  alt="Gráfico de doações" />
+                <p>Futura implementação com gráficos</p>
+                <!-- <img src="/grafico.jpg"  alt="Gráfico de doações" /> -->
               </div>
             </div>
           </div>
@@ -203,7 +204,8 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
             </div>
-            <div class="activities-list">
+            <span>Sem movimentações</span>
+            <!-- <div class="activities-list">
               <div class="activity-item" *ngFor="let activity of recentActivities">
                 <div class="activity-avatar">
                   <img *ngIf="activity.avatar" [src]="activity.avatar" alt="Usuário" />
@@ -216,19 +218,13 @@
                   <span class="activity-time">{{ activity.time }}</span>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <!-- Additional Content -->
         <div class="luxury-features-grid">
-          <div class="luxury-feature-card">
-            <div class="feature-icon">
-              <mat-icon>star</mat-icon>
-            </div>
-            <h4>Recursos Premium</h4>
-            <p>Aproveite todos os benefícios exclusivos da sua conta ONG+ Premium</p>
-          </div>
+
 
           <div class="luxury-feature-card">
             <div class="feature-icon">

@@ -54,7 +54,7 @@ export class Login {
         window.dispatchEvent(new Event("storage"));
 
         if (user?.tipo === 'doador') {
-          this.router.navigate(['/dashboard-doador']);
+          this.router.navigate(['/perfil']);
         } else if (user?.tipo === 'ong') {
           this.router.navigate(['/dashboard-ong']);
         } else {
